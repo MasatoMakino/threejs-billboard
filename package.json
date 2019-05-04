@@ -1,0 +1,44 @@
+{
+  "name": "threejs-billboard",
+  "version": "0.1.0",
+  "main": "./bin/index.js",
+  "types": "./bin/index.d.ts",
+  "repository": "https://MasatoMakino@github.com/MasatoMakino/threejs-billboard.git",
+  "author": "MasatoMakino <unagiinu.g@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@types/easeljs": "^1.0.0",
+    "@types/tweenjs": "^1.0.0",
+    "babel-loader": "^8.0.5",
+    "browser-sync": "^2.26.5",
+    "createjs": "^1.0.1",
+    "husky": "^2.2.0",
+    "prettier": "^1.17.0",
+    "replace-in-file": "^4.0.0",
+    "three": "^0.104.0",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.4.5",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  },
+  "scripts": {
+    "build": "npm run prettier:src && tsc && npm run babel && npm run doc",
+    "prettier:src": "prettier --write './!(bin|docs|coverage)/**/*.{js,ts,json}' ",
+    "watch": "npm run watch:tsc | npm run watch:babel | npm run watch:server",
+    "watch:server": "node task/browsersync.js",
+    "watch:tsc": "tsc -w",
+    "babel": "webpack --mode development",
+    "watch:babel": "npm run babel -- -w",
+    "doc": "npm run doc:generate && npm run doc:replaceNode && npm run doc:card",
+    "doc:generate": "typedoc --tsconfig tsdocconfig.json src",
+    "doc:replaceNode": "node ./task/replaceAPI.js",
+    "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier:src && tsc"
+    }
+  }
+}
