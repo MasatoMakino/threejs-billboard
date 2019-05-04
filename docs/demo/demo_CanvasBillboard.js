@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./demoSrc/demo_Billboard.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./demoSrc/demo_CanvasBillboard.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -146,15 +146,15 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
-/***/ "./demoSrc/demo_Billboard.js":
-/*!***********************************!*\
-  !*** ./demoSrc/demo_Billboard.js ***!
-  \***********************************/
+/***/ "./demoSrc/demo_CanvasBillboard.js":
+/*!*****************************************!*\
+  !*** ./demoSrc/demo_CanvasBillboard.js ***!
+  \*****************************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _bin_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../bin/index */ \"./bin/index.js\");\n/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common */ \"./demoSrc/common.js\");\n\n\nvar W = 640;\nvar H = 480;\n\nvar onDomContentsLoaded = function onDomContentsLoaded() {\n  var scene = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initScene\"])();\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initLight\"])(scene);\n  var camera = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initCamera\"])(scene, W, H);\n  var renderer = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initRenderer\"])(W, H);\n  var control = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initControl\"])(camera);\n  initBillBoard(scene);\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"render\"])(control, renderer, scene, camera);\n};\n\nvar initBillBoard = function initBillBoard(scene) {\n  var billboard = new _bin_index__WEBPACK_IMPORTED_MODULE_0__[\"BillBoard\"](\"./map01.png\", 0.1);\n  scene.add(billboard);\n  var billboard2 = new _bin_index__WEBPACK_IMPORTED_MODULE_0__[\"BillBoard\"](\"./map01.png\", 0.1);\n  billboard.position.set(-30, 0, 0);\n  scene.add(billboard2);\n};\n\nwindow.onload = onDomContentsLoaded;\n\n//# sourceURL=webpack:///./demoSrc/demo_Billboard.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _bin_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../bin/index */ \"./bin/index.js\");\n/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common */ \"./demoSrc/common.js\");\n\n\nvar W = 640;\nvar H = 480;\n\nvar onDomContentsLoaded = function onDomContentsLoaded() {\n  var scene = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initScene\"])();\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initLight\"])(scene);\n  var camera = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initCamera\"])(scene, W, H);\n  var renderer = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initRenderer\"])(W, H);\n  var control = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initControl\"])(camera);\n  initBillBoard(scene);\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"render\"])(control, renderer, scene, camera);\n};\n\nvar initBillBoard = function initBillBoard(scene) {\n  var canvasBoard = new _bin_index__WEBPACK_IMPORTED_MODULE_0__[\"CanvasBillBoard\"](320, 320, 0.1);\n  canvasBoard.position.set(15, 0, 0);\n  scene.add(canvasBoard);\n  var map = canvasBoard.material.map;\n  var stage = map.stage;\n  var text = new createjs.Text(\"Hello World\", \"48px Arial\", \"#ff7700\");\n  stage.addChild(text);\n  text.x = 20;\n  text.y = 160;\n  map.setNeedUpdate();\n};\n\nwindow.onload = onDomContentsLoaded;\n\n//# sourceURL=webpack:///./demoSrc/demo_CanvasBillboard.js?");
 
 /***/ }),
 

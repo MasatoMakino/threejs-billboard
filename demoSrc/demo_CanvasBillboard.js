@@ -1,4 +1,4 @@
-import { BillBoard } from "../bin/index";
+import { CanvasTexture, CanvasBillBoard } from "../bin/index";
 import {
   initScene,
   initLight,
@@ -22,12 +22,18 @@ const onDomContentsLoaded = () => {
 };
 
 const initBillBoard = scene => {
-  const billboard = new BillBoard("./map01.png", 0.1);
-  scene.add(billboard);
+  const canvasBoard = new CanvasBillBoard(320, 320, 0.1);
+  canvasBoard.position.set(15, 0, 0);
+  scene.add(canvasBoard);
 
-  const billboard2 = new BillBoard("./map01.png", 0.1);
-  billboard.position.set(-30, 0, 0);
-  scene.add(billboard2);
+  const map = canvasBoard.material.map;
+  const stage = map.stage;
+  const text = new createjs.Text("Hello World", "48px Arial", "#ff7700");
+  stage.addChild(text);
+  text.x = 20;
+  text.y = 160;
+
+  map.setNeedUpdate();
 };
 
 window.onload = onDomContentsLoaded;

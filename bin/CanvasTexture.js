@@ -4,9 +4,9 @@ export class CanvasTexture extends Texture {
     constructor(width, height) {
         super();
         this.render = (e) => {
-            if (this._needUpdate) {
+            if (this._needUpdateCanvas) {
                 this.update();
-                this._needUpdate = false;
+                this._needUpdateCanvas = false;
             }
             this._renderID = requestAnimationFrame(this.render);
         };
@@ -41,14 +41,18 @@ export class CanvasTexture extends Texture {
     }
     update() {
         this._stage.update();
+        this.needsUpdate = true;
     }
     setNeedUpdate() {
-        this._needUpdate = true;
+        this._needUpdateCanvas = true;
     }
     get height() {
         return this._height;
     }
     get width() {
         return this._width;
+    }
+    get stage() {
+        return this._stage;
     }
 }

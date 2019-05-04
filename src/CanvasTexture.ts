@@ -8,7 +8,6 @@ export class CanvasTexture extends Texture {
   private _canvas: HTMLCanvasElement;
   private _stage: Stage;
   private _needUpdateCanvas: boolean;
-
   private _renderID;
 
   constructor(width: number, height: number) {
@@ -48,7 +47,7 @@ export class CanvasTexture extends Texture {
 
   protected update(): void {
     this._stage.update();
-    this.needsUpdate;
+    this.needsUpdate = true;
   }
 
   public setNeedUpdate(): void {
@@ -68,5 +67,8 @@ export class CanvasTexture extends Texture {
   }
   get width(): number {
     return this._width;
+  }
+  get stage(): createjs.Stage {
+    return this._stage;
   }
 }

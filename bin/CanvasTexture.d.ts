@@ -1,10 +1,11 @@
+/// <reference types="easeljs" />
 import { Texture } from "three";
 export declare class CanvasTexture extends Texture {
     private _width;
     private _height;
     private _canvas;
     private _stage;
-    private _needUpdate;
+    private _needUpdateCanvas;
     private _renderID;
     constructor(width: number, height: number);
     protected init(): void;
@@ -19,5 +20,6 @@ export declare class CanvasTexture extends Texture {
     private render;
     readonly height: number;
     readonly width: number;
+    readonly stage: createjs.Stage;
 }
 //# sourceMappingURL=CanvasTexture.d.ts.map
