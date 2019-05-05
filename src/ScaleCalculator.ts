@@ -25,7 +25,7 @@ export class ScaleCalculator {
 
   public getDotByDotScale(target: Object3D): number {
     const size: Vector2 = this._renderer.getSize(new Vector2());
-    const distance = this.plane.distanceToPoint(target.position);
+    const distance = this.plane.distanceToPoint(target.getWorldPosition(new Vector3));
     const getFovHeight = () => {
       const halfFov = ThreeMath.degToRad(this._camera.fov / 2);
       const half_fov_height = Math.tan(halfFov) * distance;
