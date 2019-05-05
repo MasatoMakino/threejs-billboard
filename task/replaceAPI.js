@@ -9,8 +9,12 @@ const options = {
 };
 
 try {
-  let changedFiles = replace.sync(options);
-  console.log("Modified files:", changedFiles.join(", "));
+  const changedFiles = replace.sync(options);
+
+  console.log("Modified files:");
+  changedFiles.forEach(val => {
+    if (val.hasChanged) console.log(val.file);
+  });
 } catch (error) {
   console.error("Error occurred:", error);
 }

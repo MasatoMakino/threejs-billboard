@@ -1,4 +1,5 @@
 export * from "./BillBoard";
 export * from "./CanvasTexture";
-export { CanvasBillBoard } from "./CanvasBillBoard";
+export * from "./CanvasBillBoard";
+export * from "./CanvasPlaneMesh";
 //# sourceMappingURL=index.d.ts.map

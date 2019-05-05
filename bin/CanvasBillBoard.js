@@ -34,7 +34,6 @@ export class CanvasBillBoard extends Sprite {
         }
         this.visible = val;
         const map = this.material.map;
-        console.log(this.material);
         if (map == null)
             return;
         if (this.visible) {

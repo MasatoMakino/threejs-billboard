@@ -1,4 +1,4 @@
-import { CanvasTexture, CanvasBillBoard } from "../bin/index";
+import { CanvasTexture, CanvasBillBoard, CanvasPlaneMesh } from "../bin/index";
 import {
   initScene,
   initLight,
@@ -24,12 +24,19 @@ const onDomContentsLoaded = () => {
 };
 
 const initBillBoard = scene => {
-  const canvasBoard = new CanvasBillBoard(320, 320, 0.1);
-  canvasBoard.position.set(15, 0, 0);
-  scene.add(canvasBoard);
+  const mesh = new CanvasPlaneMesh(320, 320);
+  mesh.position.set(-0, 0, 0);
+  scene.add(mesh);
+  mesh.scale.set(0.05, 0.05, 1);
 
-  const map = canvasBoard.material.map;
+  const map = mesh.material.map;
   const stage = map.stage;
+  const shape = new createjs.Shape();
+  shape.graphics
+    .beginFill("#F00")
+    .drawRect(0, 0, 320, 320)
+    .endFill();
+  stage.addChild(shape);
   const text = new createjs.Text("Hello World", "48px Arial", "#ff7700");
   stage.addChild(text);
   text.x = 20;

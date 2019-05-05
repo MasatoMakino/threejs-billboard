@@ -1,6 +1,7 @@
 "use strict";
 import {
   AmbientLight,
+  AxesHelper,
   Color,
   PerspectiveCamera,
   Scene,
@@ -42,6 +43,11 @@ export function initRenderer(W, H) {
   renderer.setSize(W, H);
   renderer.setPixelRatio(window.devicePixelRatio);
   return renderer;
+}
+
+export function initHelper(scene) {
+  const axesHelper = new AxesHelper(30);
+  scene.add(axesHelper);
 }
 
 export function render(control, renderer, scene, camera) {

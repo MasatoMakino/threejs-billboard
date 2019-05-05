@@ -5,6 +5,7 @@ import {
   initCamera,
   initControl,
   initRenderer,
+  initHelper,
   render
 } from "./common";
 
@@ -17,6 +18,7 @@ const onDomContentsLoaded = () => {
   const camera = initCamera(scene, W, H);
   const renderer = initRenderer(W, H);
   const control = initControl(camera);
+  initHelper(scene);
   initBillBoard(scene);
   render(control, renderer, scene, camera);
 };
