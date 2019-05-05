@@ -33,7 +33,7 @@ export class BillBoard extends Sprite {
   private updateScale(): void {
     if (this.texture == null || this.texture.image == null) return;
     const img = this.texture.image as HTMLImageElement;
-    console.log( this._imageScale);
+    // console.log(this._imageScale);
     this.scale.set(
       img.width * this._imageScale,
       img.height * this._imageScale,

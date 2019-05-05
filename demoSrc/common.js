@@ -23,6 +23,7 @@ export function initLight(scene) {
 export function initCamera(scene, W, H) {
   const camera = new PerspectiveCamera(45, W / H, 1, 400);
   camera.position.set(0, 0, 100);
+  camera.updateMatrixWorld(false);
   scene.add(camera);
   return camera;
 }

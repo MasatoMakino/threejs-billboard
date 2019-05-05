@@ -9,11 +9,24 @@ export class BillBoard extends Sprite {
                 depthTest: true,
                 transparent: true
             });
-            const img = this.texture.image;
-            this.scale.set(img.width * this.imageScale, img.height * this.imageScale, 1);
+            this.updateScale();
         };
         this.url = url;
-        this.imageScale = imageScale;
+        this._imageScale = imageScale;
         this.texture = new TextureLoader().load(this.url, this.onLoadTexture);
+    }
+    updateScale() {
+        if (this.texture == null || this.texture.image == null)
+            return;
+        const img = this.texture.image;
+        // console.log(this._imageScale);
+        this.scale.set(img.width * this._imageScale, img.height * this._imageScale, 1);
+    }
+    get imageScale() {
+        return this._imageScale;
+    }
+    set imageScale(value) {
+        this._imageScale = value;
+        this.updateScale();
     }
 }
