@@ -1,25 +1,26 @@
 /// <reference types="easeljs" />
 import { Texture } from "three";
 export declare class CanvasTexture extends Texture {
-    private _width;
-    private _height;
-    private _canvas;
     private _stage;
     private _needUpdateCanvas;
     private _renderID;
     constructor(width: number, height: number);
-    protected init(): void;
+    protected init(width: number, height: number): void;
     /**
-     * レンダーループを開始する
-     * メインのレンダーループで同上のイベントを必ず発効すること。
+     * テクスチャの更新を開始する
      */
     start(): void;
+    /**
+     * テクスチャの更新を停止する
+     */
     stop(): void;
     protected update(): void;
     setNeedUpdate(): void;
-    private render;
-    readonly height: number;
-    readonly width: number;
+    private onRequestFrame;
+    /**
+     * このテクスチャに紐づけられたcreatejs.stageインスタンスを取得する。
+     * カンバスへはstage.canvasでアクセスする。
+     */
     readonly stage: createjs.Stage;
 }
 //# sourceMappingURL=CanvasTexture.d.ts.map

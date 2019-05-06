@@ -1,5 +1,6 @@
 import { Sprite, LinearFilter, SpriteMaterial, NormalBlending } from "three";
 import { CanvasTexture } from "./CanvasTexture";
+import { CanvasObject3D } from "./CanvasObject3D";
 
 export class CanvasBillBoard extends Sprite {
   private _imageScale: number;
@@ -12,10 +13,10 @@ export class CanvasBillBoard extends Sprite {
   ) {
     super();
     this._imageScale = imageScale;
-    this.init(width, height);
+    this.initTexture(width, height, option);
   }
 
-  protected init(width: number, height: number): void {
+  private initTexture(width: number, height: number, option?: {}): void {
     const texture = new CanvasTexture(width, height);
     texture.minFilter = LinearFilter;
     this.material = new SpriteMaterial({
@@ -32,32 +33,37 @@ export class CanvasBillBoard extends Sprite {
     return this._imageScale;
   }
 
+  /**
+   * 画像のスケールを指定する。
+   *
+   * ScaleCalculator.getDotByDotScale関数で得られた値を設定すると、ビルボードはテクスチャ画像のサイズのまま表示される。
+   *
+   * @param value
+   */
   set imageScale(value: number) {
     this._imageScale = value;
     this.updateScale();
   }
 
+  /**
+   * テクスチャ画像のアスペクト比を維持したままスケールを調整する。
+   */
   private updateScale(): void {
     const map: CanvasTexture = <CanvasTexture>this.material.map;
+    const canvas: HTMLCanvasElement = <HTMLCanvasElement>map.stage.canvas;
     this.scale.set(
-      map.width * this._imageScale,
-      map.height * this._imageScale,
+      canvas.width * this._imageScale,
+      canvas.height * this._imageScale,
       1
     );
   }
 
-  public changeMapVisible(val: boolean): void {
-    if (this.visible === val) {
-      return;
-    }
-    this.visible = val;
-
-    const map: CanvasTexture = <CanvasTexture>this.material.map;
-    if (map == null) return;
-    if (this.visible) {
-      map.start();
-    } else {
-      map.stop();
-    }
+  /**
+   * オブジェクトの表示/非表示を設定する。
+   * 設定に応じてテクスチャの更新を停止/再開する。
+   * @param visible
+   */
+  public setVisible(visible: boolean): void {
+    CanvasObject3D.setVisible(this, visible);
   }
 }

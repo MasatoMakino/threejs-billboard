@@ -1,44 +1,40 @@
-import { Texture } from "three";
+import { Texture, LinearFilter } from "three";
 import Stage = createjs.Stage;
-import { LinearFilter } from "three";
 
 export class CanvasTexture extends Texture {
-  private _width: number;
-  private _height: number;
-  private _canvas: HTMLCanvasElement;
   private _stage: Stage;
   private _needUpdateCanvas: boolean;
   private _renderID;
 
   constructor(width: number, height: number) {
     super();
-    this._width = width;
-    this._height = height;
-    this.init();
+    this.init(width, height);
   }
 
-  protected init(): void {
-    this._canvas = document.createElement("canvas");
-    this._canvas.width = this._width;
-    this._canvas.height = this._height;
+  protected init(width: number, height: number): void {
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
 
-    this.image = this._canvas;
+    this.image = canvas;
     this.minFilter = LinearFilter;
 
-    this._stage = new createjs.Stage(this._canvas);
+    this._stage = new createjs.Stage(canvas);
     this._stage.enableDOMEvents(false);
     this.start();
   }
 
   /**
-   * レンダーループを開始する
-   * メインのレンダーループで同上のイベントを必ず発効すること。
+   * テクスチャの更新を開始する
    */
   public start(): void {
     if (this._renderID != null) return;
-    this._renderID = requestAnimationFrame(this.render);
+    this._renderID = requestAnimationFrame(this.onRequestFrame);
   }
 
+  /**
+   * テクスチャの更新を停止する
+   */
   public stop(): void {
     if (this._renderID == null) return;
     cancelAnimationFrame(this._renderID);
@@ -54,20 +50,18 @@ export class CanvasTexture extends Texture {
     this._needUpdateCanvas = true;
   }
 
-  private render = (e?: any) => {
+  private onRequestFrame = (e?: any) => {
     if (this._needUpdateCanvas) {
       this.update();
       this._needUpdateCanvas = false;
     }
-    this._renderID = requestAnimationFrame(this.render);
+    this._renderID = requestAnimationFrame(this.onRequestFrame);
   };
 
-  get height(): number {
-    return this._height;
-  }
-  get width(): number {
-    return this._width;
-  }
+  /**
+   * このテクスチャに紐づけられたcreatejs.stageインスタンスを取得する。
+   * カンバスへはstage.canvasでアクセスする。
+   */
   get stage(): createjs.Stage {
     return this._stage;
   }

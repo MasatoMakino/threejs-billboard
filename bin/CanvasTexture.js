@@ -1,38 +1,37 @@
-import { Texture } from "three";
-import { LinearFilter } from "three";
+import { Texture, LinearFilter } from "three";
 export class CanvasTexture extends Texture {
     constructor(width, height) {
         super();
-        this.render = (e) => {
+        this.onRequestFrame = (e) => {
             if (this._needUpdateCanvas) {
                 this.update();
                 this._needUpdateCanvas = false;
             }
-            this._renderID = requestAnimationFrame(this.render);
+            this._renderID = requestAnimationFrame(this.onRequestFrame);
         };
-        this._width = width;
-        this._height = height;
-        this.init();
+        this.init(width, height);
     }
-    init() {
-        this._canvas = document.createElement("canvas");
-        this._canvas.width = this._width;
-        this._canvas.height = this._height;
-        this.image = this._canvas;
+    init(width, height) {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        this.image = canvas;
         this.minFilter = LinearFilter;
-        this._stage = new createjs.Stage(this._canvas);
+        this._stage = new createjs.Stage(canvas);
         this._stage.enableDOMEvents(false);
         this.start();
     }
     /**
-     * レンダーループを開始する
-     * メインのレンダーループで同上のイベントを必ず発効すること。
+     * テクスチャの更新を開始する
      */
     start() {
         if (this._renderID != null)
             return;
-        this._renderID = requestAnimationFrame(this.render);
+        this._renderID = requestAnimationFrame(this.onRequestFrame);
     }
+    /**
+     * テクスチャの更新を停止する
+     */
     stop() {
         if (this._renderID == null)
             return;
@@ -46,12 +45,10 @@ export class CanvasTexture extends Texture {
     setNeedUpdate() {
         this._needUpdateCanvas = true;
     }
-    get height() {
-        return this._height;
-    }
-    get width() {
-        return this._width;
-    }
+    /**
+     * このテクスチャに紐づけられたcreatejs.stageインスタンスを取得する。
+     * カンバスへはstage.canvasでアクセスする。
+     */
     get stage() {
         return this._stage;
     }

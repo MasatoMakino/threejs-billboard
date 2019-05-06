@@ -43,6 +43,8 @@ const initBillBoard = scene => {
   text.y = 160;
 
   map.setNeedUpdate();
+
+  // mesh.setVisible(false);
 };
 
 window.onload = onDomContentsLoaded;

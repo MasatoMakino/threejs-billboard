@@ -1,50 +1,56 @@
-import {
-  Sprite,
-  SpriteMaterial,
-  Texture,
-  TextureLoader,
-  NormalBlending
-} from "three";
+import { Sprite, SpriteMaterial, TextureLoader, NormalBlending } from "three";
 
+/**
+ * 画像ファイルをテクスチャとするビルボードクラス
+ */
 export class BillBoard extends Sprite {
-  url: string;
   private _imageScale: number;
-  texture: Texture;
 
+  /**
+   * コンストラクタ
+   * @param url テクスチャー画像ファイルのURL
+   * @param imageScale
+   * @param option
+   */
   constructor(url: string, imageScale: number, option?: {}) {
     super();
 
-    this.url = url;
     this._imageScale = imageScale;
-
-    this.texture = new TextureLoader().load(this.url, this.onLoadTexture);
-  }
-
-  private onLoadTexture = () => {
+    const texture = new TextureLoader().load(url, this.updateScale);
     this.material = new SpriteMaterial({
-      map: this.texture,
+      map: texture,
       blending: NormalBlending,
       depthTest: true,
       transparent: true
     });
-    this.updateScale();
-  };
+  }
 
-  private updateScale(): void {
-    if (this.texture == null || this.texture.image == null) return;
-    const img = this.texture.image as HTMLImageElement;
-    // console.log(this._imageScale);
+  /**
+   * テクスチャ画像のアスペクト比を維持したままスケールを調整する。
+   */
+  private updateScale = () => {
+    const map = this.material.map;
+    if (map == null || map.image == null) return;
+
+    const img = map.image as HTMLImageElement;
     this.scale.set(
       img.width * this._imageScale,
       img.height * this._imageScale,
       1
     );
-  }
+  };
 
   get imageScale(): number {
     return this._imageScale;
   }
 
+  /**
+   * 画像のスケールを指定する。
+   *
+   * ScaleCalculator.getDotByDotScale関数で得られた値を設定すると、ビルボードはテクスチャ画像のサイズのまま表示される。
+   *
+   * @param value
+   */
   set imageScale(value: number) {
     this._imageScale = value;
     this.updateScale();

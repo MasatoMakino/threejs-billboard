@@ -1,4 +1,4 @@
-import { CanvasTexture, CanvasBillBoard } from "../bin/index";
+import { CanvasBillBoard } from "../bin/index";
 import {
   initScene,
   initLight,

@@ -21,13 +21,13 @@ const onDomContentsLoaded = () => {
   const renderer = initRenderer(W, H);
   const control = initControl(camera);
   initHelper(scene);
-  const calc = initScaleCalc(camera, renderer);
+  const calc = initScaleCalc(camera, renderer, scene);
   initBillBoard(scene, renderer, camera);
   render(control, renderer, scene, camera, calc);
 };
 
-const initScaleCalc = (camera, renderer) => {
-  const calc = new ScaleCalculator(camera, renderer);
+const initScaleCalc = (camera, renderer, scene) => {
+  const calc = new ScaleCalculator(camera, renderer, scene);
   return calc;
 };
 
@@ -43,7 +43,6 @@ const initBillBoard = scene => {
 export function render(control, renderer, scene, camera, calc) {
   const rendering = () => {
     control.update();
-    calc.updatePlane(camera);
     billboard.imageScale = calc.getDotByDotScale(billboard);
     billboard2.imageScale = calc.getDotByDotScale(billboard2);
 
