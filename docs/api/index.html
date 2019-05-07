@@ -66,6 +66,40 @@
 			<div class="tsd-panel tsd-typography">
 				<h1 id="threejs-billboard">threejs-billboard</h1>
 				<p>billboard module for three.js</p>
+				<p><a href="https://github.com/MasatoMakino/threejs-billboard">Github repository</a></p>
+				<h2 id="demo">Demo</h2>
+				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/">Demo : Billboard</a></p>
+				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/canvasBillboard.html">Demo : Sprite with canvas</a></p>
+				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/canvasPlaneMesh.html">Demo : PlaneMesh with canvas</a></p>
+				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/dotByDot.html">Demo : Dot-by-dot billboard</a></p>
+				<h2 id="getting-started">Getting Started</h2>
+				<h3 id="install">Install</h3>
+				<p>threejs-billboard depend on <a href="https://threejs.org/">three.js</a> and <a href="https://github.com/CreateJS/EaselJS">CreateJS / EaselJS</a>.</p>
+				<pre><code class="language-bash">npm install three easeljs --save-dev</code></pre>
+				<p>and</p>
+				<pre><code class="language-bash">npm install https://github.com/MasatoMakino/threejs-billboard.git --save-dev</code></pre>
+				<h3 id="import">Import</h3>
+				<p>threejs-billboard is composed of ES6 modules and TypeScript d.ts files.</p>
+				<p>At first, import classes.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> {
+  BillBoard,
+  CanvasBillBoard,
+  CanvasPlaneMesh,
+  ScaleCalculator
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"threejs-billboard"</span>;</code></pre>
+				<h3 id="show-billboard">Show billboard</h3>
+				<p>Add billboard in <a href="https://threejs.org/docs/#manual/en/introduction/Creating-a-scene">THREE.Scene</a>.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">"./map01.png"</span>, <span class="hljs-number">0.1</span>);
+scene.add(billboard);</code></pre>
+				<h3 id="dot-by-dot-display">Dot-by-dot display</h3>
+				<p>If you want to display dot-by-dot billboard, get image scale with ScaleCalculator.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> calc = <span class="hljs-keyword">new</span> ScaleCalculator(camera, renderer, scene);
+<span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">"./map01.png"</span>);
+billboard.imageScale = calc.getDotByDotScale(billboard);</code></pre>
+				<h2 id="api-documents">API documents</h2>
+				<p><a href="https://masatomakino.github.io/threejs-billboard/api/">API documents</a></p>
+				<h2 id="license">License</h2>
+				<p>threejs-billboard is <a href="LICENSE">MIT licensed</a>.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
