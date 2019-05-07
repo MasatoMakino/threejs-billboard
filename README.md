@@ -64,6 +64,10 @@ const billboard = new BillBoard("./map01.png");
 billboard.imageScale = calc.getDotByDotScale(billboard);
 ``` 
 
+## API documents
+
+[API documents](https://masatomakino.github.io/threejs-billboard/api/)
+
 ## License
 
 threejs-billboard is [MIT licensed](LICENSE).
