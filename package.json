@@ -14,9 +14,11 @@
     "babel-loader": "^8.0.5",
     "browser-sync": "^2.26.5",
     "createjs": "^1.0.1",
+    "gulp": "^4.0.2",
+    "gulp-replace": "^1.0.0",
+    "gulp-typedoc": "^2.2.2",
     "husky": "^2.2.0",
     "prettier": "^1.17.0",
-    "replace-in-file": "^4.0.0",
     "three": "^0.104.0",
     "typedoc": "^0.14.2",
     "typescript": "^3.4.5",
@@ -31,10 +33,9 @@
     "watch:tsc": "tsc -w",
     "babel": "webpack --mode development",
     "watch:babel": "npm run babel -- -w",
-    "doc": "npm run doc:generate && npm run doc:replaceNode && npm run doc:card",
-    "doc:generate": "typedoc --tsconfig tsdocconfig.json src",
-    "doc:replaceNode": "node ./task/replaceAPI.js",
-    "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png"
+    "doc": "npm run doc:gulp && npm run doc:card",
+    "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png",
+    "doc:gulp": "gulp doc"
   },
   "husky": {
     "hooks": {

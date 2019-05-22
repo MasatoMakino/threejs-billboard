@@ -1,0 +1,6 @@
+{
+  "module": "es2015",
+  "target": "es6",
+  "moduleResolution": "node",
+  "mode": "file"
+}

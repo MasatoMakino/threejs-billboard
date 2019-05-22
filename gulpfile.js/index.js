@@ -1,0 +1,1 @@
+exports.doc = require("./tsdoc")();
