@@ -2,6 +2,9 @@ import { Mesh } from "three";
 /**
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。
+ *
+ * ジオメトリはPlaneGeometryなので、中心点からずらす場合はGeometry.translateを使用する。
+ * https://threejs.org/docs/#api/en/core/Geometry.translate
  */
 export declare class CanvasPlaneMesh extends Mesh {
     /**
