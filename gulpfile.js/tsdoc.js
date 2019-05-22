@@ -7,7 +7,7 @@ module.exports = option => {
   if (option == null) option = {};
   if (option.srcDir == null) option.srcDir = "./src";
   if (option.destDir == null) option.destDir = "./docs/api";
-  const {srcDir,destDir} = option;
+  const { srcDir, destDir } = option;
 
   const docTask = () => {
     const srcGlob = path.resolve(process.cwd(), srcDir, "**/*.ts");
