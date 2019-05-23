@@ -1,6 +1,6 @@
 "use strict";
 
-const { watch, src, dest, parallel, series } = require("gulp");
+const { series } = require("gulp");
 
 const doc = require("gulptask-tsdoc")();
 exports.doc = doc;
@@ -13,12 +13,15 @@ const { bundleDevelopment, watchBundle } = require("gulptask-webpack")(
 );
 exports.bundleDevelopment = bundleDevelopment;
 
+const { tsc, watchTsc } = require("./tsc");
+
 const watchTasks = cb => {
   watchBundle();
+  watchTsc();
   cb();
 };
 exports.watchTasks = watchTasks;
 
 exports.start_dev = series(watchTasks, server);
 
-exports.build = series(bundleDevelopment, doc);
+exports.build = series(tsc, bundleDevelopment, doc);

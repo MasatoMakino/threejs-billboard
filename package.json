@@ -23,12 +23,11 @@
     "typescript": "^3.4.5"
   },
   "scripts": {
-    "start:dev": "npm run ts:w & gulp start_dev",
-    "build": "npm run prettier:src && tsc && gulp build && npm run doc:card",
+    "start:dev": "gulp start_dev",
+    "build": "npm run prettier:src && gulp build && npm run doc:card",
     "prettier:src": "prettier --write './!(bin|docs|coverage)/**/*.{js,ts,json}' ",
     "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png",
-    "ts": "tsc",
-    "ts:w": "tsc -w"
+    "tsc": "tsc"
   },
   "husky": {
     "hooks": {
