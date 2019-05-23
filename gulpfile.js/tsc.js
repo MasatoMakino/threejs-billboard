@@ -29,7 +29,7 @@ const onStdOut = data => {
     .toString()
     .trim();
 
-  //FIXME : 行頭に制御文字？「c」が入ることがある。なんの意味なのか不明。
+  //FIXME : 行頭に制御文字？「c」が入ることがある。なんの意味なのか不明。なお本家tscにもある。
   msg = msg.replace(/^c/, "");
   if (msg === "") return;
   if (msg == null) return;
