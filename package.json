@@ -26,8 +26,7 @@
     "start:dev": "gulp start_dev",
     "build": "npm run prettier:src && gulp build && npm run doc:card",
     "prettier:src": "prettier --write './!(bin|docs|coverage)/**/*.{js,ts,json}' ",
-    "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png",
-    "tsc": "tsc"
+    "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png"
   },
   "husky": {
     "hooks": {
