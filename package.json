@@ -12,34 +12,28 @@
     "@types/easeljs": "^1.0.0",
     "@types/tweenjs": "^1.0.0",
     "babel-loader": "^8.0.5",
-    "browser-sync": "^2.26.5",
     "createjs": "^1.0.1",
     "gulp": "^4.0.2",
-    "gulp-replace": "^1.0.0",
-    "gulp-typedoc": "^2.2.2",
+    "gulptask-dev-server": "https://github.com/MasatoMakino/gulptask-dev-server.git",
+    "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
+    "gulptask-webpack": "https://github.com/MasatoMakino/gulptask-webpack.git",
     "husky": "^2.2.0",
     "prettier": "^1.17.0",
     "three": "^0.104.0",
-    "typedoc": "^0.14.2",
-    "typescript": "^3.4.5",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1"
+    "typescript": "^3.4.5"
   },
   "scripts": {
-    "build": "npm run prettier:src && tsc && npm run babel && npm run doc",
+    "start:dev": "npm run ts:w & gulp start_dev",
+    "build": "npm run prettier:src && tsc && gulp build && npm run doc:card",
     "prettier:src": "prettier --write './!(bin|docs|coverage)/**/*.{js,ts,json}' ",
-    "watch": "npm run watch:tsc | npm run watch:babel | npm run watch:server",
-    "watch:server": "node task/browsersync.js",
-    "watch:tsc": "tsc -w",
-    "babel": "webpack --mode development",
-    "watch:babel": "npm run babel -- -w",
-    "doc": "npm run doc:gulp && npm run doc:card",
     "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png",
-    "doc:gulp": "gulp doc"
+    "ts": "tsc",
+    "ts:w": "tsc -w"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier:src && tsc"
+      "pre-commit": "npm run prettier:src"
     }
-  }
+  },
+  "dependencies": {}
 }
