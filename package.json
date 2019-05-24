@@ -15,12 +15,12 @@
     "createjs": "^1.0.1",
     "gulp": "^4.0.2",
     "gulptask-dev-server": "https://github.com/MasatoMakino/gulptask-dev-server.git",
+    "gulptask-tsc": "https://github.com/MasatoMakino/gulptask-tsc.git",
     "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
     "gulptask-webpack": "https://github.com/MasatoMakino/gulptask-webpack.git",
     "husky": "^2.2.0",
     "prettier": "^1.17.0",
-    "three": "^0.104.0",
-    "typescript": "^3.4.5"
+    "three": "^0.104.0"
   },
   "scripts": {
     "start:dev": "gulp start_dev",

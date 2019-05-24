@@ -2957,6 +2957,13 @@ gulplog@^1.0.0:
     gulp-connect-php "^1.0.3"
     make-dir "^3.0.0"
 
+"gulptask-tsc@https://github.com/MasatoMakino/gulptask-tsc.git":
+  version "0.1.0"
+  resolved "https://github.com/MasatoMakino/gulptask-tsc.git#7080380977e7a8e1aee9637663903ec58966906e"
+  dependencies:
+    gulp "^4.0.2"
+    typescript "^3.4.5"
+
 "gulptask-tsdoc@https://github.com/MasatoMakino/gulptask-tsdoc.git":
   version "0.1.0"
   resolved "https://github.com/MasatoMakino/gulptask-tsdoc.git#a1be67308698b37c661a5828d57946f9e2f5cc76"
