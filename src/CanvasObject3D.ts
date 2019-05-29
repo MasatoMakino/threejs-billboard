@@ -1,4 +1,4 @@
-import { CanvasTexture } from "./CanvasTexture";
+import { StageTexture } from "./StageTexture";
 import { Sprite } from "three";
 import { Mesh } from "three";
 import { MeshBasicMaterial } from "three";
@@ -17,7 +17,7 @@ export class CanvasObject3D {
     }
     object.visible = visible;
 
-    const map: CanvasTexture = <CanvasTexture>(
+    const map: StageTexture = <StageTexture>(
       (<MeshBasicMaterial | SpriteMaterial>object.material).map
     );
     if (map == null) return;

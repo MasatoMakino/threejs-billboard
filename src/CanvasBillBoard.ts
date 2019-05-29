@@ -1,5 +1,5 @@
 import { Sprite, LinearFilter, SpriteMaterial, NormalBlending } from "three";
-import { CanvasTexture } from "./CanvasTexture";
+import { StageTexture } from "./StageTexture";
 import { CanvasObject3D } from "./CanvasObject3D";
 
 export class CanvasBillBoard extends Sprite {
@@ -17,7 +17,7 @@ export class CanvasBillBoard extends Sprite {
   }
 
   private initTexture(width: number, height: number, option?: {}): void {
-    const texture = new CanvasTexture(width, height);
+    const texture = new StageTexture(width, height);
     texture.minFilter = LinearFilter;
     this.material = new SpriteMaterial({
       map: texture,
@@ -49,7 +49,7 @@ export class CanvasBillBoard extends Sprite {
    * テクスチャ画像のアスペクト比を維持したままスケールを調整する。
    */
   private updateScale(): void {
-    const map: CanvasTexture = <CanvasTexture>this.material.map;
+    const map: StageTexture = <StageTexture>this.material.map;
     const canvas: HTMLCanvasElement = <HTMLCanvasElement>map.stage.canvas;
     this.scale.set(
       canvas.width * this._imageScale,

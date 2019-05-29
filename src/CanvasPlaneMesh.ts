@@ -1,5 +1,5 @@
 import { Mesh, PlaneGeometry, MeshBasicMaterial, NormalBlending } from "three";
-import { CanvasTexture } from "./CanvasTexture";
+import { StageTexture } from "./StageTexture";
 import { CanvasObject3D } from "./CanvasObject3D";
 
 /**
@@ -29,7 +29,7 @@ export class CanvasPlaneMesh extends Mesh {
    * @param option
    */
   private initCanvas(width: number, height: number, option?: {}): void {
-    const texture: CanvasTexture = new CanvasTexture(width, height);
+    const texture: StageTexture = new StageTexture(width, height);
 
     this.material = new MeshBasicMaterial({
       map: texture,

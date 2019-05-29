@@ -1,7 +1,7 @@
 import { Texture, LinearFilter } from "three";
 import Stage = createjs.Stage;
 
-export class CanvasTexture extends Texture {
+export class StageTexture extends Texture {
   private _stage: Stage;
   private _needUpdateCanvas: boolean;
   private _renderID;

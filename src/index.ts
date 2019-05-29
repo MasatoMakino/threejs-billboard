@@ -1,5 +1,5 @@
 export * from "./BillBoard";
-export * from "./CanvasTexture";
+export * from "./StageTexture";
 export * from "./CanvasBillBoard";
 export * from "./CanvasPlaneMesh";
 export * from "./ScaleCalculator";
