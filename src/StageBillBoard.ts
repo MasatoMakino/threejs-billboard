@@ -2,7 +2,7 @@ import { Sprite, LinearFilter, SpriteMaterial, NormalBlending } from "three";
 import { StageTexture } from "./StageTexture";
 import { CanvasObject3D } from "./CanvasObject3D";
 
-export class CanvasBillBoard extends Sprite {
+export class StageBillBoard extends Sprite {
   private _imageScale: number;
 
   constructor(
