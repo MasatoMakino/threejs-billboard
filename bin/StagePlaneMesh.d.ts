@@ -6,7 +6,7 @@ import { Mesh } from "three";
  * ジオメトリはPlaneGeometryなので、中心点からずらす場合はGeometry.translateを使用する。
  * https://threejs.org/docs/#api/en/core/Geometry.translate
  */
-export declare class CanvasPlaneMesh extends Mesh {
+export declare class StagePlaneMesh extends Mesh {
     /**
      * コンストラクタ
      * @param width カンバスの幅
@@ -28,4 +28,4 @@ export declare class CanvasPlaneMesh extends Mesh {
      */
     setVisible(visible: boolean): void;
 }
-//# sourceMappingURL=CanvasPlaneMesh.d.ts.map
+//# sourceMappingURL=StagePlaneMesh.d.ts.map

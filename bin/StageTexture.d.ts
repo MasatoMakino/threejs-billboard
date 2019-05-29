@@ -1,6 +1,6 @@
 /// <reference types="easeljs" />
 import { Texture } from "three";
-export declare class CanvasTexture extends Texture {
+export declare class StageTexture extends Texture {
     private _stage;
     private _needUpdateCanvas;
     private _renderID;
@@ -23,4 +23,4 @@ export declare class CanvasTexture extends Texture {
      */
     readonly stage: createjs.Stage;
 }
-//# sourceMappingURL=CanvasTexture.d.ts.map
+//# sourceMappingURL=StageTexture.d.ts.map

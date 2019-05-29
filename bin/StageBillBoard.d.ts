@@ -1,5 +1,5 @@
 import { Sprite } from "three";
-export declare class CanvasBillBoard extends Sprite {
+export declare class StageBillBoard extends Sprite {
     private _imageScale;
     constructor(width: number, height: number, imageScale?: number, option?: {});
     private initTexture;
@@ -22,4 +22,4 @@ export declare class CanvasBillBoard extends Sprite {
      */
     setVisible(visible: boolean): void;
 }
-//# sourceMappingURL=CanvasBillBoard.d.ts.map
+//# sourceMappingURL=StageBillBoard.d.ts.map

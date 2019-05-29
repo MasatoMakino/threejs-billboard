@@ -1,14 +1,14 @@
 import { Sprite, LinearFilter, SpriteMaterial, NormalBlending } from "three";
-import { CanvasTexture } from "./CanvasTexture";
-import { CanvasObject3D } from "./CanvasObject3D";
-export class CanvasBillBoard extends Sprite {
+import { StageTexture } from "./StageTexture";
+import { StageObject3D } from "./StageObject3D";
+export class StageBillBoard extends Sprite {
     constructor(width, height, imageScale = 1, option) {
         super();
         this._imageScale = imageScale;
         this.initTexture(width, height, option);
     }
     initTexture(width, height, option) {
-        const texture = new CanvasTexture(width, height);
+        const texture = new StageTexture(width, height);
         texture.minFilter = LinearFilter;
         this.material = new SpriteMaterial({
             map: texture,
@@ -46,6 +46,6 @@ export class CanvasBillBoard extends Sprite {
      * @param visible
      */
     setVisible(visible) {
-        CanvasObject3D.setVisible(this, visible);
+        StageObject3D.setVisible(this, visible);
     }
 }

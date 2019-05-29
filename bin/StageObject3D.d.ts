@@ -1,6 +1,6 @@
 import { Sprite } from "three";
 import { Mesh } from "three";
-export declare class CanvasObject3D {
+export declare class StageObject3D {
     /**
      * オブジェクトの表示/非表示を設定する。
      * 設定に応じてテクスチャの更新を停止/再開する。
@@ -9,4 +9,4 @@ export declare class CanvasObject3D {
      */
     static setVisible(object: Mesh | Sprite, visible: boolean): void;
 }
-//# sourceMappingURL=CanvasObject3D.d.ts.map
+//# sourceMappingURL=StageObject3D.d.ts.map

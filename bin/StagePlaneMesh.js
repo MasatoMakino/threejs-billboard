@@ -1,6 +1,6 @@
 import { Mesh, PlaneGeometry, MeshBasicMaterial, NormalBlending } from "three";
-import { CanvasTexture } from "./CanvasTexture";
-import { CanvasObject3D } from "./CanvasObject3D";
+import { StageTexture } from "./StageTexture";
+import { StageObject3D } from "./StageObject3D";
 /**
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。
@@ -8,7 +8,7 @@ import { CanvasObject3D } from "./CanvasObject3D";
  * ジオメトリはPlaneGeometryなので、中心点からずらす場合はGeometry.translateを使用する。
  * https://threejs.org/docs/#api/en/core/Geometry.translate
  */
-export class CanvasPlaneMesh extends Mesh {
+export class StagePlaneMesh extends Mesh {
     /**
      * コンストラクタ
      * @param width カンバスの幅
@@ -27,7 +27,7 @@ export class CanvasPlaneMesh extends Mesh {
      * @param option
      */
     initCanvas(width, height, option) {
-        const texture = new CanvasTexture(width, height);
+        const texture = new StageTexture(width, height);
         this.material = new MeshBasicMaterial({
             map: texture,
             blending: NormalBlending,
@@ -41,6 +41,6 @@ export class CanvasPlaneMesh extends Mesh {
      * @param visible
      */
     setVisible(visible) {
-        CanvasObject3D.setVisible(this, visible);
+        StageObject3D.setVisible(this, visible);
     }
 }

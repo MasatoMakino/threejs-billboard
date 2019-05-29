@@ -1,5 +1,5 @@
 import { Texture, LinearFilter } from "three";
-export class CanvasTexture extends Texture {
+export class StageTexture extends Texture {
     constructor(width, height) {
         super();
         this.onRequestFrame = (e) => {
