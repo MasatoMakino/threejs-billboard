@@ -8,9 +8,9 @@ billboard module for three.js
 
 [Demo : Billboard](https://masatomakino.github.io/threejs-billboard/demo/)
 
-[Demo : Sprite with canvas](https://masatomakino.github.io/threejs-billboard/demo/canvasBillboard.html)
+[Demo : Sprite with canvas](https://masatomakino.github.io/threejs-billboard/demo/stageBillboard.html)
 
-[Demo : PlaneMesh with canvas](https://masatomakino.github.io/threejs-billboard/demo/canvasPlaneMesh.html)
+[Demo : PlaneMesh with canvas](https://masatomakino.github.io/threejs-billboard/demo/stagePlaneMesh.html)
 
 [Demo : Dot-by-dot billboard](https://masatomakino.github.io/threejs-billboard/demo/dotByDot.html)
 
@@ -39,8 +39,8 @@ At first, import classes.
 ```js
 import {
   BillBoard,
-  CanvasBillBoard,
-  CanvasPlaneMesh,
+  StageBillBoard,
+  StagePlaneMesh,
   ScaleCalculator
 } from "threejs-billboard";
 ```
