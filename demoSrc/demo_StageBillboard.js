@@ -1,4 +1,4 @@
-import { CanvasBillBoard } from "../bin/index";
+import { StageBillBoard } from "../bin/index";
 import {
   initScene,
   initLight,
@@ -24,7 +24,7 @@ const onDomContentsLoaded = () => {
 };
 
 const initBillBoard = scene => {
-  const canvasBoard = new CanvasBillBoard(320, 320, 0.1);
+  const canvasBoard = new StageBillBoard(320, 320, 0.1);
   canvasBoard.position.set(15, 0, 0);
   scene.add(canvasBoard);
 
