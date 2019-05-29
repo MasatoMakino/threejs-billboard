@@ -1,4 +1,16 @@
-import { Mesh, PlaneGeometry, MeshBasicMaterial, NormalBlending } from "three";
+import {
+  Mesh,
+  PlaneGeometry,
+  MeshBasicMaterial,
+  NormalBlending,
+  Vector3,
+  Scene,
+  Camera,
+  Geometry,
+  Material,
+  Object3D,
+  WebGLRenderer
+} from "three";
 import { StageTexture } from "./StageTexture";
 import { StageObject3D } from "./StageObject3D";
 
@@ -11,6 +23,13 @@ import { StageObject3D } from "./StageObject3D";
  */
 export class StagePlaneMesh extends Mesh {
   /**
+   * 水平方向に回転し、カメラに追従するか否か。
+   */
+  public isLookingCameraHorizontal: boolean = false;
+  private cameraPos: Vector3 = new Vector3();
+  private worldPos: Vector3 = new Vector3();
+
+  /**
    * コンストラクタ
    * @param width カンバスの幅
    * @param height カンバスの高さ
@@ -20,6 +39,8 @@ export class StagePlaneMesh extends Mesh {
     super();
     this.initCanvas(width, height, option);
     this.geometry = new PlaneGeometry(width, height);
+
+    this.onBeforeRender = this.lookCamera;
   }
 
   /**
@@ -46,5 +67,37 @@ export class StagePlaneMesh extends Mesh {
    */
   public setVisible(visible: boolean): void {
     StageObject3D.setVisible(this, visible);
+  }
+
+  /**
+   * Planeをカメラに向ける。lookCameraHorizontal = trueの時だけ稼働する。
+   * 回転方向はY軸を中心とした左右方向のみ。
+   * (X軸方向には回転しない。X軸方向に回転させたい場合はBillBoardクラスを利用する。)
+   *
+   * カメラ位置がPlaneの北極、南極をまたぐと急激に回転するので注意。
+   * 利用する場合はカメラの高さ方向に制限をかけた方が良い。
+   *
+   * @param render
+   * @param scene
+   * @param camera
+   * @param geometry
+   * @param material
+   * @param group
+   */
+  private lookCamera(
+    render: WebGLRenderer,
+    scene: Scene,
+    camera: Camera,
+    geometry: Geometry,
+    material: Material,
+    group: Object3D
+  ) {
+    if (!this.isLookingCameraHorizontal) return;
+
+    camera.getWorldPosition(this.cameraPos);
+    this.getWorldPosition(this.worldPos);
+    this.cameraPos.setY(this.worldPos.y);
+
+    this.lookAt(this.cameraPos);
   }
 }
