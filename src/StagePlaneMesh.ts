@@ -9,7 +9,7 @@ import { StageObject3D } from "./StageObject3D";
  * ジオメトリはPlaneGeometryなので、中心点からずらす場合はGeometry.translateを使用する。
  * https://threejs.org/docs/#api/en/core/Geometry.translate
  */
-export class CanvasPlaneMesh extends Mesh {
+export class StagePlaneMesh extends Mesh {
   /**
    * コンストラクタ
    * @param width カンバスの幅

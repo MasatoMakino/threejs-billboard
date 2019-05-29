@@ -1,4 +1,4 @@
-import { CanvasTexture, CanvasBillBoard, CanvasPlaneMesh } from "../bin/index";
+import { StagePlaneMesh } from "../bin/index";
 import {
   initScene,
   initLight,
@@ -24,7 +24,7 @@ const onDomContentsLoaded = () => {
 };
 
 const initBillBoard = scene => {
-  const mesh = new CanvasPlaneMesh(320, 320);
+  const mesh = new StagePlaneMesh(320, 320);
   mesh.position.set(-0, 0, 0);
   scene.add(mesh);
   mesh.scale.set(0.05, 0.05, 1);
