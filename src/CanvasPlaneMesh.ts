@@ -1,6 +1,6 @@
 import { Mesh, PlaneGeometry, MeshBasicMaterial, NormalBlending } from "three";
 import { StageTexture } from "./StageTexture";
-import { CanvasObject3D } from "./CanvasObject3D";
+import { StageObject3D } from "./StageObject3D";
 
 /**
  * Canvasに描画可能な板オブジェクト。
@@ -45,6 +45,6 @@ export class CanvasPlaneMesh extends Mesh {
    * @param visible
    */
   public setVisible(visible: boolean): void {
-    CanvasObject3D.setVisible(this, visible);
+    StageObject3D.setVisible(this, visible);
   }
 }

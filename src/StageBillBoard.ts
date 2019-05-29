@@ -1,6 +1,6 @@
 import { Sprite, LinearFilter, SpriteMaterial, NormalBlending } from "three";
 import { StageTexture } from "./StageTexture";
-import { CanvasObject3D } from "./CanvasObject3D";
+import { StageObject3D } from "./StageObject3D";
 
 export class StageBillBoard extends Sprite {
   private _imageScale: number;
@@ -64,6 +64,6 @@ export class StageBillBoard extends Sprite {
    * @param visible
    */
   public setVisible(visible: boolean): void {
-    CanvasObject3D.setVisible(this, visible);
+    StageObject3D.setVisible(this, visible);
   }
 }
