@@ -1,6 +1,6 @@
 import {
   Mesh,
-  PlaneGeometry,
+  PlaneBufferGeometry,
   MeshBasicMaterial,
   NormalBlending,
   Vector3,
@@ -18,8 +18,8 @@ import { StageObject3D } from "./StageObject3D";
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。
  *
- * ジオメトリはPlaneGeometryなので、中心点からずらす場合はGeometry.translateを使用する。
- * https://threejs.org/docs/#api/en/core/Geometry.translate
+ * ジオメトリはPlaneBufferGeometryなので、中心点からずらす場合はtranslateを使用する。
+ * https://threejs.org/docs/#api/en/core/BufferGeometry.translate
  */
 export class StagePlaneMesh extends Mesh {
   /**
@@ -38,7 +38,7 @@ export class StagePlaneMesh extends Mesh {
   constructor(width: number, height: number, option?: {}) {
     super();
     this.initCanvas(width, height, option);
-    this.geometry = new PlaneGeometry(width, height);
+    this.geometry = new PlaneBufferGeometry(width, height);
 
     this.onBeforeRender = this.lookCamera;
   }
