@@ -18,7 +18,7 @@
     "gulptask-tsc": "https://github.com/MasatoMakino/gulptask-tsc.git",
     "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
     "gulptask-webpack": "https://github.com/MasatoMakino/gulptask-webpack.git",
-    "husky": "^2.4.0",
+    "husky": "^2.4.1",
     "prettier": "^1.18.2",
     "three": "^0.105.2"
   },
