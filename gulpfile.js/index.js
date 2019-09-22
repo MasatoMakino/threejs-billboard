@@ -2,7 +2,7 @@
 
 const { series } = require("gulp");
 
-const doc = require("gulptask-tsdoc")();
+const doc = require("gulptask-tsdoc").get();
 exports.doc = doc;
 
 const server = require("gulptask-dev-server")("./docs/demo");
@@ -13,7 +13,7 @@ const { bundleDevelopment, watchBundle } = require("gulptask-webpack")(
 );
 exports.bundleDevelopment = bundleDevelopment;
 
-const { tsc, watchTsc } = require("gulptask-tsc")();
+const { tsc, watchTsc } = require("gulptask-tsc").get();
 
 const watchTasks = cb => {
   watchBundle();

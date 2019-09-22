@@ -6,23 +6,29 @@
   "repository": "https://MasatoMakino@github.com/MasatoMakino/threejs-billboard.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
+  "peerDependencies": {
+    "createjs": "^1.0.1",
+    "three": "^0.108.0"
+  },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
     "@types/easeljs": "^1.0.0",
     "@types/tweenjs": "^1.0.0",
     "babel-loader": "^8.0.6",
+    "createjs": "^1.0.1",
     "gulp": "^4.0.2",
     "gulptask-dev-server": "https://github.com/MasatoMakino/gulptask-dev-server.git",
     "gulptask-tsc": "https://github.com/MasatoMakino/gulptask-tsc.git",
     "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
     "gulptask-webpack": "https://github.com/MasatoMakino/gulptask-webpack.git",
-    "husky": "^3.0.1",
-    "prettier": "^1.18.2"
+    "husky": "^3.0.5",
+    "prettier": "^1.18.2",
+    "three": "^0.108.0"
   },
   "scripts": {
     "start:dev": "gulp start_dev",
-    "build": "npm run prettier:src && gulp build && npm run doc:card",
+    "build": "npm run prettier:src && gulp build",
     "prettier:src": "prettier --write './!(bin|docs|coverage)/**/*.{js,ts,json}' ",
     "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png"
   },
@@ -30,9 +36,5 @@
     "hooks": {
       "pre-commit": "npm run prettier:src"
     }
-  },
-  "dependencies": {
-    "createjs": "^1.0.1",
-    "three": "^0.106.2"
   }
 }
