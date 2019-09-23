@@ -64,7 +64,8 @@ If you want to display dot-by-dot billboard, get image scale with ScaleCalculato
 ```js
 const calc = new ScaleCalculator(camera, renderer, scene);
 const billboard = new BillBoard("./map01.png");
-billboard.imageScale = calc.getDotByDotScale(billboard);
+billboard.material.sizeAttenuation = false;
+billboard.imageScale = calc.getNonAttenuateScale();
 ``` 
 
 ## API documents
