@@ -18,7 +18,7 @@ import { Math as ThreeMath } from "three";
 export class ScaleCalculator {
   private _camera: PerspectiveCamera;
   private _renderer: WebGLRenderer;
-  private plane: Plane;
+  private plane: Plane; //カメラ側のプレーン
 
   private worldDirection = new Vector3();
   private worldPosition = new Vector3();
@@ -64,8 +64,9 @@ export class ScaleCalculator {
 
   /**
    * カメラ側のプレーンの位置を更新する。
+   * このプレーンはカメラの位置と向きに一致する。
    */
-  private updatePlane() {
+  public updatePlane() {
     this.plane.setFromNormalAndCoplanarPoint(
       this._camera.getWorldDirection(this.worldDirection),
       this._camera.getWorldPosition(this.worldPosition)
@@ -74,6 +75,12 @@ export class ScaleCalculator {
 
   /**
    * targetがドットバイドット表示になるスケール値を算出する。
+   * プレーンから対象オブジェクトまでの距離を利用し、スケール値を逆算する。
+   *
+   * SpriteMaterial.sizeAttenuation = true[Default]
+   * の設定されたオブジェクト用。
+   * https://threejs.org/docs/#api/en/materials/SpriteMaterial.sizeAttenuation
+   *
    * @param target
    */
   public getDotByDotScale(target: Object3D): number {
@@ -81,12 +88,21 @@ export class ScaleCalculator {
     const distance = this.plane.distanceToPoint(
       target.getWorldPosition(this.targetWorldPosition)
     );
-    const getFovHeight = () => {
-      const halfFov = ThreeMath.degToRad(this._camera.fov / 2);
-      const half_fov_height = Math.tan(halfFov) * distance;
-      return half_fov_height * 2;
-    };
+    return this.getFovHeight(distance) / size.height;
+  }
 
-    return getFovHeight() / size.height;
+  /**
+   * SpriteMaterial.sizeAttenuation = false
+   * の設定されたSprite用のスケール値を取得する。
+   */
+  public getNonAttenuateScale(): number {
+    const size: Vector2 = this._renderer.getSize(new Vector2());
+    return this.getFovHeight(1.0) / size.height;
+  }
+
+  private getFovHeight(distance: number): number {
+    const halfFov = ThreeMath.degToRad(this._camera.fov / 2);
+    const half_fov_height = Math.tan(halfFov) * distance;
+    return half_fov_height * 2;
   }
 }

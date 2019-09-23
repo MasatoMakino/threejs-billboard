@@ -5,7 +5,8 @@ import {
   initCamera,
   initControl,
   initRenderer,
-  initHelper
+  initHelper,
+  render
 } from "./common";
 
 const W = 640;
@@ -22,8 +23,8 @@ const onDomContentsLoaded = () => {
   const control = initControl(camera);
   initHelper(scene);
   const calc = initScaleCalc(camera, renderer, scene);
-  initBillBoard(scene, renderer, camera);
-  render(control, renderer, scene, camera, calc);
+  initBillBoard(scene, calc);
+  render(control, renderer, scene, camera);
 };
 
 const initScaleCalc = (camera, renderer, scene) => {
@@ -31,25 +32,17 @@ const initScaleCalc = (camera, renderer, scene) => {
   return calc;
 };
 
-const initBillBoard = scene => {
-  billboard = new BillBoard("./map01.png", 0.1);
+const initBillBoard = (scene, calc) => {
+  const scale = calc.getNonAttenuateScale();
+
+  billboard = new BillBoard("./map01.png", scale);
   billboard.position.set(-40, 0, 0);
   scene.add(billboard);
+  billboard.material.sizeAttenuation = false;
 
-  billboard2 = new BillBoard("./map01.png", 0.1);
+  billboard2 = new BillBoard("./map01.png", scale);
   scene.add(billboard2);
+  billboard2.material.sizeAttenuation = false;
 };
-
-export function render(control, renderer, scene, camera, calc) {
-  const rendering = () => {
-    control.update();
-    billboard.imageScale = calc.getDotByDotScale(billboard);
-    billboard2.imageScale = calc.getDotByDotScale(billboard2);
-
-    renderer.render(scene, camera);
-    requestAnimationFrame(rendering);
-  };
-  rendering();
-}
 
 window.onload = onDomContentsLoaded;
