@@ -64,21 +64,33 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="threejs-billboard">threejs-billboard</h1>
+				<a href="#threejs-billboard" id="threejs-billboard" style="color: inherit; text-decoration: none;">
+					<h1>threejs-billboard</h1>
+				</a>
 				<p>billboard module for three.js</p>
 				<p><a href="https://github.com/MasatoMakino/threejs-billboard">Github repository</a></p>
-				<h2 id="demo">Demo</h2>
+				<p><a href="https://codeclimate.com/github/MasatoMakino/threejs-billboard/maintainability"><img src="https://api.codeclimate.com/v1/badges/5e46ba2a716da782e45e/maintainability" alt="Maintainability"></a>
+				<a href="LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a></p>
+				<a href="#demo" id="demo" style="color: inherit; text-decoration: none;">
+					<h2>Demo</h2>
+				</a>
 				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/">Demo : Billboard</a></p>
 				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/stageBillboard.html">Demo : Sprite with canvas</a></p>
 				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/stagePlaneMesh.html">Demo : PlaneMesh with canvas</a></p>
 				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/dotByDot.html">Demo : Dot-by-dot billboard</a></p>
-				<h2 id="getting-started">Getting Started</h2>
-				<h3 id="install">Install</h3>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting Started</h2>
+				</a>
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h3>Install</h3>
+				</a>
 				<p>threejs-billboard depend on <a href="https://threejs.org/">three.js</a> and <a href="https://github.com/CreateJS/EaselJS">CreateJS / EaselJS</a>.</p>
 				<pre><code class="language-bash">npm install three easeljs --save-dev</code></pre>
 				<p>and</p>
 				<pre><code class="language-bash">npm install https://github.com/MasatoMakino/threejs-billboard.git --save-dev</code></pre>
-				<h3 id="import">Import</h3>
+				<a href="#import" id="import" style="color: inherit; text-decoration: none;">
+					<h3>Import</h3>
+				</a>
 				<p>threejs-billboard is composed of ES6 modules and TypeScript d.ts files.</p>
 				<p>At first, import classes.</p>
 				<pre><code class="language-js"><span class="hljs-keyword">import</span> {
@@ -87,18 +99,27 @@
   StagePlaneMesh,
   ScaleCalculator
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"threejs-billboard"</span>;</code></pre>
-				<h3 id="show-billboard">Show billboard</h3>
+				<a href="#show-billboard" id="show-billboard" style="color: inherit; text-decoration: none;">
+					<h3>Show billboard</h3>
+				</a>
 				<p>Add billboard in <a href="https://threejs.org/docs/#manual/en/introduction/Creating-a-scene">THREE.Scene</a>.</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">"./map01.png"</span>, <span class="hljs-number">0.1</span>);
 scene.add(billboard);</code></pre>
-				<h3 id="dot-by-dot-display">Dot-by-dot display</h3>
+				<a href="#dot-by-dot-display" id="dot-by-dot-display" style="color: inherit; text-decoration: none;">
+					<h3>Dot-by-dot display</h3>
+				</a>
 				<p>If you want to display dot-by-dot billboard, get image scale with ScaleCalculator.</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> calc = <span class="hljs-keyword">new</span> ScaleCalculator(camera, renderer, scene);
 <span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">"./map01.png"</span>);
-billboard.imageScale = calc.getDotByDotScale(billboard);</code></pre>
-				<h2 id="api-documents">API documents</h2>
+billboard.material.sizeAttenuation = <span class="hljs-literal">false</span>;
+billboard.imageScale = calc.getNonAttenuateScale();</code></pre>
+				<a href="#api-documents" id="api-documents" style="color: inherit; text-decoration: none;">
+					<h2>API documents</h2>
+				</a>
 				<p><a href="https://masatomakino.github.io/threejs-billboard/api/">API documents</a></p>
-				<h2 id="license">License</h2>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
 				<p>threejs-billboard is <a href="LICENSE">MIT licensed</a>.</p>
 			</div>
 		</div>
@@ -147,6 +168,7 @@ billboard.imageScale = calc.getDotByDotScale(billboard);</code></pre>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -195,7 +217,7 @@ billboard.imageScale = calc.getDotByDotScale(billboard);</code></pre>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
