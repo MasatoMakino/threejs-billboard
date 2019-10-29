@@ -1,11 +1,13 @@
 import { Sprite, SpriteMaterial, TextureLoader, NormalBlending } from "three";
+import { BillBoardObject } from "./BillBoardObject";
 
 /**
  * 画像ファイルをテクスチャとするビルボードクラス
  */
 export class BillBoard extends Sprite {
-  private _imageScale: number;
+  protected _imageScale: number;
 
+  private obj: BillBoardObject;
   /**
    * コンストラクタ
    * @param url テクスチャー画像ファイルのURL
@@ -14,31 +16,8 @@ export class BillBoard extends Sprite {
    */
   constructor(url: string, imageScale: number, option?: {}) {
     super();
-
-    this._imageScale = imageScale;
-    const texture = new TextureLoader().load(url, this.updateScale);
-    this.material = new SpriteMaterial({
-      map: texture,
-      blending: NormalBlending,
-      depthTest: true,
-      transparent: true
-    });
+    this.obj = new BillBoardObject(this, url, imageScale, option);
   }
-
-  /**
-   * テクスチャ画像のアスペクト比を維持したままスケールを調整する。
-   */
-  private updateScale = () => {
-    const map = this.material.map;
-    if (map == null || map.image == null) return;
-
-    const img = map.image as HTMLImageElement;
-    this.scale.set(
-      img.width * this._imageScale,
-      img.height * this._imageScale,
-      1
-    );
-  };
 
   get imageScale(): number {
     return this._imageScale;
@@ -52,7 +31,6 @@ export class BillBoard extends Sprite {
    * @param value
    */
   set imageScale(value: number) {
-    this._imageScale = value;
-    this.updateScale();
+    this.obj.imageScale = value;
   }
 }
