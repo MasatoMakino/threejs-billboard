@@ -1,6 +1,7 @@
 import { Sprite, LinearFilter, SpriteMaterial, NormalBlending } from "three";
 import { StageTexture } from "./StageTexture";
 import { StageObject3D } from "./StageObject3D";
+import { MeshBasicMaterial } from "three";
 
 export class StageBillBoard extends Sprite {
   private _imageScale: number;
@@ -65,5 +66,17 @@ export class StageBillBoard extends Sprite {
    */
   public setVisible(visible: boolean): void {
     StageObject3D.setVisible(this, visible);
+  }
+
+  private getMap(): StageTexture {
+    return this.material.map as StageTexture;
+  }
+
+  get stage(): createjs.Stage {
+    return this.getMap().stage;
+  }
+
+  public setNeedUpdate(): void {
+    this.getMap().setNeedUpdate();
   }
 }

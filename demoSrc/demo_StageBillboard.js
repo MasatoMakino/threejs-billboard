@@ -28,14 +28,11 @@ const initBillBoard = scene => {
   canvasBoard.position.set(15, 0, 0);
   scene.add(canvasBoard);
 
-  const map = canvasBoard.material.map;
-  const stage = map.stage;
   const text = new createjs.Text("Hello World", "48px Arial", "#ff7700");
-  stage.addChild(text);
+  canvasBoard.stage.addChild(text);
   text.x = 20;
   text.y = 160;
-
-  map.setNeedUpdate();
+  canvasBoard.setNeedUpdate();
 };
 
 window.onload = onDomContentsLoaded;

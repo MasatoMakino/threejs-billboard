@@ -7,6 +7,7 @@ import {
 import { StageTexture } from "./StageTexture";
 import { StageObject3D } from "./StageObject3D";
 import { CameraChaser } from "./CameraChaser";
+import { Material } from "three";
 
 /**
  * Canvasに描画可能な板オブジェクト。
@@ -55,5 +56,16 @@ export class StagePlaneMesh extends Mesh {
    */
   public setVisible(visible: boolean): void {
     StageObject3D.setVisible(this, visible);
+  }
+
+  private getMap(): StageTexture {
+    return (this.material as MeshBasicMaterial).map as StageTexture;
+  }
+  get stage(): createjs.Stage {
+    return this.getMap().stage;
+  }
+
+  public setNeedUpdate(): void {
+    this.getMap().setNeedUpdate();
   }
 }
