@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./demoSrc/demo_DbD.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./demoSrc/demo_BillboardPlane.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -218,15 +218,15 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
-/***/ "./demoSrc/demo_DbD.js":
-/*!*****************************!*\
-  !*** ./demoSrc/demo_DbD.js ***!
-  \*****************************/
+/***/ "./demoSrc/demo_BillboardPlane.js":
+/*!****************************************!*\
+  !*** ./demoSrc/demo_BillboardPlane.js ***!
+  \****************************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _bin_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../bin/index */ \"./bin/index.js\");\n/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common */ \"./demoSrc/common.js\");\n\n\nvar W = 640;\nvar H = 480;\nvar billboard;\nvar billboard2;\n\nvar onDomContentsLoaded = function onDomContentsLoaded() {\n  var scene = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initScene\"])();\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initLight\"])(scene);\n  var camera = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initCamera\"])(scene, W, H);\n  var renderer = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initRenderer\"])(W, H);\n  var control = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initControl\"])(camera);\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initHelper\"])(scene);\n  var calc = initScaleCalc(camera, renderer, scene);\n  initBillBoard(scene, calc);\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"render\"])(control, renderer, scene, camera);\n};\n\nvar initScaleCalc = function initScaleCalc(camera, renderer, scene) {\n  var calc = new _bin_index__WEBPACK_IMPORTED_MODULE_0__[\"ScaleCalculator\"](camera, renderer, scene);\n  return calc;\n};\n\nvar initBillBoard = function initBillBoard(scene, calc) {\n  var scale = calc.getNonAttenuateScale();\n  billboard = new _bin_index__WEBPACK_IMPORTED_MODULE_0__[\"BillBoard\"](\"./map01.png\", scale);\n  billboard.position.set(-40, 0, 0);\n  scene.add(billboard);\n  billboard.material.sizeAttenuation = false;\n  billboard2 = new _bin_index__WEBPACK_IMPORTED_MODULE_0__[\"BillBoard\"](\"./map01.png\", scale);\n  scene.add(billboard2);\n  billboard2.material.sizeAttenuation = false;\n};\n\nwindow.onload = onDomContentsLoaded;\n\n//# sourceURL=webpack:///./demoSrc/demo_DbD.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _bin___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../bin/ */ \"./bin/index.js\");\n/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common */ \"./demoSrc/common.js\");\n\n\nvar W = 640;\nvar H = 480;\n\nvar onDomContentsLoaded = function onDomContentsLoaded() {\n  var scene = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initScene\"])();\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initLight\"])(scene);\n  var camera = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initCamera\"])(scene, W, H);\n  var renderer = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initRenderer\"])(W, H);\n  var control = Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initControl\"])(camera);\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"initHelper\"])(scene);\n  initBillBoard(scene);\n  Object(_common__WEBPACK_IMPORTED_MODULE_1__[\"render\"])(control, renderer, scene, camera);\n};\n\nvar initBillBoard = function initBillBoard(scene) {\n  var billboard = new _bin___WEBPACK_IMPORTED_MODULE_0__[\"BillBoardPlane\"](\"./map01.png\", 0.1);\n  billboard.cameraChaser.isLookingCameraHorizontal = true;\n  scene.add(billboard);\n  var billboard2 = new _bin___WEBPACK_IMPORTED_MODULE_0__[\"BillBoardPlane\"](\"./map01.png\", 0.1);\n  billboard2.position.set(-30, 0, 0);\n  billboard2.cameraChaser.isLookingCameraHorizontal = true;\n  scene.add(billboard2);\n};\n\nwindow.onload = onDomContentsLoaded;\n\n//# sourceURL=webpack:///./demoSrc/demo_BillboardPlane.js?");
 
 /***/ }),
 

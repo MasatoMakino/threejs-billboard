@@ -1,4 +1,5 @@
 import { Mesh } from "three";
+import { CameraChaser } from "./CameraChaser";
 /**
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。
@@ -7,12 +8,7 @@ import { Mesh } from "three";
  * https://threejs.org/docs/#api/en/core/BufferGeometry.translate
  */
 export declare class StagePlaneMesh extends Mesh {
-    /**
-     * 水平方向に回転し、カメラに追従するか否か。
-     */
-    isLookingCameraHorizontal: boolean;
-    private cameraPos;
-    private worldPos;
+    cameraChaser: CameraChaser;
     /**
      * コンストラクタ
      * @param width カンバスの幅
@@ -33,21 +29,5 @@ export declare class StagePlaneMesh extends Mesh {
      * @param visible
      */
     setVisible(visible: boolean): void;
-    /**
-     * Planeをカメラに向ける。lookCameraHorizontal = trueの時だけ稼働する。
-     * 回転方向はY軸を中心とした左右方向のみ。
-     * (X軸方向には回転しない。X軸方向に回転させたい場合はBillBoardクラスを利用する。)
-     *
-     * カメラ位置がPlaneの北極、南極をまたぐと急激に回転するので注意。
-     * 利用する場合はカメラの高さ方向に制限をかけた方が良い。
-     *
-     * @param render
-     * @param scene
-     * @param camera
-     * @param geometry
-     * @param material
-     * @param group
-     */
-    private lookCamera;
 }
 //# sourceMappingURL=StagePlaneMesh.d.ts.map

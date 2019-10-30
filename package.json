@@ -1,6 +1,6 @@
 {
   "name": "threejs-billboard",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "main": "./bin/index.js",
   "types": "./bin/index.d.ts",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/threejs-billboard.git",

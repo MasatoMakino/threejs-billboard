@@ -1,6 +1,8 @@
 export * from "./BillBoard";
-export * from "./StageTexture";
+export * from "./BillBoardPlane";
+export * from "./CameraChaser";
+export * from "./ScaleCalculator";
 export * from "./StageBillBoard";
 export * from "./StagePlaneMesh";
-export * from "./ScaleCalculator";
+export * from "./StageTexture";
 //# sourceMappingURL=index.d.ts.map

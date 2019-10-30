@@ -1,6 +1,7 @@
-import { Mesh, PlaneBufferGeometry, MeshBasicMaterial, NormalBlending, Vector3 } from "three";
+import { Mesh, PlaneBufferGeometry, MeshBasicMaterial, NormalBlending } from "three";
 import { StageTexture } from "./StageTexture";
 import { StageObject3D } from "./StageObject3D";
+import { CameraChaser } from "./CameraChaser";
 /**
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。
@@ -17,15 +18,9 @@ export class StagePlaneMesh extends Mesh {
      */
     constructor(width, height, option) {
         super();
-        /**
-         * 水平方向に回転し、カメラに追従するか否か。
-         */
-        this.isLookingCameraHorizontal = false;
-        this.cameraPos = new Vector3();
-        this.worldPos = new Vector3();
         this.initCanvas(width, height, option);
         this.geometry = new PlaneBufferGeometry(width, height);
-        this.onBeforeRender = this.lookCamera;
+        this.cameraChaser = new CameraChaser(this);
     }
     /**
      * 描画用カンバスを初期化し、自分自身のマテリアルに格納する。
@@ -49,28 +44,5 @@ export class StagePlaneMesh extends Mesh {
      */
     setVisible(visible) {
         StageObject3D.setVisible(this, visible);
-    }
-    /**
-     * Planeをカメラに向ける。lookCameraHorizontal = trueの時だけ稼働する。
-     * 回転方向はY軸を中心とした左右方向のみ。
-     * (X軸方向には回転しない。X軸方向に回転させたい場合はBillBoardクラスを利用する。)
-     *
-     * カメラ位置がPlaneの北極、南極をまたぐと急激に回転するので注意。
-     * 利用する場合はカメラの高さ方向に制限をかけた方が良い。
-     *
-     * @param render
-     * @param scene
-     * @param camera
-     * @param geometry
-     * @param material
-     * @param group
-     */
-    lookCamera(render, scene, camera, geometry, material, group) {
-        if (!this.isLookingCameraHorizontal)
-            return;
-        camera.getWorldPosition(this.cameraPos);
-        this.getWorldPosition(this.worldPos);
-        this.cameraPos.setY(this.worldPos.y);
-        this.lookAt(this.cameraPos);
     }
 }

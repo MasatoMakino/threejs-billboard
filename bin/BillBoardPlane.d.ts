@@ -1,9 +1,8 @@
-import { Sprite } from "three";
-/**
- * 画像ファイルをテクスチャとするビルボードクラス
- */
-export declare class BillBoard extends Sprite {
+import { Mesh } from "three";
+import { CameraChaser } from "./CameraChaser";
+export declare class BillBoardPlane extends Mesh {
     private obj;
+    cameraChaser: CameraChaser;
     /**
      * コンストラクタ
      * @param url テクスチャー画像ファイルのURL
@@ -18,4 +17,4 @@ export declare class BillBoard extends Sprite {
     */
     imageScale: number;
 }
-//# sourceMappingURL=BillBoard.d.ts.map
+//# sourceMappingURL=BillBoardPlane.d.ts.map

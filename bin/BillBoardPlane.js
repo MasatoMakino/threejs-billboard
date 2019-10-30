@@ -1,9 +1,7 @@
-import { Sprite } from "three";
+import { Mesh } from "three";
 import { BillBoardController } from "./BillBoardController";
-/**
- * 画像ファイルをテクスチャとするビルボードクラス
- */
-export class BillBoard extends Sprite {
+import { CameraChaser } from "./CameraChaser";
+export class BillBoardPlane extends Mesh {
     /**
      * コンストラクタ
      * @param url テクスチャー画像ファイルのURL
@@ -12,8 +10,8 @@ export class BillBoard extends Sprite {
      */
     constructor(url, imageScale, option) {
         super();
-        console.log(url, imageScale);
         this.obj = new BillBoardController(this, url, imageScale, option);
+        this.cameraChaser = new CameraChaser(this);
     }
     get imageScale() {
         return this.obj.imageScale;
