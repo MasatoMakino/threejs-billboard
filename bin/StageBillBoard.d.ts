@@ -1,3 +1,4 @@
+/// <reference types="easeljs" />
 import { Sprite } from "three";
 export declare class StageBillBoard extends Sprite {
     private _imageScale;
@@ -21,5 +22,8 @@ export declare class StageBillBoard extends Sprite {
      * @param visible
      */
     setVisible(visible: boolean): void;
+    private getMap;
+    readonly stage: createjs.Stage;
+    setNeedUpdate(): void;
 }
 //# sourceMappingURL=StageBillBoard.d.ts.map

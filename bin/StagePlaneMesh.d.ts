@@ -1,3 +1,4 @@
+/// <reference types="easeljs" />
 import { Mesh } from "three";
 import { CameraChaser } from "./CameraChaser";
 /**
@@ -29,5 +30,8 @@ export declare class StagePlaneMesh extends Mesh {
      * @param visible
      */
     setVisible(visible: boolean): void;
+    private getMap;
+    readonly stage: createjs.Stage;
+    setNeedUpdate(): void;
 }
 //# sourceMappingURL=StagePlaneMesh.d.ts.map

@@ -48,4 +48,13 @@ export class StageBillBoard extends Sprite {
     setVisible(visible) {
         StageObject3D.setVisible(this, visible);
     }
+    getMap() {
+        return this.material.map;
+    }
+    get stage() {
+        return this.getMap().stage;
+    }
+    setNeedUpdate() {
+        this.getMap().setNeedUpdate();
+    }
 }
