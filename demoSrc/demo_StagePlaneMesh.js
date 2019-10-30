@@ -34,7 +34,7 @@ const initBillBoard = scene => {
   mesh02.position.set(20, 0, 0);
   scene.add(mesh02);
   mesh02.scale.set(0.05, 0.05, 1);
-  mesh02.isLookingCameraHorizontal = true;
+  mesh02.cameraChaser.isLookingCameraHorizontal = true;
   initMap(mesh02);
 };
 
