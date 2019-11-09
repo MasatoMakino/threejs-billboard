@@ -1,7 +1,6 @@
-import { Sprite, LinearFilter, SpriteMaterial, NormalBlending } from "three";
+import { LinearFilter, NormalBlending, Sprite, SpriteMaterial } from "three";
 import { StageTexture } from "./StageTexture";
 import { StageObject3D } from "./StageObject3D";
-import { MeshBasicMaterial } from "three";
 
 export class StageBillBoard extends Sprite {
   private _imageScale: number;

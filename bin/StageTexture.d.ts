@@ -3,7 +3,7 @@ import { Texture } from "three";
 export declare class StageTexture extends Texture {
     private _stage;
     private _needUpdateCanvas;
-    private _renderID;
+    private isStart;
     constructor(width: number, height: number);
     protected init(width: number, height: number): void;
     /**
