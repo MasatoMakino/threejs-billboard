@@ -1,10 +1,11 @@
 import { Texture, LinearFilter } from "three";
 import Stage = createjs.Stage;
+import Ticker = createjs.Ticker;
 
 export class StageTexture extends Texture {
   private _stage: Stage;
   private _needUpdateCanvas: boolean;
-  private _renderID;
+  private isStart: boolean;
 
   constructor(width: number, height: number) {
     super();
@@ -21,6 +22,7 @@ export class StageTexture extends Texture {
 
     this._stage = new createjs.Stage(canvas);
     this._stage.enableDOMEvents(false);
+    this.isStart = false;
     this.start();
   }
 
@@ -28,17 +30,18 @@ export class StageTexture extends Texture {
    * テクスチャの更新を開始する
    */
   public start(): void {
-    if (this._renderID != null) return;
-    this._renderID = requestAnimationFrame(this.onRequestFrame);
+    if (this.isStart) return;
+    this.isStart = true;
+    Ticker.addEventListener("tick", this.onRequestFrame);
   }
 
   /**
    * テクスチャの更新を停止する
    */
   public stop(): void {
-    if (this._renderID == null) return;
-    cancelAnimationFrame(this._renderID);
-    this._renderID = null;
+    if (this.isStart) return;
+    this.isStart = false;
+    Ticker.removeEventListener("tick", this.onRequestFrame);
   }
 
   protected update(): void {
@@ -51,11 +54,9 @@ export class StageTexture extends Texture {
   }
 
   private onRequestFrame = (e?: any) => {
-    if (this._needUpdateCanvas) {
-      this.update();
-      this._needUpdateCanvas = false;
-    }
-    this._renderID = requestAnimationFrame(this.onRequestFrame);
+    if (!this._needUpdateCanvas) return;
+    this.update();
+    this._needUpdateCanvas = false;
   };
 
   /**
