@@ -34,6 +34,7 @@ export class BillBoardController {
         this._imageScale = imageScale;
         this.initDummyPlane(target);
         const texture = new TextureLoader().load(url, this.updateScale);
+        texture.minFilter = option.minFilter;
         this._target.material = this.getMaterial(target, texture);
     }
     getMaterial(target, texture) {

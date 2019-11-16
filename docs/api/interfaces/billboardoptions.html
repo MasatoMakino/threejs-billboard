@@ -3,17 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>threejs-billboard</title>
+	<title>BillBoardOptions | threejs-billboard</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 <header>
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">threejs-billboard</a>
+					<a href="../index.html" class="title">threejs-billboard</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -53,124 +53,111 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="billboardoptions.html">BillBoardOptions</a>
 				</li>
 			</ul>
-			<h1> threejs-billboard</h1>
+			<h1>Interface BillBoardOptions</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#threejs-billboard" id="threejs-billboard" style="color: inherit; text-decoration: none;">
-					<h1>threejs-billboard</h1>
-				</a>
-				<p>billboard module for three.js</p>
-				<p><a href="https://github.com/MasatoMakino/threejs-billboard">Github repository</a></p>
-				<p><a href="https://codeclimate.com/github/MasatoMakino/threejs-billboard/maintainability"><img src="https://api.codeclimate.com/v1/badges/5e46ba2a716da782e45e/maintainability" alt="Maintainability"></a>
-				<a href="LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a></p>
-				<a href="#demo" id="demo" style="color: inherit; text-decoration: none;">
-					<h2>Demo</h2>
-				</a>
-				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/">Demo : Billboard</a></p>
-				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/stageBillboard.html">Demo : Sprite with canvas</a></p>
-				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/stagePlaneMesh.html">Demo : PlaneMesh with canvas</a></p>
-				<p><a href="https://masatomakino.github.io/threejs-billboard/demo/dotByDot.html">Demo : Dot-by-dot billboard</a></p>
-				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
-					<h2>Getting Started</h2>
-				</a>
-				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
-					<h3>Install</h3>
-				</a>
-				<p>threejs-billboard depend on <a href="https://threejs.org/">three.js</a> and <a href="https://github.com/CreateJS/EaselJS">CreateJS / EaselJS</a>.</p>
-				<pre><code class="language-bash">npm install three easeljs --save-dev</code></pre>
-				<p>and</p>
-				<pre><code class="language-bash">npm install https://github.com/MasatoMakino/threejs-billboard.git --save-dev</code></pre>
-				<a href="#import" id="import" style="color: inherit; text-decoration: none;">
-					<h3>Import</h3>
-				</a>
-				<p>threejs-billboard is composed of ES6 modules and TypeScript d.ts files.</p>
-				<p>At first, import classes.</p>
-				<pre><code class="language-js"><span class="hljs-keyword">import</span> {
-  BillBoard,
-  StageBillBoard,
-  StagePlaneMesh,
-  ScaleCalculator
-} <span class="hljs-keyword">from</span> <span class="hljs-string">"threejs-billboard"</span>;</code></pre>
-				<a href="#show-billboard" id="show-billboard" style="color: inherit; text-decoration: none;">
-					<h3>Show billboard</h3>
-				</a>
-				<p>Add billboard in <a href="https://threejs.org/docs/#manual/en/introduction/Creating-a-scene">THREE.Scene</a>.</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">"./map01.png"</span>, <span class="hljs-number">0.1</span>);
-scene.add(billboard);</code></pre>
-				<a href="#dot-by-dot-display" id="dot-by-dot-display" style="color: inherit; text-decoration: none;">
-					<h3>Dot-by-dot display</h3>
-				</a>
-				<p>If you want to display dot-by-dot billboard, get image scale with ScaleCalculator.</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> calc = <span class="hljs-keyword">new</span> ScaleCalculator(camera, renderer, scene);
-<span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">"./map01.png"</span>);
-billboard.material.sizeAttenuation = <span class="hljs-literal">false</span>;
-billboard.imageScale = calc.getNonAttenuateScale();</code></pre>
-				<a href="#api-documents" id="api-documents" style="color: inherit; text-decoration: none;">
-					<h2>API documents</h2>
-				</a>
-				<p><a href="https://masatomakino.github.io/threejs-billboard/api/">API documents</a></p>
-				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
-					<h2>License</h2>
-				</a>
-				<p>threejs-billboard is <a href="LICENSE">MIT licensed</a>.</p>
-			</div>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">BillBoardOptions</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="billboardoptions.html#minfilter" class="tsd-kind-icon">min<wbr>Filter</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="minfilter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> min<wbr>Filter</h3>
+					<div class="tsd-signature tsd-kind-icon">min<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TextureFilter</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/c64914d/src/BillBoard.ts#L7">BillBoard.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
-						<a href="classes/billboard.html" class="tsd-kind-icon">Bill<wbr>Board</a>
+						<a href="../classes/billboard.html" class="tsd-kind-icon">Bill<wbr>Board</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/billboardcontroller.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Controller</a>
+						<a href="../classes/billboardcontroller.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Controller</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/billboardoptionutil.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Option<wbr>Util</a>
+						<a href="../classes/billboardoptionutil.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Option<wbr>Util</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/billboardplane.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Plane</a>
+						<a href="../classes/billboardplane.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Plane</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/camerachaser.html" class="tsd-kind-icon">Camera<wbr>Chaser</a>
+						<a href="../classes/camerachaser.html" class="tsd-kind-icon">Camera<wbr>Chaser</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/scalecalculator.html" class="tsd-kind-icon">Scale<wbr>Calculator</a>
+						<a href="../classes/scalecalculator.html" class="tsd-kind-icon">Scale<wbr>Calculator</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/stagebillboard.html" class="tsd-kind-icon">Stage<wbr>Bill<wbr>Board</a>
+						<a href="../classes/stagebillboard.html" class="tsd-kind-icon">Stage<wbr>Bill<wbr>Board</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/stageobject3d.html" class="tsd-kind-icon">Stage<wbr>Object3D</a>
+						<a href="../classes/stageobject3d.html" class="tsd-kind-icon">Stage<wbr>Object3D</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/stageplanemesh.html" class="tsd-kind-icon">Stage<wbr>Plane<wbr>Mesh</a>
+						<a href="../classes/stageplanemesh.html" class="tsd-kind-icon">Stage<wbr>Plane<wbr>Mesh</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/stagetexture.html" class="tsd-kind-icon">Stage<wbr>Texture</a>
+						<a href="../classes/stagetexture.html" class="tsd-kind-icon">Stage<wbr>Texture</a>
 					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/billboardoptions.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Options</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="billboardoptions.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Options</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="billboardoptions.html#minfilter" class="tsd-kind-icon">min<wbr>Filter</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#billboardmaterial" class="tsd-kind-icon">Bill<wbr>Board<wbr>Material</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#billboardmaterial" class="tsd-kind-icon">Bill<wbr>Board<wbr>Material</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#billboardobject3d" class="tsd-kind-icon">Bill<wbr>Board<wbr>Object3D</a>
+						<a href="../globals.html#billboardobject3d" class="tsd-kind-icon">Bill<wbr>Board<wbr>Object3D</a>
 					</li>
 				</ul>
 			</nav>
@@ -241,7 +228,7 @@ billboard.imageScale = calc.getNonAttenuateScale();</code></pre>
 	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

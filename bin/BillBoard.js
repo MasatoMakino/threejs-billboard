@@ -1,5 +1,17 @@
 import { Sprite } from "three";
 import { BillBoardController } from "./BillBoardController";
+import { LinearFilter } from "three";
+export class BillBoardOptionUtil {
+    static init(option) {
+        if (option == null) {
+            option = {};
+        }
+        if (option.minFilter == null) {
+            option.minFilter = LinearFilter;
+        }
+        return option;
+    }
+}
 /**
  * 画像ファイルをテクスチャとするビルボードクラス
  */
@@ -12,7 +24,7 @@ export class BillBoard extends Sprite {
      */
     constructor(url, imageScale, option) {
         super();
-        console.log(url, imageScale);
+        option = BillBoardOptionUtil.init(option);
         this.obj = new BillBoardController(this, url, imageScale, option);
     }
     get imageScale() {

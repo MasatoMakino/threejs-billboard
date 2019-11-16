@@ -1,5 +1,6 @@
 import { Mesh } from "three";
 import { CameraChaser } from "./CameraChaser";
+import { BillBoardOptions } from "./BillBoard";
 export declare class BillBoardPlane extends Mesh {
     private obj;
     cameraChaser: CameraChaser;
@@ -9,7 +10,7 @@ export declare class BillBoardPlane extends Mesh {
      * @param imageScale
      * @param option
      */
-    constructor(url: string, imageScale: number, option?: {});
+    constructor(url: string, imageScale: number, option?: BillBoardOptions);
     /**
     * 画像のスケールを指定する。
     * ScaleCalculator.getDotByDotScale関数で得られた値を設定すると、ビルボードはテクスチャ画像のサイズのまま表示される。

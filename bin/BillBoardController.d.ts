@@ -1,6 +1,7 @@
 import { SpriteMaterial } from "three";
 import { Mesh, Sprite } from "three";
 import { MeshBasicMaterial } from "three";
+import { BillBoardOptions } from "./BillBoard";
 export declare type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
 export declare type BillBoardObject3D = Mesh | Sprite;
 /**
@@ -18,7 +19,7 @@ export declare class BillBoardController {
      * @param imageScale
      * @param option
      */
-    constructor(target: BillBoardObject3D, url: string, imageScale: number, option?: {});
+    constructor(target: BillBoardObject3D, url: string, imageScale: number, option: BillBoardOptions);
     private getMaterial;
     private initDummyPlane;
     private initGeometry;
