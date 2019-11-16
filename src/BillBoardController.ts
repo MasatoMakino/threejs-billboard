@@ -5,6 +5,7 @@ import { Mesh, Sprite } from "three";
 import { MeshBasicMaterial } from "three";
 import { Texture } from "three";
 import { PlaneBufferGeometry } from "three";
+import { BillBoardOptions } from "./BillBoard";
 
 export type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
 export type BillBoardObject3D = Mesh | Sprite;
@@ -29,12 +30,13 @@ export class BillBoardController {
     target: BillBoardObject3D,
     url: string,
     imageScale: number,
-    option?: {}
+    option: BillBoardOptions
   ) {
     this._target = target;
     this._imageScale = imageScale;
     this.initDummyPlane(target);
     const texture = new TextureLoader().load(url, this.updateScale);
+    texture.minFilter = option.minFilter;
     this._target.material = this.getMaterial(target, texture);
   }
 

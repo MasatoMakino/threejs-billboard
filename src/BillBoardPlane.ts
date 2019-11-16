@@ -1,6 +1,7 @@
 import { Mesh } from "three";
 import { BillBoardController } from "./BillBoardController";
 import { CameraChaser } from "./CameraChaser";
+import { BillBoardOptions, BillBoardOptionUtil } from "./BillBoard";
 
 export class BillBoardPlane extends Mesh {
   private obj: BillBoardController;
@@ -11,8 +12,9 @@ export class BillBoardPlane extends Mesh {
    * @param imageScale
    * @param option
    */
-  constructor(url: string, imageScale: number, option?: {}) {
+  constructor(url: string, imageScale: number, option?: BillBoardOptions) {
     super();
+    option = BillBoardOptionUtil.init(option);
     this.obj = new BillBoardController(this, url, imageScale, option);
     this.cameraChaser = new CameraChaser(this);
   }

@@ -1,5 +1,23 @@
-import { Sprite, SpriteMaterial, TextureLoader, NormalBlending } from "three";
+import { Sprite } from "three";
 import { BillBoardController } from "./BillBoardController";
+import { TextureFilter } from "three";
+import { LinearFilter } from "three";
+
+export interface BillBoardOptions {
+  minFilter?: TextureFilter;
+}
+
+export class BillBoardOptionUtil {
+  static init(option: BillBoardOptions): BillBoardOptions {
+    if (option == null) {
+      option = {};
+    }
+    if (option.minFilter == null) {
+      option.minFilter = LinearFilter;
+    }
+    return option;
+  }
+}
 
 /**
  * 画像ファイルをテクスチャとするビルボードクラス
@@ -12,9 +30,9 @@ export class BillBoard extends Sprite {
    * @param imageScale
    * @param option
    */
-  constructor(url: string, imageScale: number, option?: {}) {
+  constructor(url: string, imageScale: number, option?: BillBoardOptions) {
     super();
-    console.log(url, imageScale);
+    option = BillBoardOptionUtil.init(option);
     this.obj = new BillBoardController(this, url, imageScale, option);
   }
 
