@@ -8,6 +8,7 @@ import {
   initHelper,
   render
 } from "./common";
+import { LinearMipMapLinearFilter } from "three";
 
 const W = 640;
 const H = 480;
@@ -17,7 +18,7 @@ const onDomContentsLoaded = () => {
   initLight(scene);
   const camera = initCamera(scene, W, H);
   const renderer = initRenderer(W, H);
-  const control = initControl(camera);
+  const control = initControl(camera, renderer);
   initHelper(scene);
   initBillBoard(scene);
   render(control, renderer, scene, camera);

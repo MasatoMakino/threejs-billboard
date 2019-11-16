@@ -28,8 +28,8 @@ export function initCamera(scene, W, H) {
   return camera;
 }
 
-export function initControl(camera) {
-  const control = new OrbitControls(camera);
+export function initControl(camera, render) {
+  const control = new OrbitControls(camera, render.domElement);
   control.update();
   return control;
 }

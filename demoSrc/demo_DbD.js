@@ -20,7 +20,7 @@ const onDomContentsLoaded = () => {
   initLight(scene);
   const camera = initCamera(scene, W, H);
   const renderer = initRenderer(W, H);
-  const control = initControl(camera);
+  const control = initControl(camera, renderer);
   initHelper(scene);
   const calc = initScaleCalc(camera, renderer, scene);
   initBillBoard(scene, calc);
