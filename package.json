@@ -11,8 +11,8 @@
     "three": "^0.109.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
     "@types/easeljs": "^1.0.0",
     "@types/tweenjs": "^1.0.0",
     "babel-loader": "^8.0.6",
@@ -22,9 +22,9 @@
     "gulptask-tsc": "https://github.com/MasatoMakino/gulptask-tsc.git",
     "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
     "gulptask-webpack": "https://github.com/MasatoMakino/gulptask-webpack.git",
-    "husky": "^3.0.9",
-    "prettier": "^1.18.2",
-    "pretty-quick": "^2.0.0",
+    "husky": "^3.1.0",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
     "three": "^0.109.0"
   },
   "scripts": {
