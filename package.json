@@ -36,5 +36,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "dependencies": {
+    "threejs-texture-switching-loader": "https://github.com/MasatoMakino/threejs-texture-switching-loader.git"
   }
 }

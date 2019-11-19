@@ -6110,6 +6110,10 @@ three@^0.109.0:
   resolved "https://registry.yarnpkg.com/three/-/three-0.109.0.tgz#611c9ef860d10bd107695cead6c6abcd2422e5fd"
   integrity sha512-XT99T3Hvgh2CEvwPdHYEunNE+clLK6KiT1U8En7YOgIqTUw4MrLeIc8zxQAJ6wbP8hhJaY5+Cff3jwBPpBa0gA==
 
+"threejs-texture-switching-loader@https://github.com/MasatoMakino/threejs-texture-switching-loader.git":
+  version "0.1.3"
+  resolved "https://github.com/MasatoMakino/threejs-texture-switching-loader.git#9bd462d3db2c3a06d25000e555ca1392c6cca025"
+
 through2-filter@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/through2-filter/-/through2-filter-3.0.0.tgz#700e786df2367c2c88cd8aa5be4cf9c1e7831254"
