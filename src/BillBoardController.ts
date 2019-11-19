@@ -4,7 +4,7 @@ import { Mesh, Sprite } from "three";
 import { MeshBasicMaterial } from "three";
 import { PlaneBufferGeometry } from "three";
 import { BillBoardOptions } from "./BillBoard";
-import { TextureSwitchingLoader } from "threejs-texture-switching-loader";
+import { TextureLoader } from "three";
 
 export type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
 export type BillBoardObject3D = Mesh | Sprite;
@@ -39,8 +39,7 @@ export class BillBoardController {
     mat.visible = false;
     this._target.material = mat;
 
-    const loader = new TextureSwitchingLoader();
-    loader.load(url).then(texture => {
+    new TextureLoader().load(url, texture => {
       texture.minFilter = option.minFilter;
       mat.map = texture;
       mat.needsUpdate = true;
