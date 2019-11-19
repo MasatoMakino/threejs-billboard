@@ -1,9 +1,9 @@
-import { TextureLoader } from "three";
 import { SpriteMaterial } from "three";
 import { NormalBlending } from "three";
 import { Mesh, Sprite } from "three";
 import { MeshBasicMaterial } from "three";
 import { PlaneBufferGeometry } from "three";
+import { TextureSwitchingLoader } from "threejs-texture-switching-loader";
 /**
  * ビルボード処理に必要な機能を備えたクラス。
  * MeshやSprite内でこのクラスを呼び出すことで、ビルボードとして機能する。
@@ -33,14 +33,21 @@ export class BillBoardController {
         this._target = target;
         this._imageScale = imageScale;
         this.initDummyPlane(target);
-        const texture = new TextureLoader().load(url, this.updateScale);
-        texture.minFilter = option.minFilter;
-        this._target.material = this.getMaterial(target, texture);
+        const mat = this.getMaterial(target);
+        mat.visible = false;
+        this._target.material = mat;
+        const loader = new TextureSwitchingLoader();
+        loader.load(url).then(texture => {
+            texture.minFilter = option.minFilter;
+            mat.map = texture;
+            mat.needsUpdate = true;
+            mat.visible = true;
+            this.updateScale();
+        });
     }
-    getMaterial(target, texture) {
+    getMaterial(target) {
         if (target instanceof Mesh) {
             return new MeshBasicMaterial({
-                map: texture,
                 blending: NormalBlending,
                 depthTest: true,
                 transparent: true
@@ -48,7 +55,6 @@ export class BillBoardController {
         }
         if (target instanceof Sprite) {
             return new SpriteMaterial({
-                map: texture,
                 blending: NormalBlending,
                 depthTest: true,
                 transparent: true
@@ -62,7 +68,7 @@ export class BillBoardController {
         }
     }
     initGeometry(image) {
-        if (this._target instanceof Mesh === false)
+        if (!(this._target instanceof Mesh))
             return;
         if (this.isInitGeometry)
             return;
