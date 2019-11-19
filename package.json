@@ -1,6 +1,6 @@
 {
   "name": "threejs-billboard",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "main": "./bin/index.js",
   "types": "./bin/index.d.ts",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/threejs-billboard.git",
@@ -37,7 +37,5 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
-  "dependencies": {
-    "threejs-texture-switching-loader": "https://github.com/MasatoMakino/threejs-texture-switching-loader.git"
-  }
+  "dependencies": {}
 }

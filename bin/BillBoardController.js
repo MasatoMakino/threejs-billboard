@@ -3,7 +3,7 @@ import { NormalBlending } from "three";
 import { Mesh, Sprite } from "three";
 import { MeshBasicMaterial } from "three";
 import { PlaneBufferGeometry } from "three";
-import { TextureSwitchingLoader } from "threejs-texture-switching-loader";
+import { TextureLoader } from "three";
 /**
  * ビルボード処理に必要な機能を備えたクラス。
  * MeshやSprite内でこのクラスを呼び出すことで、ビルボードとして機能する。
@@ -36,8 +36,7 @@ export class BillBoardController {
         const mat = this.getMaterial(target);
         mat.visible = false;
         this._target.material = mat;
-        const loader = new TextureSwitchingLoader();
-        loader.load(url).then(texture => {
+        new TextureLoader().load(url, texture => {
             texture.minFilter = option.minFilter;
             mat.map = texture;
             mat.needsUpdate = true;
