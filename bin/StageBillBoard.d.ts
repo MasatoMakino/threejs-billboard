@@ -4,14 +4,15 @@ export declare class StageBillBoard extends Sprite {
     private _imageScale;
     constructor(width: number, height: number, imageScale?: number, option?: {});
     private initTexture;
+    get imageScale(): number;
     /**
-    * 画像のスケールを指定する。
-    *
-    * ScaleCalculator.getDotByDotScale関数で得られた値を設定すると、ビルボードはテクスチャ画像のサイズのまま表示される。
-    *
-    * @param value
-    */
-    imageScale: number;
+     * 画像のスケールを指定する。
+     *
+     * ScaleCalculator.getDotByDotScale関数で得られた値を設定すると、ビルボードはテクスチャ画像のサイズのまま表示される。
+     *
+     * @param value
+     */
+    set imageScale(value: number);
     /**
      * テクスチャ画像のアスペクト比を維持したままスケールを調整する。
      */
@@ -23,7 +24,7 @@ export declare class StageBillBoard extends Sprite {
      */
     setVisible(visible: boolean): void;
     private getMap;
-    readonly stage: createjs.Stage;
+    get stage(): createjs.Stage;
     setNeedUpdate(): void;
 }
 //# sourceMappingURL=StageBillBoard.d.ts.map

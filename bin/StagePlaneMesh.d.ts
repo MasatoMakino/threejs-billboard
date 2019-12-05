@@ -31,7 +31,7 @@ export declare class StagePlaneMesh extends Mesh {
      */
     setVisible(visible: boolean): void;
     private getMap;
-    readonly stage: createjs.Stage;
+    get stage(): createjs.Stage;
     setNeedUpdate(): void;
 }
 //# sourceMappingURL=StagePlaneMesh.d.ts.map

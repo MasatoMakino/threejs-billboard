@@ -21,6 +21,6 @@ export declare class StageTexture extends Texture {
      * このテクスチャに紐づけられたcreatejs.stageインスタンスを取得する。
      * カンバスへはstage.canvasでアクセスする。
      */
-    readonly stage: createjs.Stage;
+    get stage(): createjs.Stage;
 }
 //# sourceMappingURL=StageTexture.d.ts.map
