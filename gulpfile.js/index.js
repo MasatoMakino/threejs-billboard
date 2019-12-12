@@ -1,6 +1,6 @@
 "use strict";
 
-const { src, dest, series, watch } = require("gulp");
+const { series } = require("gulp");
 
 const doc = require("gulptask-tsdoc").get();
 exports.doc = doc;
@@ -8,26 +8,18 @@ exports.doc = doc;
 const server = require("gulptask-dev-server").get("./docs/demo");
 exports.server = server;
 
-const copyGlob = "./demoSrc/**/*.{html,png,jpg,jpeg}";
-const copy = () => {
-  return src(copyGlob, { base: "./demoSrc/" }).pipe(dest("./docs/demo"));
-};
-
-const { bundleDevelopment, watchBundle } = require("gulptask-webpack")(
-  "./webpack.config.js"
-);
-exports.bundleDevelopment = bundleDevelopment;
+const { bundleDemo, watchDemo } = require("gulptask-demo-page").get({
+  externalScripts: ["https://code.createjs.com/1.0.0/createjs.min.js"],
+  body: `<canvas id="webgl-canvas" width="640" height="480"></canvas>`
+});
 
 const { tsc, watchTsc } = require("gulptask-tsc").get();
 
-const watchTasks = cb => {
-  watchBundle();
+const watchTasks = async () => {
+  watchDemo();
   watchTsc();
-  watch(copyGlob, copy);
-  cb();
 };
+
 exports.watchTasks = watchTasks;
-
 exports.start_dev = series(watchTasks, server);
-
-exports.build = series(tsc, copy, bundleDevelopment, doc);
+exports.build = series(tsc, bundleDemo, doc);

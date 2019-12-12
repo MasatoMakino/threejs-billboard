@@ -9,13 +9,7 @@ billboard module for three.js
 
 ## Demo
 
-[Demo : Billboard](https://masatomakino.github.io/threejs-billboard/demo/)
-
-[Demo : Sprite with canvas](https://masatomakino.github.io/threejs-billboard/demo/stageBillboard.html)
-
-[Demo : PlaneMesh with canvas](https://masatomakino.github.io/threejs-billboard/demo/stagePlaneMesh.html)
-
-[Demo : Dot-by-dot billboard](https://masatomakino.github.io/threejs-billboard/demo/dotByDot.html)
+[Demo page](https://masatomakino.github.io/threejs-billboard/demo/)
 
 ## Getting Started
 
@@ -66,7 +60,7 @@ const calc = new ScaleCalculator(camera, renderer, scene);
 const billboard = new BillBoard("./map01.png");
 billboard.material.sizeAttenuation = false;
 billboard.imageScale = calc.getNonAttenuateScale();
-``` 
+```
 
 ## API documents
 
