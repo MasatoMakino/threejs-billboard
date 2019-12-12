@@ -51,6 +51,17 @@ export function initHelper(scene) {
   scene.add(axesHelper);
 }
 
+export function initSceneSet(W, H) {
+  const scene = initScene();
+  initLight(scene);
+  const camera = initCamera(scene, W, H);
+  const renderer = initRenderer(W, H);
+  const control = initControl(camera, renderer);
+  initHelper(scene);
+  render(control, renderer, scene, camera);
+  return scene;
+}
+
 export function render(control, renderer, scene, camera) {
   const rendering = () => {
     control.update();

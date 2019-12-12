@@ -1,27 +1,12 @@
 import { BillBoard } from "../bin/index";
-import {
-  initScene,
-  initLight,
-  initCamera,
-  initControl,
-  initRenderer,
-  initHelper,
-  render
-} from "./common";
-import { LinearMipMapLinearFilter } from "three";
+import { initSceneSet } from "./common";
 
 const W = 640;
 const H = 480;
 
 const onDomContentsLoaded = () => {
-  const scene = initScene();
-  initLight(scene);
-  const camera = initCamera(scene, W, H);
-  const renderer = initRenderer(W, H);
-  const control = initControl(camera, renderer);
-  initHelper(scene);
+  const scene = initSceneSet(W, H);
   initBillBoard(scene);
-  render(control, renderer, scene, camera);
 };
 
 const initBillBoard = scene => {
