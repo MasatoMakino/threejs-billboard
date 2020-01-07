@@ -1,4 +1,4 @@
-import { StagePlaneMesh } from "../bin/index";
+import { StagePlaneMesh } from "../lib/index";
 import {
   initScene,
   initLight,

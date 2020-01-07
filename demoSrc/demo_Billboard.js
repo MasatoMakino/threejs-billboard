@@ -1,4 +1,4 @@
-import { BillBoard } from "../bin/index";
+import { BillBoard } from "../lib/";
 import { initSceneSet } from "./common";
 
 const W = 640;

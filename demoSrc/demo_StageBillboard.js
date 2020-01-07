@@ -1,4 +1,4 @@
-import { StageBillBoard } from "../bin/index";
+import { StageBillBoard } from "../lib/index";
 import {
   initScene,
   initLight,
