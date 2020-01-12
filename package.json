@@ -12,19 +12,20 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "createjs": "^1.0.1",
+    "@tweenjs/tween.js": "^18.5.0",
+    "pixi.js": "^5.2.0",
     "three": "^0.111.0"
   },
   "devDependencies": {
-    "@types/easeljs": "^1.0.0",
-    "@types/tweenjs": "^1.0.0",
-    "createjs": "^1.0.1",
+    "@tweenjs/tween.js": "^18.5.0",
+    "@types/tween.js": "^17.2.0",
     "gulp": "^4.0.2",
     "gulptask-demo-page": "https://github.com/MasatoMakino/gulptask-demo-page.git",
     "gulptask-dev-server": "https://github.com/MasatoMakino/gulptask-dev-server.git",
     "gulptask-tsc": "https://github.com/MasatoMakino/gulptask-tsc.git",
     "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
     "husky": "^4.0.0",
+    "pixi.js": "^5.2.0",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
     "three": "^0.112.1"
