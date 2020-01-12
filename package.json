@@ -12,13 +12,13 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@tweenjs/tween.js": "^18.5.0",
     "pixi.js": "^5.2.0",
     "three": "^0.111.0"
   },
   "devDependencies": {
     "@tweenjs/tween.js": "^18.5.0",
     "@types/tween.js": "^17.2.0",
+    "date-fns": "^2.9.0",
     "gulp": "^4.0.2",
     "gulptask-demo-page": "https://github.com/MasatoMakino/gulptask-demo-page.git",
     "gulptask-dev-server": "https://github.com/MasatoMakino/gulptask-dev-server.git",

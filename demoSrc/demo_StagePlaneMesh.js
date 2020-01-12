@@ -1,14 +1,6 @@
 import { StagePlaneMesh } from "../lib/index";
-import {
-  initScene,
-  initLight,
-  initCamera,
-  initControl,
-  initRenderer,
-  initHelper,
-  render,
-  initSceneSet
-} from "./common";
+import { initSceneSet } from "./common";
+import { Graphics, Text } from "pixi.js";
 
 const W = 640;
 const H = 480;
@@ -34,13 +26,17 @@ const initBillBoard = scene => {
 };
 
 const initMap = mesh => {
-  const shape = new createjs.Shape();
-  shape.graphics
-    .beginFill("#F00")
+  const shape = new Graphics();
+  shape
+    .beginFill(0xff0000)
     .drawRect(0, 0, 320, 320)
     .endFill();
   mesh.stage.addChild(shape);
-  const text = new createjs.Text("Hello World", "48px Arial", "#ff7700");
+  const text = new Text("Hello World", {
+    fontSize: 48,
+    fontFamily: "Arial",
+    fill: "#ff7700"
+  });
   mesh.stage.addChild(text);
   text.x = 20;
   text.y = 160;
