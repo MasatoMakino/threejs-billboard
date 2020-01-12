@@ -1,6 +1,7 @@
 import { LinearFilter, NormalBlending, Sprite, SpriteMaterial } from "three";
-import { StageTexture } from "./StageTexture";
 import { StageObject3D } from "./StageObject3D";
+import { StageTexture } from "./StageTexture";
+import Container = PIXI.Container;
 
 export class StageBillBoard extends Sprite {
   private _imageScale: number;
@@ -50,7 +51,7 @@ export class StageBillBoard extends Sprite {
    */
   private updateScale(): void {
     const map: StageTexture = <StageTexture>this.material.map;
-    const canvas: HTMLCanvasElement = <HTMLCanvasElement>map.stage.canvas;
+    const canvas = map.domElement;
     this.scale.set(
       canvas.width * this._imageScale,
       canvas.height * this._imageScale,
@@ -71,7 +72,7 @@ export class StageBillBoard extends Sprite {
     return this.material.map as StageTexture;
   }
 
-  get stage(): createjs.Stage {
+  get stage(): Container {
     return this.getMap().stage;
   }
 

@@ -1,9 +1,10 @@
 import { Texture, LinearFilter } from "three";
-import Stage = createjs.Stage;
-import Ticker = createjs.Ticker;
+import * as PIXI from "pixi.js";
+import { Application, Ticker, Container } from "pixi.js";
 
 export class StageTexture extends Texture {
-  private _stage: Stage;
+  private _app: Application;
+  private _stage: Container;
   private _needUpdateCanvas: boolean;
   private isStart: boolean;
 
@@ -13,15 +14,17 @@ export class StageTexture extends Texture {
   }
 
   protected init(width: number, height: number): void {
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
+    this._app = new PIXI.Application({
+      autoStart: false,
+      transparent: true,
+      width: width,
+      height: height
+    });
 
-    this.image = canvas;
+    this.image = this._app.view;
     this.minFilter = LinearFilter;
 
-    this._stage = new createjs.Stage(canvas);
-    this._stage.enableDOMEvents(false);
+    this._stage = this._app.stage;
     this.isStart = false;
     this.start();
   }
@@ -32,7 +35,7 @@ export class StageTexture extends Texture {
   public start(): void {
     if (this.isStart) return;
     this.isStart = true;
-    Ticker.addEventListener("tick", this.onRequestFrame);
+    Ticker.shared.add(this.onRequestFrame);
   }
 
   /**
@@ -41,11 +44,11 @@ export class StageTexture extends Texture {
   public stop(): void {
     if (this.isStart) return;
     this.isStart = false;
-    Ticker.removeEventListener("tick", this.onRequestFrame);
+    Ticker.shared.remove(this.onRequestFrame);
   }
 
   protected update(): void {
-    this._stage.update();
+    this._app.render();
     this.needsUpdate = true;
   }
 
@@ -63,7 +66,11 @@ export class StageTexture extends Texture {
    * このテクスチャに紐づけられたcreatejs.stageインスタンスを取得する。
    * カンバスへはstage.canvasでアクセスする。
    */
-  get stage(): createjs.Stage {
+  get stage(): Container {
     return this._stage;
+  }
+
+  get domElement(): HTMLCanvasElement {
+    return this._app.view;
   }
 }
