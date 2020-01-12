@@ -1,11 +1,11 @@
 import {
-  Vector3,
-  Object3D,
-  WebGLRenderer,
-  Scene,
   Camera,
   Geometry,
-  Material
+  Material,
+  Object3D,
+  Scene,
+  Vector3,
+  WebGLRenderer
 } from "three";
 
 export class CameraChaser {

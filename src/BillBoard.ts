@@ -1,7 +1,5 @@
-import { Sprite } from "three";
 import { BillBoardController } from "./BillBoardController";
-import { TextureFilter } from "three";
-import { LinearFilter } from "three";
+import { Sprite, TextureFilter, LinearFilter } from "three";
 
 export interface BillBoardOptions {
   minFilter?: TextureFilter;

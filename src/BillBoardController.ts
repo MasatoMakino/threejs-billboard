@@ -1,10 +1,13 @@
-import { SpriteMaterial } from "three";
-import { NormalBlending } from "three";
-import { Mesh, Sprite } from "three";
-import { MeshBasicMaterial } from "three";
-import { PlaneBufferGeometry } from "three";
+import {
+  Mesh,
+  MeshBasicMaterial,
+  NormalBlending,
+  PlaneBufferGeometry,
+  Sprite,
+  SpriteMaterial,
+  TextureLoader
+} from "three";
 import { BillBoardOptions } from "./BillBoard";
-import { TextureLoader } from "three";
 
 export type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
 export type BillBoardObject3D = Mesh | Sprite;

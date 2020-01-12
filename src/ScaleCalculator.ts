@@ -1,16 +1,16 @@
 import {
+  Math as ThreeMath,
+  Mesh,
+  MeshBasicMaterial,
   Object3D,
   PerspectiveCamera,
-  WebGLRenderer,
-  Vector2,
-  Vector3,
   Plane,
   Scene,
   SphereBufferGeometry,
-  Mesh,
-  MeshBasicMaterial
+  Vector2,
+  Vector3,
+  WebGLRenderer
 } from "three";
-import { Math as ThreeMath } from "three";
 
 /**
  * ビルボードのスケール値をカメラとレンダラーから算出するためのクラス。
