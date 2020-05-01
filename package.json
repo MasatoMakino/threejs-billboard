@@ -1,6 +1,6 @@
 {
   "name": "threejs-billboard",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "module": "./esm/index.js",
@@ -12,27 +12,28 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "pixi.js": "^5.2.0",
-    "three": "^0.111.0"
+    "pixi.js": "^5.2.3",
+    "three": "^0.116.0"
   },
   "devDependencies": {
     "@tweenjs/tween.js": "^18.5.0",
-    "@types/tween.js": "^17.2.0",
-    "date-fns": "^2.9.0",
+    "@types/tween.js": "^18.5.0",
+    "date-fns": "^2.12.0",
     "gulp": "^4.0.2",
     "gulptask-demo-page": "https://github.com/MasatoMakino/gulptask-demo-page.git",
     "gulptask-dev-server": "https://github.com/MasatoMakino/gulptask-dev-server.git",
     "gulptask-tsc": "https://github.com/MasatoMakino/gulptask-tsc.git",
     "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
-    "husky": "^4.0.0",
-    "pixi.js": "^5.2.0",
-    "prettier": "^1.19.1",
+    "husky": "^4.2.5",
+    "pixi.js": "^5.2.3",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "three": "^0.112.1"
+    "three": "^0.116.0"
   },
   "scripts": {
     "start:dev": "gulp start_dev",
     "build": "gulp build",
+    "build:clean": "gulp build_clean && npm run doc:card",
     "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png",
     "checkout:docs": "git checkout HEAD ./docs/api/ ./docs/demo/"
   },

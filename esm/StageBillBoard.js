@@ -1,6 +1,7 @@
-import { LinearFilter, NormalBlending, Sprite, SpriteMaterial } from "three";
-import { StageTexture } from "./StageTexture";
-import { StageObject3D } from "./StageObject3D";
+import {LinearFilter, NormalBlending, Sprite, SpriteMaterial} from "three";
+import {StageObject3D} from "./StageObject3D";
+import {StageTexture} from "./StageTexture";
+
 export class StageBillBoard extends Sprite {
     constructor(width, height, imageScale = 1, option) {
         super();
@@ -37,7 +38,7 @@ export class StageBillBoard extends Sprite {
      */
     updateScale() {
         const map = this.material.map;
-        const canvas = map.stage.canvas;
+        const canvas = map.domElement;
         this.scale.set(canvas.width * this._imageScale, canvas.height * this._imageScale, 1);
     }
     /**

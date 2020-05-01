@@ -1,6 +1,7 @@
-import { Mesh } from "three";
-import { CameraChaser } from "./CameraChaser";
-import { BillBoardOptions } from "./BillBoard";
+import {Mesh} from "three";
+import {BillBoardOptions} from "./BillBoard";
+import {CameraChaser} from "./CameraChaser";
+
 export declare class BillBoardPlane extends Mesh {
     private obj;
     cameraChaser: CameraChaser;

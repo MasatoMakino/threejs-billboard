@@ -1,7 +1,8 @@
-import { Mesh } from "three";
-import { BillBoardController } from "./BillBoardController";
-import { CameraChaser } from "./CameraChaser";
-import { BillBoardOptionUtil } from "./BillBoard";
+import {Mesh} from "three";
+import {BillBoardOptionUtil} from "./BillBoard";
+import {BillBoardController} from "./BillBoardController";
+import {CameraChaser} from "./CameraChaser";
+
 export class BillBoardPlane extends Mesh {
     /**
      * コンストラクタ

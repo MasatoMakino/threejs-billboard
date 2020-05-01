@@ -1,6 +1,8 @@
-/// <reference types="easeljs" />
-import { Texture } from "three";
+import {Container} from "pixi.js";
+import {Texture} from "three";
+
 export declare class StageTexture extends Texture {
+    private _app;
     private _stage;
     private _needUpdateCanvas;
     private isStart;
@@ -21,6 +23,7 @@ export declare class StageTexture extends Texture {
      * このテクスチャに紐づけられたcreatejs.stageインスタンスを取得する。
      * カンバスへはstage.canvasでアクセスする。
      */
-    get stage(): createjs.Stage;
+    get stage(): Container;
+    get domElement(): HTMLCanvasElement;
 }
 //# sourceMappingURL=StageTexture.d.ts.map

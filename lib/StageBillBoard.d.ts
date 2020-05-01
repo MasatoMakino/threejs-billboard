@@ -1,5 +1,6 @@
-/// <reference types="easeljs" />
-import { Sprite } from "three";
+import {Sprite} from "three";
+import Container = PIXI.Container;
+
 export declare class StageBillBoard extends Sprite {
     private _imageScale;
     constructor(width: number, height: number, imageScale?: number, option?: {});
@@ -24,7 +25,7 @@ export declare class StageBillBoard extends Sprite {
      */
     setVisible(visible: boolean): void;
     private getMap;
-    get stage(): createjs.Stage;
+    get stage(): Container;
     setNeedUpdate(): void;
 }
 //# sourceMappingURL=StageBillBoard.d.ts.map

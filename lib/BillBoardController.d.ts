@@ -1,7 +1,6 @@
-import { SpriteMaterial } from "three";
-import { Mesh, Sprite } from "three";
-import { MeshBasicMaterial } from "three";
-import { BillBoardOptions } from "./BillBoard";
+import {Mesh, MeshBasicMaterial, Sprite, SpriteMaterial} from "three";
+import {BillBoardOptions} from "./BillBoard";
+
 export declare type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
 export declare type BillBoardObject3D = Mesh | Sprite;
 /**

@@ -1,6 +1,6 @@
 "use strict";
 
-const { series } = require("gulp");
+const { series, parallel } = require("gulp");
 
 const doc = require("gulptask-tsdoc").get();
 exports.doc = doc;
@@ -10,11 +10,11 @@ exports.server = server;
 
 const { bundleDemo, watchDemo } = require("gulptask-demo-page").get({
   externalScripts: ["https://code.createjs.com/1.0.0/createjs.min.js"],
-  body: `<canvas id="webgl-canvas" width="640" height="480"></canvas>`
+  body: `<canvas id="webgl-canvas" width="640" height="480"></canvas>`,
 });
 
-const { tsc, watchTsc } = require("gulptask-tsc").get({
-  projects: ["tsconfig.json", "tsconfig.esm.json"]
+const { tsc, watchTsc, tscClean } = require("gulptask-tsc").get({
+  projects: ["tsconfig.json", "tsconfig.esm.json"],
 });
 
 const watchTasks = async () => {
@@ -24,4 +24,5 @@ const watchTasks = async () => {
 
 exports.watchTasks = watchTasks;
 exports.start_dev = series(watchTasks, server);
-exports.build = series(tsc, bundleDemo, doc);
+exports.build = series(tsc, parallel(bundleDemo, doc));
+exports.build_clean = series(tscClean, parallel(bundleDemo, doc));

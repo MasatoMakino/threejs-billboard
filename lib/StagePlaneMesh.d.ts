@@ -1,6 +1,7 @@
-/// <reference types="easeljs" />
-import { Mesh } from "three";
-import { CameraChaser } from "./CameraChaser";
+import {Container} from "pixi.js";
+import {Mesh} from "three";
+import {CameraChaser} from "./CameraChaser";
+
 /**
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。
@@ -31,7 +32,7 @@ export declare class StagePlaneMesh extends Mesh {
      */
     setVisible(visible: boolean): void;
     private getMap;
-    get stage(): createjs.Stage;
+    get stage(): Container;
     setNeedUpdate(): void;
 }
 //# sourceMappingURL=StagePlaneMesh.d.ts.map

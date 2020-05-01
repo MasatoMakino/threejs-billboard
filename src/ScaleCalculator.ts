@@ -1,5 +1,5 @@
 import {
-  Math as ThreeMath,
+  MathUtils as ThreeMath,
   Mesh,
   MeshBasicMaterial,
   Object3D,
@@ -9,7 +9,7 @@ import {
   SphereBufferGeometry,
   Vector2,
   Vector3,
-  WebGLRenderer
+  WebGLRenderer,
 } from "three";
 
 /**
@@ -52,7 +52,7 @@ export class ScaleCalculator {
     const mat = new MeshBasicMaterial({
       transparent: true,
       opacity: 0.0,
-      depthTest: false
+      depthTest: false,
     });
     const renderTarget = new Mesh(geo, mat);
     renderTarget.renderOrder = Number.MIN_SAFE_INTEGER;

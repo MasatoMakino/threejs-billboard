@@ -1,5 +1,7 @@
-import { Texture, LinearFilter } from "three";
-var Ticker = createjs.Ticker;
+import {LinearFilter, Texture} from "three";
+import * as PIXI from "pixi.js";
+import {Ticker} from "pixi.js";
+
 export class StageTexture extends Texture {
     constructor(width, height) {
         super();
@@ -12,13 +14,15 @@ export class StageTexture extends Texture {
         this.init(width, height);
     }
     init(width, height) {
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        this.image = canvas;
+        this._app = new PIXI.Application({
+            autoStart: false,
+            transparent: true,
+            width: width,
+            height: height
+        });
+        this.image = this._app.view;
         this.minFilter = LinearFilter;
-        this._stage = new createjs.Stage(canvas);
-        this._stage.enableDOMEvents(false);
+        this._stage = this._app.stage;
         this.isStart = false;
         this.start();
     }
@@ -29,7 +33,7 @@ export class StageTexture extends Texture {
         if (this.isStart)
             return;
         this.isStart = true;
-        Ticker.addEventListener("tick", this.onRequestFrame);
+        Ticker.shared.add(this.onRequestFrame);
     }
     /**
      * テクスチャの更新を停止する
@@ -38,10 +42,10 @@ export class StageTexture extends Texture {
         if (this.isStart)
             return;
         this.isStart = false;
-        Ticker.removeEventListener("tick", this.onRequestFrame);
+        Ticker.shared.remove(this.onRequestFrame);
     }
     update() {
-        this._stage.update();
+        this._app.render();
         this.needsUpdate = true;
     }
     setNeedUpdate() {
@@ -53,5 +57,8 @@ export class StageTexture extends Texture {
      */
     get stage() {
         return this._stage;
+    }
+    get domElement() {
+        return this._app.view;
     }
 }

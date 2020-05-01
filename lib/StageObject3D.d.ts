@@ -1,5 +1,5 @@
-import { Sprite } from "three";
-import { Mesh } from "three";
+import {Mesh, Sprite} from "three";
+
 export declare class StageObject3D {
     /**
      * オブジェクトの表示/非表示を設定する。

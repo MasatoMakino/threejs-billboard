@@ -1,5 +1,5 @@
-import { Vector2, Vector3, Plane, SphereBufferGeometry, Mesh, MeshBasicMaterial } from "three";
-import { Math as ThreeMath } from "three";
+import {MathUtils as ThreeMath, Mesh, MeshBasicMaterial, Plane, SphereBufferGeometry, Vector2, Vector3} from "three";
+
 /**
  * ビルボードのスケール値をカメラとレンダラーから算出するためのクラス。
  */
