@@ -95,19 +95,19 @@
   StageBillBoard,
   StagePlaneMesh,
   ScaleCalculator
-} <span class="hljs-keyword">from</span> <span class="hljs-string">"threejs-billboard"</span>;</code></pre>
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;threejs-billboard&quot;</span>;</code></pre>
 				<a href="#show-billboard" id="show-billboard" style="color: inherit; text-decoration: none;">
 					<h3>Show billboard</h3>
 				</a>
 				<p>Add billboard in <a href="https://threejs.org/docs/#manual/en/introduction/Creating-a-scene">THREE.Scene</a>.</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">"./map01.png"</span>, <span class="hljs-number">0.1</span>);
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">&quot;./map01.png&quot;</span>, <span class="hljs-number">0.1</span>);
 scene.add(billboard);</code></pre>
 				<a href="#dot-by-dot-display" id="dot-by-dot-display" style="color: inherit; text-decoration: none;">
 					<h3>Dot-by-dot display</h3>
 				</a>
 				<p>If you want to display dot-by-dot billboard, get image scale with ScaleCalculator.</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> calc = <span class="hljs-keyword">new</span> ScaleCalculator(camera, renderer, scene);
-<span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">"./map01.png"</span>);
+<span class="hljs-keyword">const</span> billboard = <span class="hljs-keyword">new</span> BillBoard(<span class="hljs-string">&quot;./map01.png&quot;</span>);
 billboard.material.sizeAttenuation = <span class="hljs-literal">false</span>;
 billboard.imageScale = calc.getNonAttenuateScale();</code></pre>
 				<a href="#api-documents" id="api-documents" style="color: inherit; text-decoration: none;">
@@ -139,7 +139,7 @@ billboard.imageScale = calc.getNonAttenuateScale();</code></pre>
 					<li class=" tsd-kind-class">
 						<a href="classes/billboardoptionutil.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Option<wbr>Util</a>
 					</li>
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/billboardplane.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Plane</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -154,7 +154,7 @@ billboard.imageScale = calc.getNonAttenuateScale();</code></pre>
 					<li class=" tsd-kind-class">
 						<a href="classes/stageobject3d.html" class="tsd-kind-icon">Stage<wbr>Object3D</a>
 					</li>
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/stageplanemesh.html" class="tsd-kind-icon">Stage<wbr>Plane<wbr>Mesh</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -213,6 +213,5 @@ billboard.imageScale = calc.getNonAttenuateScale();</code></pre>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

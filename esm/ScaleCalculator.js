@@ -1,4 +1,4 @@
-import {MathUtils as ThreeMath, Mesh, MeshBasicMaterial, Plane, SphereBufferGeometry, Vector2, Vector3} from "three";
+import {MathUtils as ThreeMath, Mesh, MeshBasicMaterial, Plane, SphereBufferGeometry, Vector2, Vector3,} from "three";
 
 /**
  * ビルボードのスケール値をカメラとレンダラーから算出するためのクラス。
@@ -29,7 +29,7 @@ export class ScaleCalculator {
         const mat = new MeshBasicMaterial({
             transparent: true,
             opacity: 0.0,
-            depthTest: false
+            depthTest: false,
         });
         const renderTarget = new Mesh(geo, mat);
         renderTarget.renderOrder = Number.MIN_SAFE_INTEGER;

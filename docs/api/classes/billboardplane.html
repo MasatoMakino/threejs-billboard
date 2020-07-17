@@ -59,13 +59,24 @@
 					<a href="billboardplane.html">BillBoardPlane</a>
 				</li>
 			</ul>
-			<h1>Class BillBoardPlane</h1>
+			<h1>Class BillBoardPlane&lt;TGeometry, TMaterial&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>TGeometry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BufferGeometry</span></h4>
+					</li>
+					<li>
+						<h4>TMaterial<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">[]</span></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -202,7 +213,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mesh.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/d36b4e9/src/BillBoardPlane.ts#L8">src/BillBoardPlane.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/b3b320e/src/BillBoardPlane.ts#L8">src/BillBoardPlane.ts:8</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -244,7 +255,7 @@
 					<div class="tsd-signature tsd-kind-icon">camera<wbr>Chaser<span class="tsd-signature-symbol">:</span> <a href="camerachaser.html" class="tsd-signature-type">CameraChaser</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/d36b4e9/src/BillBoardPlane.ts#L8">src/BillBoardPlane.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/b3b320e/src/BillBoardPlane.ts#L8">src/BillBoardPlane.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -334,11 +345,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="geometry" class="tsd-anchor"></a>
 					<h3>geometry</h3>
-					<div class="tsd-signature tsd-kind-icon">geometry<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Geometry</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BufferGeometry</span></div>
+					<div class="tsd-signature tsd-kind-icon">geometry<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TGeometry</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="billboardplane.html">BillBoardPlane</a>.<a href="billboardplane.html#geometry">geometry</a></p>
 						<ul>
-							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:15</li>
+							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:18</li>
 						</ul>
 					</aside>
 				</section>
@@ -365,7 +376,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="billboardplane.html">BillBoardPlane</a>.<a href="billboardplane.html#ismesh">isMesh</a></p>
 						<ul>
-							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:19</li>
+							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:22</li>
 						</ul>
 					</aside>
 				</section>
@@ -400,11 +411,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="material" class="tsd-anchor"></a>
 					<h3>material</h3>
-					<div class="tsd-signature tsd-kind-icon">material<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Material</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">material<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TMaterial</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="billboardplane.html">BillBoardPlane</a>.<a href="billboardplane.html#material">material</a></p>
 						<ul>
-							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:16</li>
+							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:19</li>
 						</ul>
 					</aside>
 				</section>
@@ -490,7 +501,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="billboardplane.html">BillBoardPlane</a>.<a href="billboardplane.html#morphtargetdictionary">morphTargetDictionary</a></p>
 						<ul>
-							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:18</li>
+							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:21</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -509,7 +520,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="billboardplane.html">BillBoardPlane</a>.<a href="billboardplane.html#morphtargetinfluences">morphTargetInfluences</a></p>
 						<ul>
-							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:17</li>
+							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:20</li>
 						</ul>
 					</aside>
 				</section>
@@ -546,7 +557,7 @@
 					<div class="tsd-signature tsd-kind-icon">obj<span class="tsd-signature-symbol">:</span> <a href="billboardcontroller.html" class="tsd-signature-type">BillBoardController</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/d36b4e9/src/BillBoardPlane.ts#L7">src/BillBoardPlane.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/b3b320e/src/BillBoardPlane.ts#L7">src/BillBoardPlane.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -774,7 +785,7 @@
 						<p>Inherited from <a href="billboardplane.html">BillBoardPlane</a>.<a href="billboardplane.html#type">type</a></p>
 						<p>Overrides Object3D.type</p>
 						<ul>
-							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:20</li>
+							<li>Defined in node_modules/three/src/objects/Mesh.d.ts:23</li>
 						</ul>
 					</aside>
 				</section>
@@ -881,7 +892,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/d36b4e9/src/BillBoardPlane.ts#L22">src/BillBoardPlane.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/b3b320e/src/BillBoardPlane.ts#L22">src/BillBoardPlane.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -895,7 +906,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/d36b4e9/src/BillBoardPlane.ts#L31">src/BillBoardPlane.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/MasatoMakino/threejs-billboard/blob/b3b320e/src/BillBoardPlane.ts#L31">src/BillBoardPlane.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1503,7 +1514,7 @@
 								<p>Inherited from <a href="billboardplane.html">BillBoardPlane</a>.<a href="billboardplane.html#raycast">raycast</a></p>
 								<p>Overrides Object3D.raycast</p>
 								<ul>
-									<li>Defined in node_modules/three/src/objects/Mesh.d.ts:23</li>
+									<li>Defined in node_modules/three/src/objects/Mesh.d.ts:26</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2221,7 +2232,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="billboardplane.html">BillBoardPlane</a>.<a href="billboardplane.html#updatemorphtargets">updateMorphTargets</a></p>
 								<ul>
-									<li>Defined in node_modules/three/src/objects/Mesh.d.ts:22</li>
+									<li>Defined in node_modules/three/src/objects/Mesh.d.ts:25</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2310,7 +2321,7 @@
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class="current tsd-kind-class tsd-has-type-parameter">
 						<a href="billboardplane.html" class="tsd-kind-icon">Bill<wbr>Board<wbr>Plane</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
@@ -2578,7 +2589,7 @@
 					<li class=" tsd-kind-class">
 						<a href="stageobject3d.html" class="tsd-kind-icon">Stage<wbr>Object3D</a>
 					</li>
-					<li class=" tsd-kind-class">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="stageplanemesh.html" class="tsd-kind-icon">Stage<wbr>Plane<wbr>Mesh</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -2637,6 +2648,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
