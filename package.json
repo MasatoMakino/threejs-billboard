@@ -33,8 +33,7 @@
   "scripts": {
     "start:dev": "gulp start_dev",
     "build": "gulp build",
-    "build:clean": "gulp build_clean && npm run doc:card",
-    "doc:card": "repoimg -n MasatoMakino/threejs-billboard -o ./docs/card.png",
+    "build:clean": "gulp build_clean",
     "checkout:docs": "git checkout HEAD ./docs/api/ ./docs/demo/"
   },
   "husky": {

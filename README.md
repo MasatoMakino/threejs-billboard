@@ -2,10 +2,10 @@
 
 billboard module for three.js
 
-[Github repository](https://github.com/MasatoMakino/threejs-billboard)
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/5e46ba2a716da782e45e/maintainability)](https://codeclimate.com/github/MasatoMakino/threejs-billboard/maintainability)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+
+[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=MasatoMakino&repo=threejs-billboard&show_owner=true)](https://github.com/MasatoMakino/threejs-billboard)
 
 ## Demo
 
@@ -38,7 +38,7 @@ import {
   BillBoard,
   StageBillBoard,
   StagePlaneMesh,
-  ScaleCalculator
+  ScaleCalculator,
 } from "threejs-billboard";
 ```
 
