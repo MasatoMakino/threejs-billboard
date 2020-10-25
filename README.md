@@ -15,10 +15,10 @@ billboard module for three.js
 
 ### Install
 
-threejs-billboard depend on [three.js](https://threejs.org/) and [CreateJS / EaselJS](https://github.com/CreateJS/EaselJS).
+threejs-billboard depend on [three.js](https://threejs.org/) and [PixiJS](https://github.com/pixijs/pixi.js).
 
 ```bash
-npm install three easeljs --save-dev
+npm install three pixi.js --save-dev
 ```
 
 and
@@ -68,4 +68,4 @@ billboard.imageScale = calc.getNonAttenuateScale();
 
 ## License
 
-threejs-billboard is [MIT licensed](LICENSE).
+[MIT licensed](LICENSE).
