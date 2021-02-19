@@ -1,6 +1,5 @@
-import {BillBoardController} from "./BillBoardController";
-import {LinearFilter, Sprite} from "three";
-
+import { BillBoardController } from "./BillBoardController";
+import { Sprite, LinearFilter } from "three";
 export class BillBoardOptionUtil {
     static init(option) {
         if (option == null) {

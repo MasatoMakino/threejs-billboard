@@ -1,8 +1,7 @@
-import {Mesh, MeshBasicMaterial, NormalBlending, PlaneBufferGeometry} from "three";
-import {CameraChaser} from "./CameraChaser";
-import {StageObject3D} from "./StageObject3D";
-import {StageTexture} from "./StageTexture";
-
+import { Mesh, MeshBasicMaterial, NormalBlending, PlaneBufferGeometry } from "three";
+import { CameraChaser } from "./CameraChaser";
+import { StageObject3D } from "./StageObject3D";
+import { StageTexture } from "./StageTexture";
 /**
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。

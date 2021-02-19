@@ -1,13 +1,4 @@
-import {
-    Mesh,
-    MeshBasicMaterial,
-    NormalBlending,
-    PlaneBufferGeometry,
-    Sprite,
-    SpriteMaterial,
-    TextureLoader
-} from "three";
-
+import { Mesh, MeshBasicMaterial, NormalBlending, PlaneBufferGeometry, Sprite, SpriteMaterial, TextureLoader } from "three";
 /**
  * ビルボード処理に必要な機能を備えたクラス。
  * MeshやSprite内でこのクラスを呼び出すことで、ビルボードとして機能する。

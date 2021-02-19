@@ -1,7 +1,6 @@
-import {LinearFilter, Texture} from "three";
+import { Texture, LinearFilter } from "three";
 import * as PIXI from "pixi.js";
-import {Ticker} from "pixi.js";
-
+import { Ticker } from "pixi.js";
 export class StageTexture extends Texture {
     constructor(width, height) {
         super();

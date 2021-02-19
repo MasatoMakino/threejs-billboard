@@ -1,7 +1,6 @@
-import {LinearFilter, NormalBlending, Sprite, SpriteMaterial} from "three";
-import {StageObject3D} from "./StageObject3D";
-import {StageTexture} from "./StageTexture";
-
+import { LinearFilter, NormalBlending, Sprite, SpriteMaterial } from "three";
+import { StageObject3D } from "./StageObject3D";
+import { StageTexture } from "./StageTexture";
 export class StageBillBoard extends Sprite {
     constructor(width, height, imageScale = 1, option) {
         super();

@@ -1,7 +1,6 @@
-import {Container} from "pixi.js";
-import {Mesh} from "three";
-import {CameraChaser} from "./CameraChaser";
-
+import { Mesh } from "three";
+import { CameraChaser } from "./CameraChaser";
+import { Container } from "pixi.js";
 /**
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。

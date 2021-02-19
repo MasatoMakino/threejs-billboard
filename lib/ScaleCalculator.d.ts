@@ -1,5 +1,4 @@
-import {Object3D, PerspectiveCamera, Scene, WebGLRenderer} from "three";
-
+import { Object3D, PerspectiveCamera, Scene, WebGLRenderer } from "three";
 /**
  * ビルボードのスケール値をカメラとレンダラーから算出するためのクラス。
  */

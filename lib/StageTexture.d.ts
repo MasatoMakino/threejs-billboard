@@ -1,6 +1,5 @@
-import {Container} from "pixi.js";
-import {Texture} from "three";
-
+import { Texture } from "three";
+import { Container } from "pixi.js";
 export declare class StageTexture extends Texture {
     private _app;
     private _stage;
