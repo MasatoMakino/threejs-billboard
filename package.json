@@ -13,7 +13,7 @@
   "license": "MIT",
   "peerDependencies": {
     "pixi.js": ">=5.3.3 <7.0.0",
-    "three": "^0.121.1"
+    "three": "^0.126.0"
   },
   "devDependencies": {
     "@types/three": "^0.129.1",
