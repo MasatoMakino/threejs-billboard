@@ -1,5 +1,5 @@
 import { Texture } from "three";
-import { Container } from "pixi.js";
+import { Container } from "pixi.js-legacy";
 export declare class StageTexture extends Texture {
     private _app;
     private _stage;
@@ -19,7 +19,7 @@ export declare class StageTexture extends Texture {
     setNeedUpdate(): void;
     private onRequestFrame;
     /**
-     * このテクスチャに紐づけられたcreatejs.stageインスタンスを取得する。
+     * このテクスチャに紐づけられたstageインスタンスを取得する。
      * カンバスへはstage.canvasでアクセスする。
      */
     get stage(): Container;

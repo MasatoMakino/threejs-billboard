@@ -1,4 +1,4 @@
-import { Mesh, MeshBasicMaterial, NormalBlending, PlaneBufferGeometry } from "three";
+import { Mesh, MeshBasicMaterial, NormalBlending, PlaneBufferGeometry, } from "three";
 import { CameraChaser } from "./CameraChaser";
 import { StageObject3D } from "./StageObject3D";
 import { StageTexture } from "./StageTexture";
@@ -34,7 +34,7 @@ export class StagePlaneMesh extends Mesh {
             map: texture,
             blending: NormalBlending,
             transparent: true,
-            depthTest: true
+            depthTest: true,
         });
     }
     /**

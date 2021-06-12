@@ -1,5 +1,5 @@
 import { Sprite } from "three";
-import Container = PIXI.Container;
+import { Container } from "pixi.js";
 export declare class StageBillBoard extends Sprite {
     private _imageScale;
     constructor(width: number, height: number, imageScale?: number, option?: {});

@@ -14,7 +14,7 @@ export class StageBillBoard extends Sprite {
             map: texture,
             blending: NormalBlending,
             depthTest: false,
-            transparent: true
+            transparent: true,
         });
         this.updateScale();
     }

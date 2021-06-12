@@ -1,6 +1,5 @@
 import { Texture, LinearFilter } from "three";
-import * as PIXI from "pixi.js";
-import { Ticker } from "pixi.js";
+import { Application, Ticker } from "pixi.js-legacy";
 export class StageTexture extends Texture {
     constructor(width, height) {
         super();
@@ -13,9 +12,10 @@ export class StageTexture extends Texture {
         this.init(width, height);
     }
     init(width, height) {
-        this._app = new PIXI.Application({
+        this._app = new Application({
             autoStart: false,
-            transparent: true,
+            backgroundAlpha: 0.0,
+            forceCanvas: true,
             width: width,
             height: height
         });
@@ -51,7 +51,7 @@ export class StageTexture extends Texture {
         this._needUpdateCanvas = true;
     }
     /**
-     * このテクスチャに紐づけられたcreatejs.stageインスタンスを取得する。
+     * このテクスチャに紐づけられたstageインスタンスを取得する。
      * カンバスへはstage.canvasでアクセスする。
      */
     get stage() {
