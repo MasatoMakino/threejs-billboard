@@ -1,4 +1,4 @@
-import { BillBoardPlane } from "../lib/";
+import { BillBoardPlane } from "../";
 import { initSceneSet } from "./common";
 
 const W = 640;

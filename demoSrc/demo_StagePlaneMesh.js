@@ -1,4 +1,4 @@
-import { StagePlaneMesh } from "../lib/index";
+import { StagePlaneMesh } from "../";
 import { initSceneSet } from "./common";
 import { Graphics, Text } from "pixi.js";
 
