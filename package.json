@@ -12,8 +12,8 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "pixi.js": ">=5.3.3 <7.0.0",
-    "three": "^0.126.0"
+    "three": "^0.126.0",
+    "pixi.js-legacy": ">=6.0.4 <7.0.0"
   },
   "devDependencies": {
     "@types/three": "^0.129.1",
@@ -24,7 +24,7 @@
     "gulptask-tsc": "https://github.com/MasatoMakino/gulptask-tsc.git",
     "gulptask-tsdoc": "https://github.com/MasatoMakino/gulptask-tsdoc.git",
     "husky": "^6.0.0",
-    "pixi.js": "^6.0.4",
+    "pixi.js-legacy": "^6.0.4",
     "prettier": "^2.3.1",
     "pretty-quick": "^3.1.0",
     "three": "^0.129.0"
