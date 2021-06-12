@@ -1,6 +1,7 @@
 import { LinearFilter, NormalBlending, Sprite, SpriteMaterial } from "three";
 import { StageObject3D } from "./StageObject3D";
 import { StageTexture } from "./StageTexture";
+import * as PIXI from "pixi.js";
 import Container = PIXI.Container;
 
 export class StageBillBoard extends Sprite {

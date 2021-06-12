@@ -11,7 +11,12 @@
 
     /* Module Resolution Options */
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+    "baseUrl": "./",
+    "paths": {
+      "mini-signals": ["node_modules/resource-loader/typings/mini-signals.d.ts"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
