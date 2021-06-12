@@ -1,4 +1,4 @@
-import { StageBillBoard } from "../lib/index";
+import { StageBillBoard } from "../";
 import { initSceneSet } from "./common";
 import { Text } from "pixi.js";
 import format from "date-fns/format";

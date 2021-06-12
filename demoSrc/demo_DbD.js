@@ -1,4 +1,4 @@
-import { BillBoard, ScaleCalculator } from "../lib/index";
+import { BillBoard, ScaleCalculator } from "../";
 import {
   initScene,
   initLight,
