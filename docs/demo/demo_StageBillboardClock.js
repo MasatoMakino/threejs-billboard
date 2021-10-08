@@ -26,7 +26,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ */ \"./esm/index.js\");\n/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common */ \"./demoSrc/common.js\");\n/* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pixi.js */ \"./node_modules/pixi.js/dist/esm/pixi.js\");\n/* harmony import */ var date_fns_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! date-fns/format */ \"./node_modules/date-fns/esm/format/index.js\");\n\n\n\n\nconst W = 640;\nconst H = 480;\n\nconst onDomContentsLoaded = () => {\n  const scene = (0,_common__WEBPACK_IMPORTED_MODULE_1__.initSceneSet)(W, H);\n  initBillBoard(scene);\n};\n\nconst initBillBoard = scene => {\n  const updateText = () => {\n    text.text = (0,date_fns_format__WEBPACK_IMPORTED_MODULE_3__.default)(new Date(), \"yyyy/MM/dd HH:mm:ss\");\n    canvasBoard.setNeedUpdate();\n  };\n\n  const canvasBoard = new ___WEBPACK_IMPORTED_MODULE_0__.StageBillBoard(320, 320, 0.1);\n  canvasBoard.position.set(15, 0, 0);\n  scene.add(canvasBoard);\n  const text = new pixi_js__WEBPACK_IMPORTED_MODULE_2__.Text(\"\", {\n    fontSize: 24,\n    fontFamily: \"Arial\",\n    fill: \"#ff7700\"\n  });\n  canvasBoard.stage.addChild(text);\n  text.x = 20;\n  text.y = 160;\n  updateText();\n  setInterval(updateText, 1000);\n};\n\nwindow.onload = onDomContentsLoaded;\n\n//# sourceURL=webpack://threejs-billboard/./demoSrc/demo_StageBillboardClock.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ */ \"./esm/index.js\");\n/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common */ \"./demoSrc/common.js\");\n/* harmony import */ var pixi_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pixi.js */ \"./node_modules/pixi.js/dist/esm/pixi.js\");\n/* harmony import */ var date_fns_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! date-fns/format */ \"./node_modules/date-fns/esm/format/index.js\");\n\n\n\n\nconst W = 640;\nconst H = 480;\n\nconst onDomContentsLoaded = () => {\n  const scene = (0,_common__WEBPACK_IMPORTED_MODULE_1__.initSceneSet)(W, H);\n  initBillBoard(scene);\n};\n\nconst initBillBoard = scene => {\n  const updateText = () => {\n    text.text = (0,date_fns_format__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(new Date(), \"yyyy/MM/dd HH:mm:ss\");\n    canvasBoard.setNeedUpdate();\n  };\n\n  const canvasBoard = new ___WEBPACK_IMPORTED_MODULE_0__.StageBillBoard(320, 320, 0.1);\n  canvasBoard.position.set(15, 0, 0);\n  scene.add(canvasBoard);\n  const text = new pixi_js__WEBPACK_IMPORTED_MODULE_2__.Text(\"\", {\n    fontSize: 24,\n    fontFamily: \"Arial\",\n    fill: \"#ff7700\"\n  });\n  canvasBoard.stage.addChild(text);\n  text.x = 20;\n  text.y = 160;\n  updateText();\n  setInterval(updateText, 1000);\n};\n\nwindow.onload = onDomContentsLoaded;\n\n//# sourceURL=webpack://threejs-billboard/./demoSrc/demo_StageBillboardClock.js?");
 
 /***/ }),
 
@@ -187,7 +187,8 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 				}
 /******/ 				if(fulfilled) {
 /******/ 					deferred.splice(i--, 1)
-/******/ 					result = fn();
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
@@ -284,12 +285,14 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
 /******/ 			var moduleId, chunkId, i = 0;
-/******/ 			for(moduleId in moreModules) {
-/******/ 				if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 					__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
 /******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
 /******/ 			}
-/******/ 			if(runtime) var result = runtime(__webpack_require__);
 /******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
 /******/ 			for(;i < chunkIds.length; i++) {
 /******/ 				chunkId = chunkIds[i];
