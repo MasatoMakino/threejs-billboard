@@ -21,6 +21,7 @@ const watchTasks = async () => {
   watchTsc();
 };
 
+exports.bundleDemo = bundleDemo;
 exports.watchTasks = watchTasks;
 exports.start_dev = series(watchTasks, server);
 exports.build = series(tsc, parallel(bundleDemo, doc));
