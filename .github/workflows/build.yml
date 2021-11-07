@@ -31,7 +31,7 @@ jobs:
       - run: npm ci
       - name: build binary
         run: |
-          npx tsc --project tsconfig.cjs.json
+          npx tsc --project tsconfig.json
           npx tsc --project tsconfig.esm.json
       - name: push dist
         run: |
