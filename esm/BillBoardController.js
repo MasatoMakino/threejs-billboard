@@ -1,4 +1,4 @@
-import { Mesh, MeshBasicMaterial, NormalBlending, PlaneBufferGeometry, Sprite, SpriteMaterial, TextureLoader } from "three";
+import { Mesh, MeshBasicMaterial, NormalBlending, PlaneBufferGeometry, Sprite, SpriteMaterial, TextureLoader, } from "three";
 /**
  * ビルボード処理に必要な機能を備えたクラス。
  * MeshやSprite内でこのクラスを呼び出すことで、ビルボードとして機能する。
@@ -31,7 +31,7 @@ export class BillBoardController {
         const mat = this.getMaterial(target);
         mat.visible = false;
         this._target.material = mat;
-        new TextureLoader().load(url, texture => {
+        new TextureLoader().load(url, (texture) => {
             texture.minFilter = option.minFilter;
             mat.map = texture;
             mat.needsUpdate = true;
@@ -44,14 +44,14 @@ export class BillBoardController {
             return new MeshBasicMaterial({
                 blending: NormalBlending,
                 depthTest: true,
-                transparent: true
+                transparent: true,
             });
         }
         if (target instanceof Sprite) {
             return new SpriteMaterial({
                 blending: NormalBlending,
                 depthTest: true,
-                transparent: true
+                transparent: true,
             });
         }
     }
@@ -73,13 +73,13 @@ export class BillBoardController {
         if (this._target instanceof Sprite) {
             return {
                 x: img.width * this._imageScale,
-                y: img.height * this._imageScale
+                y: img.height * this._imageScale,
             };
         }
         if (this._target instanceof Mesh) {
             return {
                 x: this._imageScale,
-                y: this._imageScale
+                y: this._imageScale,
             };
         }
     }
