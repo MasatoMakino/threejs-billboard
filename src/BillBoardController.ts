@@ -5,7 +5,7 @@ import {
   PlaneBufferGeometry,
   Sprite,
   SpriteMaterial,
-  TextureLoader
+  TextureLoader,
 } from "three";
 import { BillBoardOptions } from "./BillBoard";
 
@@ -42,7 +42,7 @@ export class BillBoardController {
     mat.visible = false;
     this._target.material = mat;
 
-    new TextureLoader().load(url, texture => {
+    new TextureLoader().load(url, (texture) => {
       texture.minFilter = option.minFilter;
       mat.map = texture;
       mat.needsUpdate = true;
@@ -58,7 +58,7 @@ export class BillBoardController {
       return new MeshBasicMaterial({
         blending: NormalBlending,
         depthTest: true,
-        transparent: true
+        transparent: true,
       });
     }
 
@@ -66,7 +66,7 @@ export class BillBoardController {
       return new SpriteMaterial({
         blending: NormalBlending,
         depthTest: true,
-        transparent: true
+        transparent: true,
       });
     }
   }
@@ -102,14 +102,14 @@ export class BillBoardController {
     if (this._target instanceof Sprite) {
       return {
         x: img.width * this._imageScale,
-        y: img.height * this._imageScale
+        y: img.height * this._imageScale,
       };
     }
 
     if (this._target instanceof Mesh) {
       return {
         x: this._imageScale,
-        y: this._imageScale
+        y: this._imageScale,
       };
     }
   }
