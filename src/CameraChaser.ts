@@ -1,4 +1,12 @@
-import {BufferGeometry, Camera, Material, Object3D, Scene, Vector3, WebGLRenderer} from "three";
+import {
+  BufferGeometry,
+  Camera,
+  Material,
+  Object3D,
+  Scene,
+  Vector3,
+  WebGLRenderer,
+} from "three";
 
 export class CameraChaser {
   /**
