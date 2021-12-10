@@ -23,7 +23,7 @@ jobs:
           cache: "npm"
       - run: npm ci
       - name: Genarate API Pages
-        run: npx typedoc --out ./docs/api src/index.ts
+        run: npm run typedocs
       - name: Generate Demo Pages
         run: npm run demo
       - name: Deploy Github pages

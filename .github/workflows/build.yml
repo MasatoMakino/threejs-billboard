@@ -30,9 +30,7 @@ jobs:
           cache: "npm"
       - run: npm ci
       - name: build binary
-        run: |
-          npx tsc --project tsconfig.json
-          npx tsc --project tsconfig.esm.json
+        run: npm run buildTS
       - name: push dist
         run: |
           git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
