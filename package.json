@@ -30,6 +30,7 @@
     "typescript": "^4.6.3"
   },
   "scripts": {
+    "prepare": "husky install",
     "start:dev": "npm run server & npm run watch:tsc & npm run watch:demo",
     "build": "npm run buildTS & npm run demo",
     "demo": "npx gulptask-demo-page --body '<canvas id=\"webgl-canvas\" width=\"640\" height=\"480\"></canvas>'",
