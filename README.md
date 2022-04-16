@@ -15,7 +15,7 @@ billboard module for three.js
 
 ### Install
 
-threejs-billboard depend on [three.js](https://threejs.org/) and [PixiJS](https://github.com/pixijs/pixi.js).
+threejs-billboard depend on [three.js](https://threejs.org/) and [pixi.js-legacy](https://github.com/pixijs/pixi.js).
 
 ```bash
 npm install three pixi.js --save-dev
