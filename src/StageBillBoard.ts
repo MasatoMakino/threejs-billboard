@@ -1,7 +1,8 @@
-import { LinearFilter, NormalBlending, Sprite, SpriteMaterial } from "three";
+import { Container } from "pixi.js";
+import { NormalBlending, Sprite, SpriteMaterial } from "three";
+import { BillBoardOptions, BillBoardOptionUtil } from "./BillBoard";
 import { StageObject3D } from "./StageObject3D";
 import { StageTexture } from "./StageTexture";
-import { Container } from "pixi.js";
 
 export class StageBillBoard extends Sprite {
   private _imageScale: number;
@@ -10,16 +11,21 @@ export class StageBillBoard extends Sprite {
     width: number,
     height: number,
     imageScale: number = 1,
-    option?: {}
+    option?: BillBoardOptions
   ) {
     super();
     this._imageScale = imageScale;
+    option = BillBoardOptionUtil.init(option);
     this.initTexture(width, height, option);
   }
 
-  private initTexture(width: number, height: number, option?: {}): void {
+  private initTexture(
+    width: number,
+    height: number,
+    option: BillBoardOptions
+  ): void {
     const texture = new StageTexture(width, height);
-    texture.minFilter = LinearFilter;
+    texture.minFilter = option.minFilter;
     this.material = new SpriteMaterial({
       map: texture,
       blending: NormalBlending,

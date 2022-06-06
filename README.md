@@ -1,6 +1,6 @@
 # threejs-billboard
 
-billboard module for three.js
+> billboard module for three.js
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/5e46ba2a716da782e45e/maintainability)](https://codeclimate.com/github/MasatoMakino/threejs-billboard/maintainability)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
@@ -24,7 +24,7 @@ npm install three pixi.js --save-dev
 and
 
 ```bash
-npm install https://github.com/MasatoMakino/threejs-billboard.git --save-dev
+npm install @masatomakino/threejs-billboard --save-dev
 ```
 
 ### Import
