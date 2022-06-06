@@ -1,5 +1,5 @@
-import { Texture, LinearFilter } from "three";
-import { Application, Ticker, Container } from "pixi.js-legacy";
+import { Application, Container, Ticker } from "pixi.js-legacy";
+import { LinearFilter, Texture } from "three";
 
 export class StageTexture extends Texture {
   private _app: Application;
@@ -15,10 +15,10 @@ export class StageTexture extends Texture {
   protected init(width: number, height: number): void {
     this._app = new Application({
       autoStart: false,
-      backgroundAlpha:0.0,
-      forceCanvas:true,
+      backgroundAlpha: 0.0,
+      forceCanvas: true,
       width: width,
-      height: height
+      height: height,
     });
 
     this.image = this._app.view;
