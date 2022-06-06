@@ -1,5 +1,5 @@
 {
-  "name": "threejs-billboard",
+  "name": "@masatomakino/threejs-billboard",
   "version": "0.6.4",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -8,7 +8,10 @@
     "lib",
     "esm"
   ],
-  "repository": "https://MasatoMakino@github.com/MasatoMakino/threejs-billboard.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://MasatoMakino@github.com/MasatoMakino/threejs-billboard.git"
+  },
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
@@ -40,5 +43,13 @@
     "typedocs": "npx typedoc --out ./docs/api src/index.ts",
     "server": "npx @masatomakino/gulptask-dev-server -b ./docs/demo"
   },
-  "dependencies": {}
+  "description": "billboard module for three.js",
+  "bugs": {
+    "url": "https://github.com/MasatoMakino/threejs-billboard/issues"
+  },
+  "homepage": "https://github.com/MasatoMakino/threejs-billboard#readme",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  }
 }
