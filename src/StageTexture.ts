@@ -1,4 +1,4 @@
-import { Application, Container, Ticker } from "pixi.js-legacy";
+import { Application, Container, ICanvas, Ticker } from "pixi.js-legacy";
 import { LinearFilter, Texture } from "three";
 
 export class StageTexture extends Texture {
@@ -70,7 +70,7 @@ export class StageTexture extends Texture {
     return this._stage;
   }
 
-  get domElement(): HTMLCanvasElement {
+  get domElement(): ICanvas {
     return this._app.view;
   }
 }

@@ -1,10 +1,5 @@
 import { Container } from "pixi.js";
-import {
-  Mesh,
-  MeshBasicMaterial,
-  NormalBlending,
-  PlaneBufferGeometry,
-} from "three";
+import { Mesh, MeshBasicMaterial, NormalBlending, PlaneGeometry } from "three";
 import { CameraChaser } from "./CameraChaser";
 import { StageObject3D } from "./StageObject3D";
 import { StageTexture } from "./StageTexture";
@@ -28,7 +23,7 @@ export class StagePlaneMesh extends Mesh {
   constructor(width: number, height: number, option?: {}) {
     super();
     this.initCanvas(width, height, option);
-    this.geometry = new PlaneBufferGeometry(width, height);
+    this.geometry = new PlaneGeometry(width, height);
     this.cameraChaser = new CameraChaser(this);
   }
 
