@@ -2,7 +2,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   NormalBlending,
-  PlaneBufferGeometry,
+  PlaneGeometry,
   Sprite,
   SpriteMaterial,
   TextureLoader,
@@ -73,14 +73,14 @@ export class BillBoardController {
   private initDummyPlane(target: BillBoardObject3D): void {
     if (target instanceof Mesh) {
       const size = 0.0000001;
-      target.geometry = new PlaneBufferGeometry(size, size);
+      target.geometry = new PlaneGeometry(size, size);
     }
   }
   private initGeometry(image: HTMLImageElement) {
     if (!(this._target instanceof Mesh)) return;
     if (this.isInitGeometry) return;
 
-    this._target.geometry = new PlaneBufferGeometry(image.width, image.height);
+    this._target.geometry = new PlaneGeometry(image.width, image.height);
     this.isInitGeometry = true;
   }
 

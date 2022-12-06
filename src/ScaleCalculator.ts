@@ -6,7 +6,7 @@ import {
   PerspectiveCamera,
   Plane,
   Scene,
-  SphereBufferGeometry,
+  SphereGeometry,
   Vector2,
   Vector3,
   WebGLRenderer,
@@ -48,7 +48,7 @@ export class ScaleCalculator {
    * @param scene
    */
   private initRenderTarget(scene: Scene) {
-    const geo = new SphereBufferGeometry(1e-4, 3, 2);
+    const geo = new SphereGeometry(1e-4, 3, 2);
     const mat = new MeshBasicMaterial({
       transparent: true,
       opacity: 0.0,
