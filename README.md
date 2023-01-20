@@ -39,7 +39,7 @@ import {
   StageBillBoard,
   StagePlaneMesh,
   ScaleCalculator,
-} from "threejs-billboard";
+} from "@masatomakino/threejs-billboard";
 ```
 
 ### Show billboard
