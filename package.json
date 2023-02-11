@@ -39,7 +39,7 @@
     "build": "npm run buildTS && npm run demo",
     "demo": "npx @masatomakino/gulptask-demo-page --body '<canvas id=\"webgl-canvas\" width=\"640\" height=\"480\"></canvas>'",
     "watch:demo": "npm run demo -- -W",
-    "buildTS": "npx tsc --project tsconfig.json & npx tsc --project tsconfig.esm.json",
+    "buildTS": "tsc --project tsconfig.json & tsc --project tsconfig.esm.json",
     "watch:tsc": "tsc -W --incremental --project tsconfig.cjs.json & tsc -W --incremental --project tsconfig.esm.json",
     "typedocs": "npx typedoc --out ./docs/api src/index.ts",
     "server": "npx @masatomakino/gulptask-dev-server -b ./docs/demo"
