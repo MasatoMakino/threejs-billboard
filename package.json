@@ -15,11 +15,11 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@masatomakino/gulptask-demo-page": "^0.5.3",
-    "@masatomakino/gulptask-dev-server": "^0.4.2",
+    "@masatomakino/gulptask-demo-page": "^0.6.0",
     "@types/node": "^18.11.11",
     "@types/offscreencanvas": "^2019.7.0",
     "@types/three": "^0.146.0",
+    "browser-sync": "^2.27.12",
     "date-fns": "^2.29.3",
     "husky": "^8.0.2",
     "pixi.js-legacy": "^7.0.4",
@@ -42,7 +42,7 @@
     "buildTS": "tsc --project tsconfig.json & tsc --project tsconfig.esm.json",
     "watch:tsc": "tsc -W --incremental --project tsconfig.cjs.json & tsc -W --incremental --project tsconfig.esm.json",
     "typedocs": "npx typedoc --out ./docs/api src/index.ts",
-    "server": "npx @masatomakino/gulptask-dev-server -b ./docs/demo"
+    "server": "browser-sync ./docs/demo -w"
   },
   "description": "billboard module for three.js",
   "bugs": {
