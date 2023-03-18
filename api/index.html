@@ -36,10 +36,10 @@
   <h3>Install</h3>
 </a>
 <p>threejs-billboard depend on <a href="https://threejs.org/">three.js</a> and <a href="https://github.com/pixijs/pixi.js">pixi.js-legacy</a>.</p>
-<pre><code class="language-bash"><span class="hl-0">npm install three pixi.js --save-dev</span>
+<pre><code class="language-bash"><span class="hl-0">npm </span><span class="hl-1">install</span><span class="hl-0"> </span><span class="hl-1">three</span><span class="hl-0"> </span><span class="hl-1">pixi.js</span><span class="hl-0"> </span><span class="hl-1">--save-dev</span>
 </code></pre>
 <p>and</p>
-<pre><code class="language-bash"><span class="hl-0">npm install @masatomakino/threejs-billboard --save-dev</span>
+<pre><code class="language-bash"><span class="hl-0">npm </span><span class="hl-1">install</span><span class="hl-0"> </span><span class="hl-1">@masatomakino/threejs-billboard</span><span class="hl-0"> </span><span class="hl-1">--save-dev</span>
 </code></pre>
 
 <a href="#import" id="import" style="color: inherit; text-decoration: none;">
@@ -47,21 +47,21 @@
 </a>
 <p>threejs-billboard is composed of ES6 modules and TypeScript d.ts files.</p>
 <p>At first, import classes.</p>
-<pre><code class="language-js"><span class="hl-1">import</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-2">BillBoard</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-2">StageBillBoard</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-2">StagePlaneMesh</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-2">ScaleCalculator</span><span class="hl-0">,</span><br/><span class="hl-0">} </span><span class="hl-1">from</span><span class="hl-0"> </span><span class="hl-3">&quot;@masatomakino/threejs-billboard&quot;</span><span class="hl-0">;</span>
+<pre><code class="language-js"><span class="hl-2">import</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-3">BillBoard</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-3">StageBillBoard</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-3">StagePlaneMesh</span><span class="hl-0">,</span><br/><span class="hl-0">  </span><span class="hl-3">ScaleCalculator</span><span class="hl-0">,</span><br/><span class="hl-0">} </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-1">&quot;@masatomakino/threejs-billboard&quot;</span><span class="hl-0">;</span>
 </code></pre>
 
 <a href="#show-billboard" id="show-billboard" style="color: inherit; text-decoration: none;">
   <h3>Show billboard</h3>
 </a>
 <p>Add billboard in <a href="https://threejs.org/docs/#manual/en/introduction/Creating-a-scene">THREE.Scene</a>.</p>
-<pre><code class="language-js"><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">billboard</span><span class="hl-0"> = </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-6">BillBoard</span><span class="hl-0">(</span><span class="hl-3">&quot;./map01.png&quot;</span><span class="hl-0">, </span><span class="hl-7">0.1</span><span class="hl-0">);</span><br/><span class="hl-2">scene</span><span class="hl-0">.</span><span class="hl-6">add</span><span class="hl-0">(</span><span class="hl-2">billboard</span><span class="hl-0">);</span>
+<pre><code class="language-js"><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">billboard</span><span class="hl-0"> = </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-6">BillBoard</span><span class="hl-0">(</span><span class="hl-1">&quot;./map01.png&quot;</span><span class="hl-0">, </span><span class="hl-7">0.1</span><span class="hl-0">);</span><br/><span class="hl-3">scene</span><span class="hl-0">.</span><span class="hl-6">add</span><span class="hl-0">(</span><span class="hl-3">billboard</span><span class="hl-0">);</span>
 </code></pre>
 
 <a href="#dot-by-dot-display" id="dot-by-dot-display" style="color: inherit; text-decoration: none;">
   <h3>Dot-by-dot display</h3>
 </a>
 <p>If you want to display dot-by-dot billboard, get image scale with ScaleCalculator.</p>
-<pre><code class="language-js"><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">calc</span><span class="hl-0"> = </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-6">ScaleCalculator</span><span class="hl-0">(</span><span class="hl-2">camera</span><span class="hl-0">, </span><span class="hl-2">renderer</span><span class="hl-0">, </span><span class="hl-2">scene</span><span class="hl-0">);</span><br/><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">billboard</span><span class="hl-0"> = </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-6">BillBoard</span><span class="hl-0">(</span><span class="hl-3">&quot;./map01.png&quot;</span><span class="hl-0">);</span><br/><span class="hl-2">billboard</span><span class="hl-0">.</span><span class="hl-2">material</span><span class="hl-0">.</span><span class="hl-2">sizeAttenuation</span><span class="hl-0"> = </span><span class="hl-4">false</span><span class="hl-0">;</span><br/><span class="hl-2">billboard</span><span class="hl-0">.</span><span class="hl-2">imageScale</span><span class="hl-0"> = </span><span class="hl-2">calc</span><span class="hl-0">.</span><span class="hl-6">getNonAttenuateScale</span><span class="hl-0">();</span>
+<pre><code class="language-js"><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">calc</span><span class="hl-0"> = </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-6">ScaleCalculator</span><span class="hl-0">(</span><span class="hl-3">camera</span><span class="hl-0">, </span><span class="hl-3">renderer</span><span class="hl-0">, </span><span class="hl-3">scene</span><span class="hl-0">);</span><br/><span class="hl-4">const</span><span class="hl-0"> </span><span class="hl-5">billboard</span><span class="hl-0"> = </span><span class="hl-4">new</span><span class="hl-0"> </span><span class="hl-6">BillBoard</span><span class="hl-0">(</span><span class="hl-1">&quot;./map01.png&quot;</span><span class="hl-0">);</span><br/><span class="hl-3">billboard</span><span class="hl-0">.</span><span class="hl-3">material</span><span class="hl-0">.</span><span class="hl-3">sizeAttenuation</span><span class="hl-0"> = </span><span class="hl-4">false</span><span class="hl-0">;</span><br/><span class="hl-3">billboard</span><span class="hl-0">.</span><span class="hl-3">imageScale</span><span class="hl-0"> = </span><span class="hl-3">calc</span><span class="hl-0">.</span><span class="hl-6">getNonAttenuateScale</span><span class="hl-0">();</span>
 </code></pre>
 
 <a href="#api-documents" id="api-documents" style="color: inherit; text-decoration: none;">
