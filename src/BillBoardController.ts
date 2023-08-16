@@ -32,7 +32,7 @@ export class BillBoardController {
     target: BillBoardObject3D,
     url: string,
     imageScale: number,
-    option: BillBoardOptions
+    option: BillBoardOptions,
   ) {
     this._target = target;
     this._imageScale = imageScale;
@@ -44,6 +44,7 @@ export class BillBoardController {
 
     new TextureLoader().load(url, (texture) => {
       texture.minFilter = option.minFilter;
+      texture.colorSpace = "srgb";
       mat.map = texture;
       mat.needsUpdate = true;
       mat.visible = true;
@@ -52,22 +53,18 @@ export class BillBoardController {
   }
 
   private getMaterial(
-    target: BillBoardObject3D
+    target: BillBoardObject3D,
   ): MeshBasicMaterial | SpriteMaterial {
+    const param = {
+      blending: NormalBlending,
+      depthTest: true,
+      transparent: true,
+    };
     if (target instanceof Mesh) {
-      return new MeshBasicMaterial({
-        blending: NormalBlending,
-        depthTest: true,
-        transparent: true,
-      });
+      return new MeshBasicMaterial(param);
     }
-
     if (target instanceof Sprite) {
-      return new SpriteMaterial({
-        blending: NormalBlending,
-        depthTest: true,
-        transparent: true,
-      });
+      return new SpriteMaterial(param);
     }
   }
   private initDummyPlane(target: BillBoardObject3D): void {
