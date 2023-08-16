@@ -23,6 +23,7 @@ export class StageTexture extends Texture {
 
     this.image = this._app.view;
     this.minFilter = LinearFilter;
+    this.colorSpace = "srgb";
 
     this._stage = this._app.stage;
     this.isStart = false;
