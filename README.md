@@ -56,10 +56,12 @@ scene.add(billboard);
 If you want to display dot-by-dot billboard, get image scale with ScaleCalculator.
 
 ```js
-const calc = new ScaleCalculator(camera, renderer, scene);
-const billboard = new BillBoard("./map01.png");
+const scale = ScaleCalculator.getNonAttenuateScale(
+  renderer.getSize(new THREE.Vector2()).height,
+  camera,
+);
+const billboard = new BillBoard("./map01.png", scale);
 billboard.material.sizeAttenuation = false;
-billboard.imageScale = calc.getNonAttenuateScale();
 ```
 
 ## API documents
