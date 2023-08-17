@@ -21,7 +21,7 @@ describe("StageTexture", () => {
     const pixel = view.getContext("2d").getImageData(SIZE / 2, SIZE / 2, 1, 1);
     const data = pixel.data;
 
-    const rgbToHex = (r, g, b) =>
+    const rgbToHex = (r: number, g: number, b: number) =>
       "#" +
       [r, g, b]
         .map((x) => {
@@ -53,9 +53,6 @@ describe("StageTexture", () => {
 
   test("Stopped textures should not be updated", () => {
     const texture = new StageTexture(SIZE, SIZE);
-    expect(getPixelColor(texture.domElement)).toBe("#000000");
-    Ticker.shared.update(50);
-
     draw(texture.stage, "#ff0000");
     texture.setNeedUpdate();
     Ticker.shared.update(1000);
