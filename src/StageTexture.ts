@@ -43,7 +43,7 @@ export class StageTexture extends Texture {
    * テクスチャの更新を停止する
    */
   public stop(): void {
-    if (this.isStart) return;
+    if (!this.isStart) return;
     this.isStart = false;
     Ticker.shared.remove(this.onRequestFrame);
   }
