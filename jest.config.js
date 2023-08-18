@@ -2,4 +2,5 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jest-environment-jsdom",
+  testEnvironmentOptions: { resources: "usable" },
 };
