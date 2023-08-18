@@ -1,4 +1,4 @@
-import { ScaleCalculator } from "../lib";
+import { ScaleCalculator } from "../src";
 import { PerspectiveCamera } from "three";
 
 describe("ScaleCalculator", () => {
