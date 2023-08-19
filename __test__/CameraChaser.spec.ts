@@ -1,5 +1,5 @@
 import { CameraChaser } from "../src";
-import { Object3D, PerspectiveCamera } from "three";
+import { Object3D, PerspectiveCamera, Vector3 } from "three";
 
 describe("CameraChaser", () => {
   test("constructor", () => {
@@ -11,35 +11,28 @@ describe("CameraChaser", () => {
 
   test("lookCamera", () => {
     const camera = new PerspectiveCamera(45, 1, 1, 1000);
-    camera.position.set(0, 10, 10);
+
     const target = new Object3D();
     const cameraChaser = new CameraChaser(target);
     cameraChaser.isLookingCameraHorizontal = true;
     cameraChaser.needUpdateWorldPosition = true;
-    target.onBeforeRender(
-      undefined,
-      undefined,
-      camera,
-      undefined,
-      undefined,
-      undefined,
-    );
 
-    expect(target.rotation.x).toBeCloseTo(0);
-    expect(target.rotation.y).toBeCloseTo(0);
-    expect(target.rotation.z).toBeCloseTo(0);
+    const testRotation = (cameraPosition: Vector3, rotation: Vector3) => {
+      camera.position.copy(cameraPosition);
+      target.onBeforeRender(
+        undefined,
+        undefined,
+        camera,
+        undefined,
+        undefined,
+        undefined,
+      );
+      expect(target.rotation.x).toBeCloseTo(rotation.x);
+      expect(target.rotation.y).toBeCloseTo(rotation.y);
+      expect(target.rotation.z).toBeCloseTo(rotation.z);
+    };
 
-    camera.position.set(10, 0, 10);
-    target.onBeforeRender(
-      undefined,
-      undefined,
-      camera,
-      undefined,
-      undefined,
-      undefined,
-    );
-    expect(target.rotation.x).toBeCloseTo(0);
-    expect(target.rotation.y).toBeCloseTo(Math.PI / 4);
-    expect(target.rotation.z).toBeCloseTo(0);
+    testRotation(new Vector3(0, 0, 10), new Vector3(0, 0, 0));
+    testRotation(new Vector3(10, 0, 10), new Vector3(0, Math.PI / 4, 0));
   });
 });
