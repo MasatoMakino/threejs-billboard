@@ -1,43 +1,36 @@
 import { BillBoardController } from "../src/BillBoardController";
 import { Mesh, Sprite } from "three";
 import { BillBoardOptionUtil } from "../src";
+import { BillBoardObject3D } from "../lib/BillBoardController";
 
 describe("BillBoardController", () => {
-  test("constructor : Mesh", async () => {
+  const textureURL =
+    "https://masatomakino.github.io/threejs-billboard/demo/map01.png";
+  const testBillBoardController = (url: string, target: BillBoardObject3D) => {
     const controller = new BillBoardController(
-      new Mesh(),
-      "https://masatomakino.github.io/threejs-billboard/demo/map01.png",
+      target,
+      url,
       1,
       BillBoardOptionUtil.init(undefined),
     );
     expect(controller).not.toBeUndefined();
+    return controller;
+  };
 
+  test("constructor : Mesh", async () => {
+    const controller = testBillBoardController(textureURL, new Mesh());
     await expect(controller.textureLoaderPromise).resolves.toBeUndefined();
   });
 
   test("constructor : Sprite", async () => {
-    const controller = new BillBoardController(
-      new Sprite(),
-      "https://masatomakino.github.io/threejs-billboard/demo/map01.png",
-      1,
-      BillBoardOptionUtil.init(undefined),
-    );
-    expect(controller).not.toBeUndefined();
-
+    const controller = testBillBoardController(textureURL, new Sprite());
     await expect(controller.textureLoaderPromise).resolves.toBeUndefined();
   });
 
   test("constructor : error", async () => {
     const mockError = jest.spyOn(console, "error").mockImplementation((x) => x);
 
-    const controller = new BillBoardController(
-      new Mesh(),
-      "not exist url",
-      1,
-      BillBoardOptionUtil.init(undefined),
-    );
-    expect(controller).not.toBeUndefined();
-
+    const controller = testBillBoardController("not exist url", new Mesh());
     await expect(controller.textureLoaderPromise).rejects.toMatchObject({
       isTrusted: true,
     });
