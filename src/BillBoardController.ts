@@ -20,6 +20,7 @@ export class BillBoardController {
   protected _imageScale: number;
   protected _target: Mesh | Sprite;
   private isInitGeometry: boolean = false;
+  readonly textureLoaderPromise: Promise<void | ErrorEvent>;
 
   /**
    * コンストラクタ
@@ -42,13 +43,23 @@ export class BillBoardController {
     mat.visible = false;
     this._target.material = mat;
 
-    new TextureLoader().load(url, (texture) => {
-      texture.minFilter = option.minFilter;
-      texture.colorSpace = "srgb";
-      mat.map = texture;
-      mat.needsUpdate = true;
-      mat.visible = true;
-      this.updateScale();
+    this.textureLoaderPromise = new Promise((resolve, reject) => {
+      new TextureLoader().load(
+        url,
+        (texture) => {
+          texture.minFilter = option.minFilter;
+          texture.colorSpace = "srgb";
+          mat.map = texture;
+          mat.needsUpdate = true;
+          mat.visible = true;
+          this.updateScale();
+          resolve();
+        },
+        undefined,
+        (e) => {
+          reject(e);
+        },
+      );
     });
   }
 

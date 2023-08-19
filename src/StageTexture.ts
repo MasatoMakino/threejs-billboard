@@ -5,7 +5,10 @@ export class StageTexture extends Texture {
   private _app: Application;
   private _stage: Container;
   private _needUpdateCanvas: boolean;
-  private isStart: boolean;
+  get isStarted(): boolean {
+    return this._isStarted;
+  }
+  private _isStarted: boolean;
 
   constructor(width: number, height: number) {
     super();
@@ -26,7 +29,7 @@ export class StageTexture extends Texture {
     this.colorSpace = "srgb";
 
     this._stage = this._app.stage;
-    this.isStart = false;
+    this._isStarted = false;
     this.start();
   }
 
@@ -34,8 +37,8 @@ export class StageTexture extends Texture {
    * テクスチャの更新を開始する
    */
   public start(): void {
-    if (this.isStart) return;
-    this.isStart = true;
+    if (this._isStarted) return;
+    this._isStarted = true;
     Ticker.shared.add(this.onRequestFrame);
   }
 
@@ -43,8 +46,8 @@ export class StageTexture extends Texture {
    * テクスチャの更新を停止する
    */
   public stop(): void {
-    if (this.isStart) return;
-    this.isStart = false;
+    if (!this._isStarted) return;
+    this._isStarted = false;
     Ticker.shared.remove(this.onRequestFrame);
   }
 

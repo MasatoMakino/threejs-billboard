@@ -1,4 +1,5 @@
 import { BillBoard, ScaleCalculator } from "../";
+import * as THREE from "three";
 import {
   initScene,
   initLight,
@@ -6,7 +7,7 @@ import {
   initControl,
   initRenderer,
   initHelper,
-  render
+  render,
 } from "./common";
 
 const W = 640;
@@ -22,18 +23,15 @@ const onDomContentsLoaded = () => {
   const renderer = initRenderer(W, H);
   const control = initControl(camera, renderer);
   initHelper(scene);
-  const calc = initScaleCalc(camera, renderer, scene);
-  initBillBoard(scene, calc);
+  initBillBoard(scene, renderer, camera);
   render(control, renderer, scene, camera);
 };
 
-const initScaleCalc = (camera, renderer, scene) => {
-  const calc = new ScaleCalculator(camera, renderer, scene);
-  return calc;
-};
-
-const initBillBoard = (scene, calc) => {
-  const scale = calc.getNonAttenuateScale();
+const initBillBoard = (scene, renderer, camera) => {
+  const scale = ScaleCalculator.getNonAttenuateScale(
+    renderer.getSize(new THREE.Vector2()).height,
+    camera,
+  );
 
   billboard = new BillBoard("./map01.png", scale);
   billboard.position.set(-40, 0, 0);
