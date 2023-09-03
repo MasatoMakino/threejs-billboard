@@ -14,8 +14,13 @@ export class BillBoardPlane extends Mesh {
    */
   constructor(url: string, imageScale: number, option?: BillBoardOptions) {
     super();
-    option = BillBoardOptionUtil.init(option);
-    this.obj = new BillBoardController(this, url, imageScale, option);
+    const initializedOption = BillBoardOptionUtil.init(option);
+    this.obj = new BillBoardController(
+      this,
+      url,
+      imageScale,
+      initializedOption,
+    );
     this.cameraChaser = new CameraChaser(this);
   }
 

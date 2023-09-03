@@ -7,7 +7,7 @@ import {
   SpriteMaterial,
   TextureLoader,
 } from "three";
-import { BillBoardOptions } from "./BillBoard";
+import { InitializedBillBoardOptions } from "./BillBoard";
 
 export type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
 export type BillBoardObject3D = Mesh | Sprite;
@@ -33,7 +33,7 @@ export class BillBoardController {
     target: BillBoardObject3D,
     url: string,
     imageScale: number,
-    option: BillBoardOptions,
+    option: InitializedBillBoardOptions,
   ) {
     this._target = target;
     this._imageScale = imageScale;
@@ -74,9 +74,7 @@ export class BillBoardController {
     if (target instanceof Mesh) {
       return new MeshBasicMaterial(param);
     }
-    if (target instanceof Sprite) {
-      return new SpriteMaterial(param);
-    }
+    return new SpriteMaterial(param);
   }
   private initDummyPlane(target: BillBoardObject3D): void {
     if (target instanceof Mesh) {
@@ -114,12 +112,10 @@ export class BillBoardController {
       };
     }
 
-    if (this._target instanceof Mesh) {
-      return {
-        x: this._imageScale,
-        y: this._imageScale,
-      };
-    }
+    return {
+      x: this._imageScale,
+      y: this._imageScale,
+    };
   }
 
   get imageScale(): number {

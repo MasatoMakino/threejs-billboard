@@ -5,15 +5,15 @@ export interface BillBoardOptions {
   minFilter?: TextureFilter;
 }
 
+export interface InitializedBillBoardOptions extends BillBoardOptions {
+  minFilter: TextureFilter;
+}
+
 export class BillBoardOptionUtil {
-  static init(option: BillBoardOptions): BillBoardOptions {
-    if (option == null) {
-      option = {};
-    }
-    if (option.minFilter == null) {
-      option.minFilter = LinearFilter;
-    }
-    return option;
+  static init(option?: BillBoardOptions): InitializedBillBoardOptions {
+    option ??= {};
+    option.minFilter ??= LinearFilter;
+    return option as InitializedBillBoardOptions;
   }
 }
 
@@ -30,8 +30,13 @@ export class BillBoard extends Sprite {
    */
   constructor(url: string, imageScale: number, option?: BillBoardOptions) {
     super();
-    option = BillBoardOptionUtil.init(option);
-    this.obj = new BillBoardController(this, url, imageScale, option);
+    const initializedOption = BillBoardOptionUtil.init(option);
+    this.obj = new BillBoardController(
+      this,
+      url,
+      imageScale,
+      initializedOption,
+    );
   }
 
   get imageScale(): number {
