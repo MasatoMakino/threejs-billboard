@@ -1,6 +1,10 @@
 import { Container } from "pixi.js";
 import { NormalBlending, Sprite, SpriteMaterial } from "three";
-import { BillBoardOptions, BillBoardOptionUtil } from "./BillBoard";
+import {
+  BillBoardOptions,
+  BillBoardOptionUtil,
+  InitializedBillBoardOptions,
+} from "./BillBoard";
 import { StageObject3D } from "./StageObject3D";
 import { StageTexture } from "./StageTexture";
 
@@ -11,18 +15,18 @@ export class StageBillBoard extends Sprite {
     width: number,
     height: number,
     imageScale: number = 1,
-    option?: BillBoardOptions
+    option?: BillBoardOptions,
   ) {
     super();
     this._imageScale = imageScale;
-    option = BillBoardOptionUtil.init(option);
-    this.initTexture(width, height, option);
+    const initializedOption = BillBoardOptionUtil.init(option);
+    this.initTexture(width, height, initializedOption);
   }
 
   private initTexture(
     width: number,
     height: number,
-    option: BillBoardOptions
+    option: InitializedBillBoardOptions,
   ): void {
     const texture = new StageTexture(width, height);
     texture.minFilter = option.minFilter;
@@ -61,7 +65,7 @@ export class StageBillBoard extends Sprite {
     this.scale.set(
       canvas.width * this._imageScale,
       canvas.height * this._imageScale,
-      1
+      1,
     );
   }
 

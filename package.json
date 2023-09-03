@@ -41,6 +41,7 @@
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
+    "test:watch": "npx jest --watchAll",
     "prepare": "husky install",
     "preversion": "git checkout main && git pull && npm ci && npm test",
     "postversion": "git add package.json package-lock.json && git checkout -b version/$(git describe --tags --abbrev=0)",

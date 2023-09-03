@@ -19,7 +19,9 @@ describe("CameraChaser", () => {
 
     const testRotation = (cameraPosition: Vector3, rotation: Vector3) => {
       camera.position.copy(cameraPosition);
+
       target.onBeforeRender(
+        // @ts-ignore
         undefined,
         undefined,
         camera,

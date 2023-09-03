@@ -18,7 +18,14 @@ describe("StageTexture", () => {
   };
 
   const getPixelColor = (view: ICanvas) => {
-    const pixel = view.getContext("2d").getImageData(SIZE / 2, SIZE / 2, 1, 1);
+    const context = view.getContext("2d");
+    if (!context) {
+      throw new Error(
+        "Canvas2d context initialization failed. Canvas is not supported in this test run environment. Please install the canvas package from npm.",
+      );
+    }
+
+    const pixel = context.getImageData(SIZE / 2, SIZE / 2, 1, 1);
     const data = pixel.data;
 
     const rgbToHex = (r: number, g: number, b: number) =>
