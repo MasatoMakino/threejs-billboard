@@ -22,7 +22,8 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "useUnknownInCatchVariables": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]

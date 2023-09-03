@@ -4,18 +4,15 @@ import { LinearFilter, Texture } from "three";
 export class StageTexture extends Texture {
   private _app: Application;
   private _stage: Container;
-  private _needUpdateCanvas: boolean;
+  private _needUpdateCanvas: boolean = false;
   get isStarted(): boolean {
     return this._isStarted;
   }
-  private _isStarted: boolean;
+  private _isStarted: boolean = false;
 
   constructor(width: number, height: number) {
     super();
-    this.init(width, height);
-  }
 
-  protected init(width: number, height: number): void {
     this._app = new Application({
       autoStart: false,
       backgroundAlpha: 0.0,
@@ -29,7 +26,6 @@ export class StageTexture extends Texture {
     this.colorSpace = "srgb";
 
     this._stage = this._app.stage;
-    this._isStarted = false;
     this.start();
   }
 
