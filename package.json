@@ -1,6 +1,6 @@
 {
   "name": "@masatomakino/threejs-billboard",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "type": "module",
   "exports": {
     "import": {
@@ -9,7 +9,6 @@
     }
   },
   "types": "./esm/index.d.ts",
-
   "files": [
     "esm"
   ],
