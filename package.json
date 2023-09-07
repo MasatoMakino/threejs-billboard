@@ -4,12 +4,12 @@
   "type": "module",
   "exports": {
     "import": {
-      "default": "./esm/index.js",
-      "types": "./esm/index.d.ts"
+      "types": "./esm/index.d.ts",
+      "default": "./esm/index.js"
     }
   },
   "types": "./esm/index.d.ts",
-  "module": "./esm/index.js",
+
   "files": [
     "esm"
   ],
