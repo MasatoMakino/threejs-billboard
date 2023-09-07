@@ -1,4 +1,4 @@
-import { StageTexture } from "../src";
+import { StageTexture } from "../src/index.js";
 import { Ticker, Container, Graphics, ICanvas } from "pixi.js-legacy";
 
 describe("StageTexture", () => {

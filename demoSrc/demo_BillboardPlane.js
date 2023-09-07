@@ -1,5 +1,5 @@
-import { BillBoardPlane } from "../";
-import { initSceneSet } from "./common";
+import { BillBoardPlane } from "../esm/index.js";
+import { initSceneSet } from "./common.js";
 
 const W = 640;
 const H = 480;
@@ -9,7 +9,7 @@ const onDomContentsLoaded = () => {
   initBillBoard(scene);
 };
 
-const initBillBoard = scene => {
+const initBillBoard = (scene) => {
   const billboard = new BillBoardPlane("./map01.png", 0.1);
   billboard.cameraChaser.isLookingCameraHorizontal = true;
   scene.add(billboard);

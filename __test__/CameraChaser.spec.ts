@@ -1,4 +1,4 @@
-import { CameraChaser } from "../src";
+import { CameraChaser } from "../src/index.js";
 import { Object3D, PerspectiveCamera, Vector3 } from "three";
 
 describe("CameraChaser", () => {

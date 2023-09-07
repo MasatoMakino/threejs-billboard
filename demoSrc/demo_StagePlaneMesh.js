@@ -1,5 +1,5 @@
-import { StagePlaneMesh } from "../";
-import { initSceneSet } from "./common";
+import { StagePlaneMesh } from "../esm/index.js";
+import { initSceneSet } from "./common.js";
 import { Graphics, Text } from "pixi.js";
 
 const W = 640;

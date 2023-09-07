@@ -1,5 +1,5 @@
-import { BillBoard } from "../";
-import { initSceneSet } from "./common";
+import { BillBoard } from "../esm/index.js";
+import { initSceneSet } from "./common.js";
 
 const W = 640;
 const H = 480;
@@ -9,7 +9,7 @@ const onDomContentsLoaded = () => {
   initBillBoard(scene);
 };
 
-const initBillBoard = scene => {
+const initBillBoard = (scene) => {
   const billboard = new BillBoard("./map01.png", 0.1);
   scene.add(billboard);
 

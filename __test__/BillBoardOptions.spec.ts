@@ -1,4 +1,4 @@
-import { BillBoardOptionUtil } from "../src";
+import { BillBoardOptionUtil } from "../src/index.js";
 import { LinearFilter } from "three";
 
 describe("BillBoardOptions", () => {

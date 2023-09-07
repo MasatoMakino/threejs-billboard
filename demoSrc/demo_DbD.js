@@ -1,4 +1,4 @@
-import { BillBoard, ScaleCalculator } from "../";
+import { BillBoard, ScaleCalculator } from "../esm/index.js";
 import * as THREE from "three";
 import {
   initScene,
@@ -8,7 +8,7 @@ import {
   initRenderer,
   initHelper,
   render,
-} from "./common";
+} from "./common.js";
 
 const W = 640;
 const H = 480;

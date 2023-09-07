@@ -1,5 +1,5 @@
 import { LinearFilter, Sprite, TextureFilter } from "three";
-import { BillBoardController } from "./BillBoardController";
+import { BillBoardController } from "./BillBoardController.js";
 
 export interface BillBoardOptions {
   minFilter?: TextureFilter;

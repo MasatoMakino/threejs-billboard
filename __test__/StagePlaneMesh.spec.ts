@@ -1,4 +1,4 @@
-import { StagePlaneMesh } from "../src";
+import { StagePlaneMesh } from "../src/index.js";
 
 describe("StagePlaneMesh", () => {
   test("constructor", () => {

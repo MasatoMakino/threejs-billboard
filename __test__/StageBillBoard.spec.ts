@@ -1,4 +1,4 @@
-import { StageBillBoard } from "../src";
+import { StageBillBoard } from "../src/index.js";
 
 describe("StageBillBoard", () => {
   test("constructor", () => {
