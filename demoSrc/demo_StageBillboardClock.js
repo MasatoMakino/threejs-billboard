@@ -1,7 +1,7 @@
-import { StageBillBoard } from "../";
-import { initSceneSet } from "./common";
+import { StageBillBoard } from "../esm/index.js";
+import { initSceneSet } from "./common.js";
 import { Text } from "pixi.js";
-import format from "date-fns/format";
+import { format } from "date-fns";
 
 const W = 640;
 const H = 480;
@@ -11,7 +11,7 @@ const onDomContentsLoaded = () => {
   initBillBoard(scene);
 };
 
-const initBillBoard = scene => {
+const initBillBoard = (scene) => {
   const updateText = () => {
     text.text = format(new Date(), "yyyy/MM/dd HH:mm:ss");
     canvasBoard.setNeedUpdate();
@@ -24,7 +24,7 @@ const initBillBoard = scene => {
   const text = new Text("", {
     fontSize: 24,
     fontFamily: "Arial",
-    fill: "#ff7700"
+    fill: "#ff7700",
   });
   canvasBoard.stage.addChild(text);
   text.x = 20;

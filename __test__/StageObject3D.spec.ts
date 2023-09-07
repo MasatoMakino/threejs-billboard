@@ -1,4 +1,4 @@
-import { StageBillBoard, StageTexture } from "../src";
+import { StageBillBoard, StageTexture } from "../src/index.js";
 
 describe("StageObject3D", () => {
   test("switch visible", () => {

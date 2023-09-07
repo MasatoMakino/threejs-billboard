@@ -4,9 +4,9 @@ import {
   BillBoardOptions,
   BillBoardOptionUtil,
   InitializedBillBoardOptions,
-} from "./BillBoard";
-import { StageObject3D } from "./StageObject3D";
-import { StageTexture } from "./StageTexture";
+} from "./index.js";
+import { StageObject3D } from "./StageObject3D.js";
+import { StageTexture } from "./StageTexture.js";
 
 export class StageBillBoard extends Sprite {
   private _imageScale: number;

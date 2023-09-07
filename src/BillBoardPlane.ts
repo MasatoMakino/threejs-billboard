@@ -1,7 +1,10 @@
 import { Mesh } from "three";
-import { BillBoardOptions, BillBoardOptionUtil } from "./BillBoard";
-import { BillBoardController } from "./BillBoardController";
-import { CameraChaser } from "./CameraChaser";
+import {
+  BillBoardOptions,
+  BillBoardOptionUtil,
+  CameraChaser,
+} from "./index.js";
+import { BillBoardController } from "./BillBoardController.js";
 
 export class BillBoardPlane extends Mesh {
   private obj: BillBoardController;

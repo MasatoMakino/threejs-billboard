@@ -1,9 +1,9 @@
 import {
   BillBoardController,
   BillBoardObject3D,
-} from "../src/BillBoardController";
+} from "../src/BillBoardController.js";
 import { Mesh, Sprite } from "three";
-import { BillBoardOptionUtil } from "../src";
+import { BillBoardOptionUtil } from "../src/index.js";
 
 describe("BillBoardController", () => {
   const textureURL =

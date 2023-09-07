@@ -2,11 +2,10 @@
   "compilerOptions": {
     /* Basic Options */
     "target": "ES2015",
-    "module": "commonjs",
+    "module": "ES2022",
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "declarationMap": true /* Generates a sourcemap for each corresponding '.d.ts' file. */,
-    "outDir": "./lib" /* Redirect output structure to the directory. */,
-
+    "outDir": "./esm" /* Redirect output structure to the directory. */,
 
     /* Module Resolution Options */
     "moduleResolution": "node",

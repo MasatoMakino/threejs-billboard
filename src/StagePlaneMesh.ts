@@ -1,8 +1,8 @@
 import { Container } from "pixi.js";
 import { Mesh, MeshBasicMaterial, NormalBlending, PlaneGeometry } from "three";
-import { CameraChaser } from "./CameraChaser";
-import { StageObject3D } from "./StageObject3D";
-import { StageTexture } from "./StageTexture";
+import { CameraChaser } from "./CameraChaser.js";
+import { StageObject3D } from "./StageObject3D.js";
+import { StageTexture } from "./StageTexture.js";
 
 /**
  * Canvasに描画可能な板オブジェクト。

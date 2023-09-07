@@ -1,4 +1,4 @@
-import { ScaleCalculator } from "../src";
+import { ScaleCalculator } from "../src/index.js";
 import { PerspectiveCamera } from "three";
 
 describe("ScaleCalculator", () => {

@@ -1,4 +1,4 @@
-import { BillBoard, BillBoardPlane } from "../src";
+import { BillBoard, BillBoardPlane } from "../src/index.js";
 
 export const billboardCommonTest = (target: BillBoard | BillBoardPlane) => {
   test("change image scale", () => {

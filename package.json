@@ -1,11 +1,16 @@
 {
   "name": "@masatomakino/threejs-billboard",
   "version": "0.9.1",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "module": "./esm/index.js",
+  "type": "module",
+  "exports": {
+    "import": {
+      "types": "./esm/index.d.ts",
+      "default": "./esm/index.js"
+    }
+  },
+  "types": "./esm/index.d.ts",
+
   "files": [
-    "lib",
     "esm"
   ],
   "repository": {
@@ -47,10 +52,10 @@
     "postversion": "git add package.json package-lock.json && git checkout -b version/$(git describe --tags --abbrev=0)",
     "start:dev": "npm run server & npm run watch:tsc & npm run watch:demo",
     "build": "npm run buildTS && npm run demo",
-    "demo": "npx @masatomakino/gulptask-demo-page --body '<canvas id=\"webgl-canvas\" width=\"640\" height=\"480\"></canvas>'",
+    "demo": "npx @masatomakino/gulptask-demo-page --body '<canvas id=\"webgl-canvas\" width=\"640\" height=\"480\"></canvas>' --compileModule es2020",
     "watch:demo": "npm run demo -- -W",
-    "buildTS": "tsc --project tsconfig.json & tsc --project tsconfig.esm.json",
-    "watch:tsc": "tsc -W --incremental --project tsconfig.cjs.json & tsc -W --incremental --project tsconfig.esm.json",
+    "buildTS": "tsc",
+    "watch:tsc": "tsc -W --incremental",
     "typedocs": "npx typedoc --out ./docs/api src/index.ts",
     "server": "browser-sync ./docs/demo -w"
   },
@@ -61,7 +66,7 @@
   "homepage": "https://github.com/MasatoMakino/threejs-billboard#readme",
   "directories": {
     "doc": "docs",
-    "lib": "lib"
+    "lib": "esm"
   },
   "lint-staged": {
     "*.{js,ts,css,md}": "prettier --write"

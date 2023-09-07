@@ -1,5 +1,5 @@
 import { Mesh, MeshBasicMaterial, Sprite, SpriteMaterial } from "three";
-import { StageTexture } from "./StageTexture";
+import { StageTexture } from "./StageTexture.js";
 
 export class StageObject3D {
   /**

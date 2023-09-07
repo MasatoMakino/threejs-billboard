@@ -7,7 +7,7 @@ import {
   SpriteMaterial,
   TextureLoader,
 } from "three";
-import { InitializedBillBoardOptions } from "./BillBoard";
+import { InitializedBillBoardOptions } from "./BillBoard.js";
 
 export type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
 export type BillBoardObject3D = Mesh | Sprite;

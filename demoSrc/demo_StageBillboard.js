@@ -1,5 +1,5 @@
-import { StageBillBoard } from "../";
-import { initSceneSet } from "./common";
+import { StageBillBoard } from "../esm/index.js";
+import { initSceneSet } from "./common.js";
 import { Text } from "pixi.js";
 
 const W = 640;
@@ -10,7 +10,7 @@ const onDomContentsLoaded = () => {
   initBillBoard(scene);
 };
 
-const initBillBoard = scene => {
+const initBillBoard = (scene) => {
   const canvasBoard = new StageBillBoard(320, 320, 0.1);
   canvasBoard.position.set(15, 0, 0);
   scene.add(canvasBoard);
@@ -18,7 +18,7 @@ const initBillBoard = scene => {
   const text = new Text("Hello World", {
     fontSize: 48,
     fontFamily: "Arial",
-    fill: "#ff7700"
+    fill: "#ff7700",
   });
   canvasBoard.stage.addChild(text);
   text.x = 20;
