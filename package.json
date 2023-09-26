@@ -3,9 +3,11 @@
   "version": "0.10.0",
   "type": "module",
   "exports": {
-    "import": {
-      "types": "./esm/index.d.ts",
-      "default": "./esm/index.js"
+    ".": {
+      "default": {
+        "types": "./esm/index.d.ts",
+        "default": "./esm/index.js"
+      }
     }
   },
   "types": "./esm/index.d.ts",
