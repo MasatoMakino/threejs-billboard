@@ -16,17 +16,11 @@
 
 ### Install
 
-threejs-billboard depend on [three.js](https://threejs.org/) and [pixi.js-legacy](https://github.com/pixijs/pixi.js).
-
-```bash
-npm install three pixi.js --save-dev
-```
-
-and
-
 ```bash
 npm install @masatomakino/threejs-billboard --save-dev
 ```
+
+threejs-billboard depend on [three.js](https://threejs.org/) and [pixi.js-legacy](https://github.com/pixijs/pixi.js).
 
 ### Import
 
