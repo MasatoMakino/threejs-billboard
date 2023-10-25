@@ -1,4 +1,5 @@
 import { StageBillBoard, StageTexture } from "../src/index.js";
+import { describe, expect, test } from "vitest";
 
 describe("StageObject3D", () => {
   test("switch visible", () => {

@@ -1,4 +1,5 @@
 import { StageBillBoard } from "../src/index.js";
+import { describe, expect, test } from "vitest";
 
 describe("StageBillBoard", () => {
   test("constructor", () => {

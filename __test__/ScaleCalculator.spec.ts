@@ -1,5 +1,6 @@
 import { ScaleCalculator } from "../src/index.js";
 import { PerspectiveCamera } from "three";
+import { describe, expect, test } from "vitest";
 
 describe("ScaleCalculator", () => {
   test("get scale", () => {

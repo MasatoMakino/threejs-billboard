@@ -1,5 +1,7 @@
 import { BillBoardPlane } from "../src/index.js";
 import { billboardCommonTest } from "./BillBoardObject3D.js";
+import { describe } from "vitest";
+import { TestImage } from "./TestImage.js";
 describe("BillBoardPlane", () => {
-  billboardCommonTest(new BillBoardPlane("../demoSrc/map01.png", 1));
+  billboardCommonTest(new BillBoardPlane(TestImage, 1));
 });

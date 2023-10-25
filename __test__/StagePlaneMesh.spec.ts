@@ -1,4 +1,5 @@
 import { StagePlaneMesh } from "../src/index.js";
+import { describe, expect, test } from "vitest";
 
 describe("StagePlaneMesh", () => {
   test("constructor", () => {

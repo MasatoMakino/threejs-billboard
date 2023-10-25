@@ -1,5 +1,6 @@
 import { CameraChaser } from "../src/index.js";
 import { Object3D, PerspectiveCamera, Vector3 } from "three";
+import { describe, expect, test } from "vitest";
 
 describe("CameraChaser", () => {
   test("constructor", () => {
