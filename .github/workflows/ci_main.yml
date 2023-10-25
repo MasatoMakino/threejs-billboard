@@ -25,5 +25,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
-      - run: npm test
+      - run: npx vitest --no-threads --run
       - run: npm run buildTS -- --noEmit

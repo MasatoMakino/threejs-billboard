@@ -1,4 +1,5 @@
 import { BillBoard, BillBoardPlane } from "../src/index.js";
+import { expect, test } from "vitest";
 
 export const billboardCommonTest = (target: BillBoard | BillBoardPlane) => {
   test("change image scale", () => {

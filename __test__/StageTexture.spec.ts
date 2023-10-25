@@ -1,5 +1,6 @@
 import { StageTexture } from "../src/index.js";
 import { Ticker, Container, Graphics, ICanvas } from "pixi.js-legacy";
+import { describe, expect, test, beforeAll } from "vitest";
 
 describe("StageTexture", () => {
   beforeAll(() => {
