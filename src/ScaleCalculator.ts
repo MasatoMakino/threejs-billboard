@@ -8,8 +8,8 @@ export class ScaleCalculator {
    * SpriteMaterial.sizeAttenuation = false
    * の設定されたSprite用のスケール値を取得する。
    *
-   * @param rendererHeight レンダラーの高さ 単位ピクセル
-   * @param camera カメラ
+   * @param rendererHeight レンダラーで描画するCanvasの高さ 単位ピクセル
+   * @param camera
    */
   public static getNonAttenuateScale(
     rendererHeight: number,
