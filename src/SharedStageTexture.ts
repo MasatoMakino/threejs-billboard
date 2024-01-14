@@ -58,4 +58,25 @@ export class SharedStageTexture extends Texture {
     this.#_app.render();
     this.needsUpdate = true;
   };
+
+  public calcurateUV(rect: TextureArea): {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+  } {
+    return {
+      x1: rect.x / this.width,
+      y1: (this.height - rect.y - rect.height) / this.height,
+      x2: (rect.x + rect.width) / this.width,
+      y2: (this.height - rect.y) / this.height,
+    };
+  }
+}
+
+export interface TextureArea {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
