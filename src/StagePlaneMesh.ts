@@ -10,6 +10,8 @@ import { StageTexture } from "./StageTexture.js";
  *
  * ジオメトリはPlaneBufferGeometryなので、中心点からずらす場合はtranslateを使用する。
  * https://threejs.org/docs/#api/en/core/BufferGeometry.translate
+ *
+ * @deprecated use SharedStagePlaneMesh
  */
 export class StagePlaneMesh extends Mesh {
   public cameraChaser: CameraChaser;

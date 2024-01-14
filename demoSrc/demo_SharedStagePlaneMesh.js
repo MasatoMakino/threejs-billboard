@@ -1,8 +1,8 @@
-import { SharedStageBillboard, SharedStageTexture } from "../esm/index.js";
+import { SharedStagePlaneMesh, SharedStageTexture } from "../esm/index.js";
 import { initSceneSet } from "./common.js";
 import { Text, Sprite } from "pixi.js";
 import GUI from "lil-gui";
-import { SpriteMaterial } from "three";
+import { MeshBasicMaterial } from "three";
 
 const W = 640;
 const H = 480;
@@ -40,10 +40,9 @@ const initShardTexture = () => {
 
 const initBillBoards = (scene) => {
   const texture = initShardTexture();
-  const material = new SpriteMaterial({
+  const material = new MeshBasicMaterial({
     map: texture,
     transparent: true,
-    depthTest: false,
   });
 
   const canvasBoard = initPlane(scene, 30, material);
@@ -55,12 +54,15 @@ const initBillBoards = (scene) => {
 };
 
 const initPlane = (scene, positionX, material) => {
-  const canvasBoard = new SharedStageBillboard(
-    material,
-    { x: 256, y: 256, width: 256, height: 256 },
-    0.1,
-  );
+  const canvasBoard = new SharedStagePlaneMesh(material, {
+    x: 256,
+    y: 256,
+    width: 256,
+    height: 256,
+  });
   canvasBoard.position.set(positionX, 0, 0);
+  canvasBoard.scale.set(0.1, 0.1, 0.1);
+  canvasBoard.cameraChaser.isLookingCameraHorizontal = true;
   scene.add(canvasBoard);
   return canvasBoard;
 };

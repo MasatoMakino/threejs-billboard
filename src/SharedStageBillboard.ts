@@ -1,5 +1,5 @@
 import { Sprite, SpriteMaterial } from "three";
-import { SharedStageTexture, TextureArea } from "./index.js";
+import { ISharedStageMaterial, TextureArea } from "./index.js";
 
 export class SharedStageBillboard extends Sprite {
   get imageScale() {
@@ -31,7 +31,7 @@ export class SharedStageBillboard extends Sprite {
   }
 
   constructor(
-    public sharedTexture: SharedStageTexture,
+    public sharedMaterial: SpriteMaterial & ISharedStageMaterial,
     private _textureArea: TextureArea,
     private _imageScale: number = 1,
   ) {
@@ -42,13 +42,7 @@ export class SharedStageBillboard extends Sprite {
      * 個別にUV座標を持つため。
      */
     this.geometry = this.geometry.clone();
-
-    this.material = new SpriteMaterial({
-      map: sharedTexture,
-      depthTest: false,
-      transparent: true,
-    });
-
+    this.material = sharedMaterial;
     this.updateScale();
     this.updateUVAttribute();
   }
@@ -68,9 +62,7 @@ export class SharedStageBillboard extends Sprite {
    * ジオメトリにUV座標を設定する。
    */
   private updateUVAttribute(): void {
-    const area = (this.material.map as SharedStageTexture).calcurateUV(
-      this._textureArea,
-    );
+    const area = this.sharedMaterial.map.calcurateUV(this._textureArea);
     const uv = this.geometry.getAttribute("uv");
     uv.setXY(0, area.x1, area.y1);
     uv.setXY(1, area.x2, area.y1);
