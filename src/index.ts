@@ -5,3 +5,6 @@ export * from "./ScaleCalculator.js";
 export * from "./StageBillBoard.js";
 export * from "./StagePlaneMesh.js";
 export * from "./StageTexture.js";
+export * from "./SharedStageTexture.js";
+export * from "./SharedStageBillboard.js";
+export * from "./SharedStagePlaneMesh.js";

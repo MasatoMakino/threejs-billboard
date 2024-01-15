@@ -1,0 +1,97 @@
+import { Application, Container, Ticker } from "pixi.js";
+import { Texture } from "three";
+
+/**
+ * Billboard用の共有テクスチャ
+ * 各Billboardはこのテクスチャを参照し、UV座標を調整して画像を表示する。
+ *
+ * デフォルトでは、テクスチャは自動更新されない。
+ * テクスチャを共有するBillboardが責任を持って、setNeedUpdate関数を呼び出してテクスチャの更新を宣言する必要がある。
+ */
+export class SharedStageTexture extends Texture {
+  #_app: Application;
+
+  /**
+   * 共有テクスチャを生成する
+   *
+   * @param width テクスチャの幅 単位ビクセル pow2であることを推奨
+   * @param height テクスチャの高さ 単位ビクセル pow2であることを推奨
+   */
+  constructor(width: number, height: number) {
+    super();
+
+    this.#_app = new Application({
+      autoStart: false,
+      backgroundAlpha: 0.0,
+      width,
+      height,
+    });
+
+    this.image = this.#_app.view;
+    this.colorSpace = "srgb";
+
+    Ticker.shared.addOnce(this.onRequestFrame);
+  }
+
+  public get stage(): Container {
+    return this.#_app.stage;
+  }
+
+  public get width(): number {
+    return this.#_app.renderer.width;
+  }
+
+  public get height(): number {
+    return this.#_app.renderer.height;
+  }
+
+  /**
+   * テクスチャの更新を宣言する
+   *
+   * この関数が呼び出されると、次のフレームのレンダリング時にテクスチャが更新される。
+   */
+  public setNeedUpdate(): void {
+    Ticker.shared.addOnce(this.onRequestFrame);
+  }
+
+  private onRequestFrame = () => {
+    this.#_app.render();
+    this.needsUpdate = true;
+  };
+
+  public calcurateUV(rect: TextureArea): {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+  } {
+    return {
+      x1: rect.x / this.width,
+      y1: (this.height - rect.y - rect.height) / this.height,
+      x2: (rect.x + rect.width) / this.width,
+      y2: (this.height - rect.y) / this.height,
+    };
+  }
+}
+
+export const isSharedStageMaterial = (
+  material: any,
+): material is ISharedStageMaterial => {
+  return "map" in material && material.map instanceof SharedStageTexture;
+};
+/**
+ * テクスチャからどの領域を表示するのかを表すインターフェース
+ */
+export interface TextureArea {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * mapがSharedStageTextureであることを保証するためのインターフェース
+ */
+export interface ISharedStageMaterial {
+  map: SharedStageTexture;
+}

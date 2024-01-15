@@ -1,6 +1,9 @@
 import { Mesh, MeshBasicMaterial, Sprite, SpriteMaterial } from "three";
 import { StageTexture } from "./StageTexture.js";
 
+/**
+ * @deprecated use SharedStageBlillboard or SharedStagePlaneMesh
+ */
 export class StageObject3D {
   /**
    * オブジェクトの表示/非表示を設定する。

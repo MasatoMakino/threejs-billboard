@@ -34,6 +34,7 @@
     "date-fns": "^2.29.3",
     "husky": "^8.0.3",
     "jsdom": "^22.1.0",
+    "lil-gui": "^0.19.1",
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.2",
     "typedoc": "^0.25.0",
