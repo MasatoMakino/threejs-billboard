@@ -1,5 +1,5 @@
 import { Application, Container, Ticker } from "pixi.js";
-import { Material, Texture } from "three";
+import { Texture } from "three";
 
 /**
  * Billboard用の共有テクスチャ
@@ -74,6 +74,11 @@ export class SharedStageTexture extends Texture {
   }
 }
 
+export const isSharedStageMaterial = (
+  material: any,
+): material is ISharedStageMaterial => {
+  return "map" in material && material.map instanceof SharedStageTexture;
+};
 /**
  * テクスチャからどの領域を表示するのかを表すインターフェース
  */

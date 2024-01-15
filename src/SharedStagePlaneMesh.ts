@@ -1,3 +1,7 @@
+import { Material, Mesh, PlaneGeometry } from "three";
+import { CameraChaser } from "./CameraChaser.js";
+import { isSharedStageMaterial, TextureArea } from "./SharedStageTexture.js";
+
 /**
  * Canvasに描画可能な板オブジェクト。
  * ビルボードと異なり、カメラには追従しない。
@@ -8,11 +12,6 @@
  * 各頂点にはUV座標が設定される。
  * 4頂点2ポリゴンであることを前提としているため、それ以外のジオメトリを渡した場合は正常に動作しない。
  */
-
-import { Material, Mesh, PlaneGeometry } from "three";
-import { CameraChaser } from "./CameraChaser.js";
-import { ISharedStageMaterial, TextureArea } from "./SharedStageTexture.js";
-
 export class SharedStagePlaneMesh extends Mesh {
   public cameraChaser: CameraChaser = new CameraChaser(this);
 
@@ -45,12 +44,16 @@ export class SharedStagePlaneMesh extends Mesh {
   }
 
   constructor(
-    public sharedStageMaterial: Material & ISharedStageMaterial,
+    public sharedStageMaterial: Material,
     private _textureArea: TextureArea,
   ) {
     super();
+
+    if (!isSharedStageMaterial(sharedStageMaterial)) {
+      throw new Error("sharedMaterial.map must be SharedStageTexture");
+    }
     this.geometry = new PlaneGeometry(_textureArea.width, _textureArea.height);
-    this.material = sharedStageMaterial;
+    this.material = sharedStageMaterial as unknown as Material;
     this.updateUVAttribute();
   }
 
@@ -58,6 +61,7 @@ export class SharedStagePlaneMesh extends Mesh {
    * ジオメトリにUV座標を設定する。
    */
   private updateUVAttribute(): void {
+    if (!isSharedStageMaterial(this.sharedStageMaterial)) return;
     const area = this.sharedStageMaterial.map.calcurateUV(this._textureArea);
     const uv = this.geometry.getAttribute("uv");
     uv.setXY(0, area.x1, area.y2);
