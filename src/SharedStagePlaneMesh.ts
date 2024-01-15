@@ -44,16 +44,16 @@ export class SharedStagePlaneMesh extends Mesh {
   }
 
   constructor(
-    public sharedStageMaterial: Material,
+    public sharedMaterial: Material,
     private _textureArea: TextureArea,
   ) {
     super();
 
-    if (!isSharedStageMaterial(sharedStageMaterial)) {
+    if (!isSharedStageMaterial(sharedMaterial)) {
       throw new Error("sharedMaterial.map must be SharedStageTexture");
     }
     this.geometry = new PlaneGeometry(_textureArea.width, _textureArea.height);
-    this.material = sharedStageMaterial as unknown as Material;
+    this.material = sharedMaterial as unknown as Material;
     this.updateUVAttribute();
   }
 
@@ -61,8 +61,10 @@ export class SharedStagePlaneMesh extends Mesh {
    * ジオメトリにUV座標を設定する。
    */
   private updateUVAttribute(): void {
-    if (!isSharedStageMaterial(this.sharedStageMaterial)) return;
-    const area = this.sharedStageMaterial.map.calcurateUV(this._textureArea);
+    if (!isSharedStageMaterial(this.sharedMaterial)) {
+      throw new Error("sharedMaterial.map must be SharedStageTexture");
+    }
+    const area = this.sharedMaterial.map.calcurateUV(this._textureArea);
     const uv = this.geometry.getAttribute("uv");
     uv.setXY(0, area.x1, area.y2);
     uv.setXY(1, area.x2, area.y2);

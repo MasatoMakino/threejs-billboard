@@ -71,4 +71,22 @@ describe("SharedStageBillboard", () => {
     expect(billboard.scale.y).toEqual(32 * scale);
     expect(billboard.scale.z).toEqual(1);
   });
+
+  it("should not share UV attribute updates between different SharedStageBillboards", () => {
+    const billboard01 = generateBillboard();
+    const billboard02 = generateBillboard();
+
+    const area = {
+      x: 0,
+      y: 0,
+      width: 16,
+      height: 16,
+    };
+    billboard01.updateTextureAreaAndUV(area);
+
+    const getUV = (billboard: Sprite) => {
+      return billboard.geometry.getAttribute("uv");
+    };
+    expect(getUV(billboard01)).not.toEqual(getUV(billboard02));
+  });
 });
