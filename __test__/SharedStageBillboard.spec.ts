@@ -1,6 +1,6 @@
 import { SharedStageBillboard, SharedStageTexture } from "../src/index.js";
 import { Sprite, SpriteMaterial } from "three";
-import { describe, test, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 describe("SharedStageBillboard", () => {
   const generateBillboard = () => {
