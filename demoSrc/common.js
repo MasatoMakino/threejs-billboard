@@ -70,3 +70,15 @@ export function render(control, renderer, scene, camera) {
   };
   rendering();
 }
+
+export const initSharedStageTextureGUI = (gui, object3D, name) => {
+  const target = object3D.cloneTextureArea();
+  const onUpdate = () => {
+    object3D.updateTextureAreaAndUV(target);
+  };
+  const folder = gui.addFolder(name);
+  folder.add(target, "x", 0, 1024, 1).onChange(onUpdate);
+  folder.add(target, "y", 0, 1024, 1).onChange(onUpdate);
+  folder.add(target, "width", 0, 1024, 1).onChange(onUpdate);
+  folder.add(target, "height", 0, 1024, 1).onChange(onUpdate);
+};
