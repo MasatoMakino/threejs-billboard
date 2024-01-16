@@ -1,5 +1,5 @@
 import { SharedStageBillboard, SharedStageTexture } from "../esm/index.js";
-import { initSceneSet } from "./common.js";
+import { initSceneSet, initSharedStageTextureGUI } from "./common.js";
 import { Text, Sprite } from "pixi.js";
 import GUI from "lil-gui";
 import { SpriteMaterial } from "three";
@@ -50,8 +50,8 @@ const initBillBoards = (scene) => {
   const canvasBoard2 = initPlane(scene, -30, material);
 
   const gui = new GUI();
-  initGUI(gui, canvasBoard, "board 01");
-  initGUI(gui, canvasBoard2, "board 02");
+  initSharedStageTextureGUI(gui, canvasBoard, "board 01");
+  initSharedStageTextureGUI(gui, canvasBoard2, "board 02");
 };
 
 const initPlane = (scene, positionX, material) => {
@@ -63,18 +63,6 @@ const initPlane = (scene, positionX, material) => {
   canvasBoard.position.set(positionX, 0, 0);
   scene.add(canvasBoard);
   return canvasBoard;
-};
-
-const initGUI = (gui, billboard, name) => {
-  const target = billboard.cloneTextureArea();
-  const onUpdate = () => {
-    billboard.updateTextureAreaAndUV(target);
-  };
-  const folder = gui.addFolder(name);
-  folder.add(target, "x", 0, 1024, 1).onChange(onUpdate);
-  folder.add(target, "y", 0, 1024, 1).onChange(onUpdate);
-  folder.add(target, "width", 0, 1024, 1).onChange(onUpdate);
-  folder.add(target, "height", 0, 1024, 1).onChange(onUpdate);
 };
 
 window.onload = onDomContentsLoaded;
