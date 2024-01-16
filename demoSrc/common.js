@@ -8,6 +8,8 @@ import {
   WebGLRenderer,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { SharedStageTexture } from "../esm/index.js";
+import { Sprite, Text } from "pixi.js";
 
 export function initScene() {
   const scene = new Scene();
@@ -81,4 +83,30 @@ export const initSharedStageTextureGUI = (gui, object3D, name) => {
   folder.add(target, "y", 0, 1024, 1).onChange(onUpdate);
   folder.add(target, "width", 0, 1024, 1).onChange(onUpdate);
   folder.add(target, "height", 0, 1024, 1).onChange(onUpdate);
+};
+
+export const initSharedTexture = () => {
+  const texture = new SharedStageTexture(1024, 1024);
+  const sprite = Sprite.from("./uv_grid_opengl.jpg");
+  texture.stage.addChild(sprite);
+  const onload = () => {
+    texture.setNeedUpdate();
+  };
+  sprite.texture.baseTexture.once("loaded", onload);
+  if (sprite.texture.baseTexture.hasLoaded) {
+    onload();
+  }
+
+  const text = new Text("Hello World", {
+    fontSize: 48,
+    fontFamily: "Arial",
+    fill: "#ff7700",
+  });
+
+  texture.stage.addChild(text);
+  text.x = 256;
+  text.y = 256 + 60;
+  texture.setNeedUpdate();
+
+  return texture;
 };

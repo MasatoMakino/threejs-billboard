@@ -1,22 +1,24 @@
 import { SharedStageBillboard, SharedStageTexture } from "../src/index.js";
 import { Sprite, SpriteMaterial } from "three";
 import { describe, expect, it } from "vitest";
+import {
+  textureArea,
+  testUpdateTextureAreaAndUV,
+} from "./SharedStageObject3D.js";
 
 describe("SharedStageBillboard", () => {
   const generateBillboard = () => {
-    const texture = new SharedStageTexture(32, 32);
+    const texture = new SharedStageTexture(
+      textureArea.width,
+      textureArea.height,
+    );
     const material = new SpriteMaterial({ map: texture });
-    const billboard = new SharedStageBillboard(material, {
-      x: 0,
-      y: 0,
-      width: 32,
-      height: 32,
-    });
+    const billboard = new SharedStageBillboard(material, textureArea);
     return billboard;
   };
+
   it("should be able to create a SharedStageBillboard", () => {
     const billboard = generateBillboard();
-
     expect(billboard).toBeInstanceOf(Sprite);
   });
 
@@ -24,12 +26,7 @@ describe("SharedStageBillboard", () => {
     "should throw an error when to create a SharedStageBillboard without SharedStageTexture",
     () => {
       const material = new SpriteMaterial();
-      const billboard = new SharedStageBillboard(material, {
-        x: 0,
-        y: 0,
-        width: 32,
-        height: 32,
-      });
+      const billboard = new SharedStageBillboard(material, textureArea);
     },
   );
 
@@ -38,27 +35,13 @@ describe("SharedStageBillboard", () => {
     () => {
       const billboard = generateBillboard();
       billboard.sharedMaterial = new SpriteMaterial();
-
-      billboard.updateTextureAreaAndUV({
-        x: 0,
-        y: 0,
-        width: 32,
-        height: 32,
-      });
+      billboard.updateTextureAreaAndUV(textureArea);
     },
   );
 
   it("should be able to update texture area", () => {
     const billboard = generateBillboard();
-
-    const area = {
-      x: 0,
-      y: 0,
-      width: 16,
-      height: 16,
-    };
-    billboard.updateTextureAreaAndUV(area);
-    expect(billboard.cloneTextureArea()).toEqual(area);
+    testUpdateTextureAreaAndUV(billboard);
   });
 
   it("should be able to update image scale", () => {
@@ -67,22 +50,15 @@ describe("SharedStageBillboard", () => {
     const scale = 2.0;
     billboard.imageScale = scale;
     expect(billboard.imageScale).toEqual(scale);
-    expect(billboard.scale.x).toEqual(32 * scale);
-    expect(billboard.scale.y).toEqual(32 * scale);
+    expect(billboard.scale.x).toEqual(textureArea.width * scale);
+    expect(billboard.scale.y).toEqual(textureArea.height * scale);
     expect(billboard.scale.z).toEqual(1);
   });
 
   it("should not share UV attribute updates between different SharedStageBillboards", () => {
     const billboard01 = generateBillboard();
     const billboard02 = generateBillboard();
-
-    const area = {
-      x: 0,
-      y: 0,
-      width: 16,
-      height: 16,
-    };
-    billboard01.updateTextureAreaAndUV(area);
+    billboard01.updateTextureAreaAndUV(textureArea);
 
     const getUV = (billboard: Sprite) => {
       return billboard.geometry.getAttribute("uv");
