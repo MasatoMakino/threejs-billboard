@@ -22,6 +22,29 @@ describe("SharedStageBillboard", () => {
     expect(billboard).toBeInstanceOf(Sprite);
   });
 
+  it("should set correct position and uv attributes upon SharedStageBillboard creation", () => {
+    const billboard = generateBillboard();
+    const position = billboard.geometry.getAttribute("position");
+    expect(position.getX(0)).toEqual(-0.5);
+    expect(position.getY(0)).toEqual(0.5);
+    expect(position.getX(1)).toEqual(0.5);
+    expect(position.getY(1)).toEqual(0.5);
+    expect(position.getX(2)).toEqual(-0.5);
+    expect(position.getY(2)).toEqual(-0.5);
+    expect(position.getX(3)).toEqual(0.5);
+    expect(position.getY(3)).toEqual(-0.5);
+
+    const uv = billboard.geometry.getAttribute("uv");
+    expect(uv.getX(0)).toEqual(0);
+    expect(uv.getY(0)).toEqual(1);
+    expect(uv.getX(1)).toEqual(1);
+    expect(uv.getY(1)).toEqual(1);
+    expect(uv.getX(2)).toEqual(0);
+    expect(uv.getY(2)).toEqual(0);
+    expect(uv.getX(3)).toEqual(1);
+    expect(uv.getY(3)).toEqual(0);
+  });
+
   it.fails(
     "should throw an error when to create a SharedStageBillboard without SharedStageTexture",
     () => {
