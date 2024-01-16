@@ -30,25 +30,19 @@ describe("SharedStageBillboard", () => {
    */
   it("should set correct position and uv attributes upon SharedStageBillboard creation", () => {
     const billboard = generateBillboard();
-    const position = billboard.geometry.getAttribute("position");
-    expect(position.getX(0)).toEqual(-0.5);
-    expect(position.getY(0)).toEqual(0.5);
-    expect(position.getX(1)).toEqual(0.5);
-    expect(position.getY(1)).toEqual(0.5);
-    expect(position.getX(2)).toEqual(-0.5);
-    expect(position.getY(2)).toEqual(-0.5);
-    expect(position.getX(3)).toEqual(0.5);
-    expect(position.getY(3)).toEqual(-0.5);
 
+    const position = billboard.geometry.getAttribute("position");
     const uv = billboard.geometry.getAttribute("uv");
-    expect(uv.getX(0)).toEqual(0);
-    expect(uv.getY(0)).toEqual(1);
-    expect(uv.getX(1)).toEqual(1);
-    expect(uv.getY(1)).toEqual(1);
-    expect(uv.getX(2)).toEqual(0);
-    expect(uv.getY(2)).toEqual(0);
-    expect(uv.getX(3)).toEqual(1);
-    expect(uv.getY(3)).toEqual(0);
+    const checkAttribute = (index: number, x: number, y: number) => {
+      expect(position.getX(index)).toEqual(x - 0.5);
+      expect(position.getY(index)).toEqual(y - 0.5);
+      expect(uv.getX(index)).toEqual(x);
+      expect(uv.getY(index)).toEqual(y);
+    };
+    checkAttribute(0, 0, 1);
+    checkAttribute(1, 1, 1);
+    checkAttribute(2, 0, 0);
+    checkAttribute(3, 1, 0);
   });
 
   it.fails(
