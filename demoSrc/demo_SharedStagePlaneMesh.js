@@ -1,8 +1,11 @@
-import { SharedStagePlaneMesh, SharedStageTexture } from "../esm/index.js";
-import { initSceneSet, initSharedStageTextureGUI } from "./common.js";
-import { Text, Sprite } from "pixi.js";
 import GUI from "lil-gui";
 import { MeshBasicMaterial } from "three";
+import { SharedStagePlaneMesh } from "../esm/index.js";
+import {
+  initSceneSet,
+  initSharedTexture,
+  initSharedStageTextureGUI,
+} from "./common.js";
 
 const W = 640;
 const H = 480;
@@ -12,34 +15,8 @@ const onDomContentsLoaded = () => {
   initBillBoards(scene);
 };
 
-const initShardTexture = () => {
-  const texture = new SharedStageTexture(1024, 1024);
-  const sprite = Sprite.from("./uv_grid_opengl.jpg");
-  texture.stage.addChild(sprite);
-  const onload = () => {
-    texture.setNeedUpdate();
-  };
-  sprite.texture.baseTexture.once("loaded", onload);
-  if (sprite.texture.baseTexture.hasLoaded) {
-    onload();
-  }
-
-  const text = new Text("Hello World", {
-    fontSize: 48,
-    fontFamily: "Arial",
-    fill: "#ff7700",
-  });
-
-  texture.stage.addChild(text);
-  text.x = 256;
-  text.y = 256 + 60;
-  texture.setNeedUpdate();
-
-  return texture;
-};
-
 const initBillBoards = (scene) => {
-  const texture = initShardTexture();
+  const texture = initSharedTexture();
   const material = new MeshBasicMaterial({
     map: texture,
     transparent: true,
