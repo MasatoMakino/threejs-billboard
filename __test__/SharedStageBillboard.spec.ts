@@ -22,6 +22,12 @@ describe("SharedStageBillboard", () => {
     expect(billboard).toBeInstanceOf(Sprite);
   });
 
+  /**
+   * SharedStageBillboardはSpriteのデフォルトgeometryを使用せず、PlaneGeometryを使用している。
+   * UV座標の更新処理を共有化するため。
+   *
+   * SpriteとPlaneGeometryは、頂点のインデックスが異なる。
+   */
   it("should set correct position and uv attributes upon SharedStageBillboard creation", () => {
     const billboard = generateBillboard();
     const position = billboard.geometry.getAttribute("position");
