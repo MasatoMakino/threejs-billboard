@@ -1,17 +1,16 @@
 import { SharedStageTexture, SharedStagePlaneMesh } from "../src/index.js";
 import { MeshBasicMaterial } from "three";
 import { describe, it, expect } from "vitest";
+import {
+  textureArea,
+  testUpdateTextureAreaAndUV,
+} from "./SharedStageObject3D.js";
 
 describe("SharedStagePlaneMesh", () => {
   const generateSharedStagePlaneMesh = () => {
     const texture = new SharedStageTexture(32, 32);
     const material = new MeshBasicMaterial({ map: texture });
-    const plane = new SharedStagePlaneMesh(material, {
-      x: 0,
-      y: 0,
-      width: 32,
-      height: 32,
-    });
+    const plane = new SharedStagePlaneMesh(material, textureArea);
     return plane;
   };
 
@@ -24,12 +23,7 @@ describe("SharedStagePlaneMesh", () => {
     "should throw an error when to create a SharedStagePlaneMesh without SharedStageTexture",
     () => {
       const material = new MeshBasicMaterial();
-      const plane = new SharedStagePlaneMesh(material, {
-        x: 0,
-        y: 0,
-        width: 32,
-        height: 32,
-      });
+      const plane = new SharedStagePlaneMesh(material, textureArea);
     },
   );
 
@@ -38,25 +32,12 @@ describe("SharedStagePlaneMesh", () => {
     () => {
       const plane = generateSharedStagePlaneMesh();
       plane.sharedMaterial = new MeshBasicMaterial();
-
-      plane.updateTextureAreaAndUV({
-        x: 0,
-        y: 0,
-        width: 32,
-        height: 32,
-      });
+      plane.updateTextureAreaAndUV(textureArea);
     },
   );
 
   it("should be able to update texture area and uv", () => {
     const plane = generateSharedStagePlaneMesh();
-    const area = {
-      x: 0,
-      y: 0,
-      width: 16,
-      height: 16,
-    };
-    plane.updateTextureAreaAndUV(area);
-    expect(plane.cloneTextureArea()).toEqual(area);
+    testUpdateTextureAreaAndUV(plane);
   });
 });
