@@ -1,6 +1,5 @@
 import { SharedStageBillboard, SharedStagePlaneMesh } from "src";
-import { MeshBasicMaterial } from "three";
-import { expect, it } from "vitest";
+import { expect } from "vitest";
 
 export const textureArea = {
   x: 0,

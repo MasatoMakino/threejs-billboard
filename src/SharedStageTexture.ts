@@ -1,5 +1,5 @@
 import { Application, Container, Ticker } from "pixi.js";
-import { Texture } from "three";
+import { BufferGeometry, Material, Texture } from "three";
 
 /**
  * Billboard用の共有テクスチャ
@@ -79,6 +79,27 @@ export const isSharedStageMaterial = (
 ): material is ISharedStageMaterial => {
   return "map" in material && material.map instanceof SharedStageTexture;
 };
+
+/**
+ * ジオメトリにUV座標を設定する。
+ */
+export const updateUVAttribute = (
+  geometry: BufferGeometry,
+  material: Material,
+  textureArea: TextureArea,
+): void => {
+  if (!isSharedStageMaterial(material)) {
+    throw new Error("sharedMaterial.map must be SharedStageTexture");
+  }
+  const area = material.map.calcurateUV(textureArea);
+  const uv = geometry.getAttribute("uv");
+  uv.setXY(0, area.x1, area.y2);
+  uv.setXY(1, area.x2, area.y2);
+  uv.setXY(2, area.x1, area.y1);
+  uv.setXY(3, area.x2, area.y1);
+  uv.needsUpdate = true;
+};
+
 /**
  * テクスチャからどの領域を表示するのかを表すインターフェース
  */

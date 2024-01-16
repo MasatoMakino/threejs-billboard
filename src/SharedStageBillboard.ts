@@ -1,5 +1,9 @@
-import { Sprite, SpriteMaterial } from "three";
-import { TextureArea, isSharedStageMaterial } from "./index.js";
+import { PlaneGeometry, Sprite, SpriteMaterial } from "three";
+import {
+  TextureArea,
+  isSharedStageMaterial,
+  updateUVAttribute,
+} from "./index.js";
 
 export class SharedStageBillboard extends Sprite {
   get imageScale() {
@@ -44,8 +48,10 @@ export class SharedStageBillboard extends Sprite {
     /**
      * SharedStageBillboardでは、Sprite間でジオメトリを共有しない。
      * 個別にUV座標を持つため。
+     * また、PlaneとpositionおよびUVを共通化するためPlaneGeometryを使用する。
      */
-    this.geometry = this.geometry.clone();
+    this.geometry = new PlaneGeometry();
+
     this.material = sharedMaterial;
     this.updateScale();
     this.updateUVAttribute();
@@ -66,15 +72,6 @@ export class SharedStageBillboard extends Sprite {
    * ジオメトリにUV座標を設定する。
    */
   private updateUVAttribute(): void {
-    if (!isSharedStageMaterial(this.sharedMaterial)) {
-      throw new Error("sharedMaterial.map must be SharedStageTexture");
-    }
-    const area = this.sharedMaterial.map.calcurateUV(this._textureArea);
-    const uv = this.geometry.getAttribute("uv");
-    uv.setXY(0, area.x1, area.y1);
-    uv.setXY(1, area.x2, area.y1);
-    uv.setXY(2, area.x2, area.y2);
-    uv.setXY(3, area.x1, area.y2);
-    uv.needsUpdate = true;
+    updateUVAttribute(this.geometry, this.sharedMaterial, this._textureArea);
   }
 }
