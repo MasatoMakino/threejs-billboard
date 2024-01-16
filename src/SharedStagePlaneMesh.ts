@@ -41,7 +41,6 @@ export class SharedStagePlaneMesh extends Mesh {
       prevTextureArea.width !== value.width ||
       prevTextureArea.height !== value.height
     ) {
-      //TODO : ジオメトリの再生性ではなく、positionアトリビュートの更新で対応可能か検討する。
       this.geometry = new PlaneGeometry(value.width, value.height);
     }
     this.updateUVAttribute();
