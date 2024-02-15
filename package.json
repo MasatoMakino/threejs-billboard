@@ -29,6 +29,7 @@
     "@types/offscreencanvas": "^2019.7.0",
     "@types/three": "^0.158.1",
     "@vitest/coverage-istanbul": "^1.0.2",
+    "@vitest/web-worker": "^1.2.2",
     "browser-sync": "^3.0.2",
     "canvas": "^2.11.2",
     "date-fns": "^2.29.3",
