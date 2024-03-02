@@ -27,7 +27,7 @@
   "devDependencies": {
     "@masatomakino/gulptask-demo-page": "^0.8.0",
     "@types/offscreencanvas": "^2019.7.0",
-    "@types/three": "^0.158.1",
+    "@types/three": "^0.162.0",
     "@vitest/coverage-istanbul": "^1.0.2",
     "@vitest/web-worker": "^1.2.2",
     "browser-sync": "^3.0.2",
