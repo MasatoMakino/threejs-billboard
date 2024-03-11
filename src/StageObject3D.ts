@@ -2,7 +2,7 @@ import { Mesh, MeshBasicMaterial, Sprite, SpriteMaterial } from "three";
 import { StageTexture } from "./StageTexture.js";
 
 /**
- * @deprecated use SharedStageBlillboard or SharedStagePlaneMesh
+ * @deprecated use SharedStageBlillboard or SharedStagePlaneMesh. This class will be removed in version 0.12.0.
  */
 export class StageObject3D {
   /**
