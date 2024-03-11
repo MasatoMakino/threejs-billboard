@@ -8,6 +8,9 @@ import {
 import { StageObject3D } from "./StageObject3D.js";
 import { StageTexture } from "./StageTexture.js";
 
+/**
+ * @deprecated use SharedStageBlillboard. This class will be removed in version 0.12.0.
+ */
 export class StageBillBoard extends Sprite {
   private _imageScale: number;
 

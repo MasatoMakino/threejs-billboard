@@ -2,7 +2,7 @@ import { Application, Container, ICanvas, Ticker } from "pixi.js-legacy";
 import { LinearFilter, Texture } from "three";
 
 /**
- * @deprecated Use SharedStageTexture instead.
+ * @deprecated Use SharedStageTexture instead. This class will be removed in version 0.12.0.
  */
 export class StageTexture extends Texture {
   private _app: Application;
