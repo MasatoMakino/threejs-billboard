@@ -21,7 +21,7 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "pixi.js": "^7.4.0",
+    "pixi.js": "^8.0.0",
     "three": ">=0.126.0 <1.0.0"
   },
   "devDependencies": {
@@ -40,9 +40,6 @@
     "typescript": "^5.2.2",
     "vitest": "^1.0.2",
     "webdriverio": "^8.33.1"
-  },
-  "overrides": {
-    "@types/css-font-loading-module": "^0.0.8"
   },
   "scripts": {
     "test": "vitest",

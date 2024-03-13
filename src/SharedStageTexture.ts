@@ -13,23 +13,27 @@ export class SharedStageTexture extends Texture {
 
   /**
    * 共有テクスチャを生成する
+   */
+  constructor() {
+    super();
+    this.#_app = new Application();
+    this.colorSpace = "srgb";
+  }
+
+  /**
+   * 共有テクスチャ用のPixi.jsインスタンスを初期化する
    *
    * @param width テクスチャの幅 単位ビクセル pow2であることを推奨
    * @param height テクスチャの高さ 単位ビクセル pow2であることを推奨
    */
-  constructor(width: number, height: number) {
-    super();
-
-    this.#_app = new Application({
+  async init(width: number, height: number) {
+    await this.#_app.init({
       autoStart: false,
       backgroundAlpha: 0.0,
       width,
       height,
     });
-
-    this.image = this.#_app.view;
-    this.colorSpace = "srgb";
-
+    this.image = this.#_app.canvas;
     Ticker.shared.addOnce(this.onRequestFrame);
   }
 
