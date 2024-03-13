@@ -1,4 +1,4 @@
-import { SharedStageBillboard, SharedStagePlaneMesh } from "src";
+import { SharedStageBillboard, SharedStagePlaneMesh } from "../src/index.js";
 import { expect } from "vitest";
 
 export const textureArea = {
