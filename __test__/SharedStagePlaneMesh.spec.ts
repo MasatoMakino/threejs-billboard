@@ -7,15 +7,16 @@ import {
 } from "./SharedStageObject3D.js";
 
 describe("SharedStagePlaneMesh", () => {
-  const generateSharedStagePlaneMesh = () => {
-    const texture = new SharedStageTexture(32, 32);
+  const generateSharedStagePlaneMesh = async () => {
+    const texture = new SharedStageTexture();
+    await texture.init(32, 32);
     const material = new MeshBasicMaterial({ map: texture });
     const plane = new SharedStagePlaneMesh(material, textureArea);
     return plane;
   };
 
-  it("should be able to create a SharedStagePlaneMesh", () => {
-    const plane = generateSharedStagePlaneMesh();
+  it("should be able to create a SharedStagePlaneMesh", async () => {
+    const plane = await generateSharedStagePlaneMesh();
     expect(plane).toBeInstanceOf(SharedStagePlaneMesh);
   });
 
@@ -29,15 +30,15 @@ describe("SharedStagePlaneMesh", () => {
 
   it.fails(
     "should throw an error when updating texture area with a material that has not a map of SharedStageTexture",
-    () => {
-      const plane = generateSharedStagePlaneMesh();
+    async () => {
+      const plane = await generateSharedStagePlaneMesh();
       plane.sharedMaterial = new MeshBasicMaterial();
       plane.updateTextureAreaAndUV(textureArea);
     },
   );
 
-  it("should be able to update texture area and uv", () => {
-    const plane = generateSharedStagePlaneMesh();
+  it("should be able to update texture area and uv", async () => {
+    const plane = await generateSharedStagePlaneMesh();
     testUpdateTextureAreaAndUV(plane);
   });
 });

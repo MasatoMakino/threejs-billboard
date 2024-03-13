@@ -4,7 +4,8 @@ import { Graphics, Ticker } from "pixi.js";
 
 describe("SharedStageTexture", () => {
   it("should create an instance of SharedStageTexture with correct dimensions", async () => {
-    const texture = new SharedStageTexture(256, 128);
+    const texture = new SharedStageTexture();
+    await texture.init(256, 128);
 
     expect(texture).toBeTruthy();
     expect(texture).instanceOf(SharedStageTexture);
@@ -16,9 +17,10 @@ describe("SharedStageTexture", () => {
   it("should correctly drawable Canvas pixels using SharedStageTexture", async () => {
     const w = 32;
     const h = 32;
-    const texture = new SharedStageTexture(w, h);
+    const texture = new SharedStageTexture();
+    await texture.init(w, h);
 
-    const g = new Graphics().beginFill(0xff0000).drawRect(0, 0, w, h).endFill();
+    const g = new Graphics().rect(0, 0, w, h).fill(0xff0000);
     texture.stage.addChild(g);
     texture.setNeedUpdate();
     Ticker.shared.update();

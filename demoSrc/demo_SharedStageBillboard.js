@@ -15,8 +15,8 @@ const onDomContentsLoaded = () => {
   initBillBoards(scene);
 };
 
-const initBillBoards = (scene) => {
-  const texture = initSharedTexture();
+const initBillBoards = async (scene) => {
+  const texture = await initSharedTexture();
   const material = new SpriteMaterial({
     map: texture,
     transparent: true,

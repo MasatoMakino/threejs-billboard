@@ -7,18 +7,16 @@ import {
 } from "./SharedStageObject3D.js";
 
 describe("SharedStageBillboard", () => {
-  const generateBillboard = () => {
-    const texture = new SharedStageTexture(
-      textureArea.width,
-      textureArea.height,
-    );
+  const generateBillboard = async () => {
+    const texture = new SharedStageTexture();
+    await texture.init(textureArea.width, textureArea.height);
     const material = new SpriteMaterial({ map: texture });
     const billboard = new SharedStageBillboard(material, textureArea);
     return billboard;
   };
 
-  it("should be able to create a SharedStageBillboard", () => {
-    const billboard = generateBillboard();
+  it("should be able to create a SharedStageBillboard", async () => {
+    const billboard = await generateBillboard();
     expect(billboard).toBeInstanceOf(Sprite);
   });
 
@@ -28,8 +26,8 @@ describe("SharedStageBillboard", () => {
    *
    * SpriteとPlaneGeometryは、頂点のインデックスが異なる。
    */
-  it("should set correct position and uv attributes upon SharedStageBillboard creation", () => {
-    const billboard = generateBillboard();
+  it("should set correct position and uv attributes upon SharedStageBillboard creation", async () => {
+    const billboard = await generateBillboard();
 
     const position = billboard.geometry.getAttribute("position");
     const uv = billboard.geometry.getAttribute("uv");
@@ -55,20 +53,20 @@ describe("SharedStageBillboard", () => {
 
   it.fails(
     "should throw an error when updating texture area with a material that has not a map of SharedStageTexture",
-    () => {
-      const billboard = generateBillboard();
+    async () => {
+      const billboard = await generateBillboard();
       billboard.sharedMaterial = new SpriteMaterial();
       billboard.updateTextureAreaAndUV(textureArea);
     },
   );
 
-  it("should be able to update texture area", () => {
-    const billboard = generateBillboard();
+  it("should be able to update texture area", async () => {
+    const billboard = await generateBillboard();
     testUpdateTextureAreaAndUV(billboard);
   });
 
-  it("should be able to update image scale", () => {
-    const billboard = generateBillboard();
+  it("should be able to update image scale", async () => {
+    const billboard = await generateBillboard();
 
     const scale = 2.0;
     billboard.imageScale = scale;
@@ -78,9 +76,9 @@ describe("SharedStageBillboard", () => {
     expect(billboard.scale.z).toEqual(1);
   });
 
-  it("should not share UV attribute updates between different SharedStageBillboards", () => {
-    const billboard01 = generateBillboard();
-    const billboard02 = generateBillboard();
+  it("should not share UV attribute updates between different SharedStageBillboards", async () => {
+    const billboard01 = await generateBillboard();
+    const billboard02 = await generateBillboard();
     billboard01.updateTextureAreaAndUV(textureArea);
 
     const getUV = (billboard: Sprite) => {
