@@ -20,7 +20,7 @@
 npm install @masatomakino/threejs-billboard --save-dev
 ```
 
-threejs-billboard depend on [three.js](https://threejs.org/) and [pixi.js-legacy](https://github.com/pixijs/pixi.js).
+threejs-billboard depend on [three.js](https://threejs.org/) and [pixi.js](https://github.com/pixijs/pixi.js).
 
 ### Import
 
