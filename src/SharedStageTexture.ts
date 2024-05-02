@@ -9,7 +9,7 @@ import { BufferGeometry, Material, Texture } from "three";
  * テクスチャを共有するBillboardが責任を持って、setNeedUpdate関数を呼び出してテクスチャの更新を宣言する必要がある。
  */
 export class SharedStageTexture extends Texture {
-  #_app: Application;
+  readonly app: Application;
   #_needsUpdateStage = false;
 
   /**
@@ -17,7 +17,7 @@ export class SharedStageTexture extends Texture {
    */
   constructor() {
     super();
-    this.#_app = new Application();
+    this.app = new Application();
     this.colorSpace = "srgb";
   }
 
@@ -28,26 +28,26 @@ export class SharedStageTexture extends Texture {
    * @param height テクスチャの高さ 単位ビクセル pow2であることを推奨
    */
   async init(width: number, height: number) {
-    await this.#_app.init({
+    await this.app.init({
       autoStart: false,
       backgroundAlpha: 0.0,
       width,
       height,
     });
-    this.image = this.#_app.canvas;
+    this.image = this.app.canvas;
     Ticker.shared.add(this.onRequestFrame);
   }
 
   public get stage(): Container {
-    return this.#_app.stage;
+    return this.app.stage;
   }
 
   public get width(): number {
-    return this.#_app.renderer.width;
+    return this.app.renderer.width;
   }
 
   public get height(): number {
-    return this.#_app.renderer.height;
+    return this.app.renderer.height;
   }
 
   /**
@@ -61,7 +61,7 @@ export class SharedStageTexture extends Texture {
 
   private onRequestFrame = () => {
     if (!this.#_needsUpdateStage) return;
-    this.#_app.render();
+    this.app.render();
     this.needsUpdate = true;
     this.#_needsUpdateStage = false;
   };
