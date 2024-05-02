@@ -10,6 +10,7 @@ import { BufferGeometry, Material, Texture } from "three";
  */
 export class SharedStageTexture extends Texture {
   #_app: Application;
+  #_needsUpdateStage = false;
 
   /**
    * 共有テクスチャを生成する
@@ -34,7 +35,7 @@ export class SharedStageTexture extends Texture {
       height,
     });
     this.image = this.#_app.canvas;
-    Ticker.shared.addOnce(this.onRequestFrame);
+    Ticker.shared.add(this.onRequestFrame);
   }
 
   public get stage(): Container {
@@ -55,12 +56,14 @@ export class SharedStageTexture extends Texture {
    * この関数が呼び出されると、次のフレームのレンダリング時にテクスチャが更新される。
    */
   public setNeedUpdate(): void {
-    Ticker.shared.addOnce(this.onRequestFrame);
+    this.#_needsUpdateStage = true;
   }
 
   private onRequestFrame = () => {
+    if (!this.#_needsUpdateStage) return;
     this.#_app.render();
     this.needsUpdate = true;
+    this.#_needsUpdateStage = false;
   };
 
   public calcurateUV(rect: TextureArea): {
