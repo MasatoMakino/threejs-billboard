@@ -9,14 +9,15 @@ import { BufferGeometry, Material, Texture } from "three";
  * テクスチャを共有するBillboardが責任を持って、setNeedUpdate関数を呼び出してテクスチャの更新を宣言する必要がある。
  */
 export class SharedStageTexture extends Texture {
-  #_app: Application;
+  readonly app: Application;
+  #_needsUpdateStage = false;
 
   /**
    * 共有テクスチャを生成する
    */
   constructor() {
     super();
-    this.#_app = new Application();
+    this.app = new Application();
     this.colorSpace = "srgb";
   }
 
@@ -27,26 +28,26 @@ export class SharedStageTexture extends Texture {
    * @param height テクスチャの高さ 単位ビクセル pow2であることを推奨
    */
   async init(width: number, height: number) {
-    await this.#_app.init({
+    await this.app.init({
       autoStart: false,
       backgroundAlpha: 0.0,
       width,
       height,
     });
-    this.image = this.#_app.canvas;
-    Ticker.shared.addOnce(this.onRequestFrame);
+    this.image = this.app.canvas;
+    Ticker.shared.add(this.onRequestFrame);
   }
 
   public get stage(): Container {
-    return this.#_app.stage;
+    return this.app.stage;
   }
 
   public get width(): number {
-    return this.#_app.renderer.width;
+    return this.app.renderer.width;
   }
 
   public get height(): number {
-    return this.#_app.renderer.height;
+    return this.app.renderer.height;
   }
 
   /**
@@ -55,12 +56,14 @@ export class SharedStageTexture extends Texture {
    * この関数が呼び出されると、次のフレームのレンダリング時にテクスチャが更新される。
    */
   public setNeedUpdate(): void {
-    Ticker.shared.addOnce(this.onRequestFrame);
+    this.#_needsUpdateStage = true;
   }
 
   private onRequestFrame = () => {
-    this.#_app.render();
+    if (!this.#_needsUpdateStage) return;
+    this.app.render();
     this.needsUpdate = true;
+    this.#_needsUpdateStage = false;
   };
 
   public calcurateUV(rect: TextureArea): {
