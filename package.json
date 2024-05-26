@@ -36,6 +36,7 @@
     "lil-gui": "^0.19.1",
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.2",
+    "three": "^0.164.1",
     "typedoc": "^0.25.0",
     "typescript": "^5.2.2",
     "vitest": "^1.5.3",
