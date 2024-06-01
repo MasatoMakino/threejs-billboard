@@ -6,10 +6,11 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
+  REVISION,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { SharedStageTexture } from "../esm/index.js";
-import { Assets, Sprite, Text } from "pixi.js";
+import { Assets, RendererType, Sprite, Text, sayHello } from "pixi.js";
 
 export function initScene() {
   const scene = new Scene();
@@ -42,6 +43,7 @@ export function initRenderer(W, H) {
     antialias: true,
   };
   const renderer = new WebGLRenderer(renderOption);
+  console.log("Three.js rev :", REVISION);
   renderer.setClearColor(new Color(0x000000));
   renderer.setSize(W, H);
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -106,6 +108,8 @@ export const initSharedTexture = async () => {
   text.x = 256;
   text.y = 256 + 60;
   texture.setNeedUpdate();
+
+  sayHello(RendererType[texture.app.renderer.type]);
 
   return texture;
 };
