@@ -35,6 +35,7 @@
     "husky": "^9.0.11",
     "lil-gui": "^0.19.1",
     "lint-staged": "^15.0.2",
+    "pixi.js": "^8.1.5",
     "prettier": "^3.0.2",
     "three": "^0.164.1",
     "typedoc": "^0.25.0",
