@@ -38,9 +38,9 @@
     "pixi.js": "^8.1.5",
     "prettier": "^3.0.2",
     "three": "^0.166.0",
-    "typedoc": "^0.25.0",
-    "typescript": "^5.2.2",
-    "webdriverio": "^8.33.1"
+    "typedoc": "^0.26.3",
+    "typescript": "^5.5.2",
+    "webdriverio": "^8.39.0"
   },
   "scripts": {
     "test": "vitest",
