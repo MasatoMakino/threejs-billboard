@@ -27,7 +27,7 @@
   "devDependencies": {
     "@masatomakino/gulptask-demo-page": "^0.8.0",
     "@types/offscreencanvas": "^2019.7.0",
-    "@types/three": "^0.162.0",
+    "@types/three": "^0.166.0",
     "@vitest/browser": "^1.5.3",
     "@vitest/coverage-istanbul": "^1.5.3",
     "browser-sync": "^3.0.2",
@@ -37,7 +37,7 @@
     "lint-staged": "^15.0.2",
     "pixi.js": "^8.1.5",
     "prettier": "^3.0.2",
-    "three": "^0.164.1",
+    "three": "^0.166.0",
     "typedoc": "^0.25.0",
     "typescript": "^5.2.2",
     "webdriverio": "^8.33.1"
