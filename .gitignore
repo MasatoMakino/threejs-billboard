@@ -63,3 +63,5 @@ typings/
 *.tsbuildinfo
 docs/
 esm
+
+__test__/__screenshots__/
