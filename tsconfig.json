@@ -3,18 +3,15 @@
     /* Basic Options */
     "target": "ES2015",
     "module": "ES2022",
+    "lib": ["ES2021", "DOM"],
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "declarationMap": true /* Generates a sourcemap for each corresponding '.d.ts' file. */,
     "outDir": "./esm" /* Redirect output structure to the directory. */,
 
     /* Module Resolution Options */
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "esModuleInterop": true,
 
-    "baseUrl": "./",
-    "paths": {
-      "mini-signals": ["node_modules/resource-loader/typings/mini-signals.d.ts"]
-    },
     "strict": true,
     "noImplicitOverride": true
   },
