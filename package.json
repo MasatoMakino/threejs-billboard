@@ -30,7 +30,7 @@
     "@types/webxr": "^0.5.19",
     "@vitest/coverage-istanbul": "^2.0.5",
     "browser-sync": "^3.0.2",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.0.0",
     "husky": "^9.0.11",
     "lil-gui": "^0.19.1",
     "lint-staged": "^15.0.2",
