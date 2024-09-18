@@ -28,6 +28,7 @@
     "@masatomakino/gulptask-demo-page": "^0.8.0",
     "@types/three": "^0.168.0",
     "@types/webxr": "^0.5.19",
+    "@vitest/browser": "*",
     "@vitest/coverage-istanbul": "^2.0.5",
     "browser-sync": "^3.0.2",
     "date-fns": "^3.6.0",
