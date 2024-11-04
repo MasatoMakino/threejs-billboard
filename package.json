@@ -32,7 +32,7 @@
     "@vitest/coverage-istanbul": "^2.0.5",
     "browser-sync": "^3.0.2",
     "husky": "^9.0.11",
-    "lil-gui": "^0.19.1",
+    "lil-gui": "^0.20.0",
     "lint-staged": "^15.0.2",
     "pixi.js": "^8.1.5",
     "prettier": "^3.0.2",
