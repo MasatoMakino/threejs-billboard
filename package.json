@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@masatomakino/gulptask-demo-page": "^0.8.0",
-    "@types/three": "^0.170.0",
+    "@types/three": "^0.171.0",
     "@types/webxr": "^0.5.19",
     "@vitest/browser": "*",
     "@vitest/coverage-istanbul": "^2.0.5",
