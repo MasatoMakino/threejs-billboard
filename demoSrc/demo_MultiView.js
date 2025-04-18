@@ -19,7 +19,6 @@ window.onload = async () => {
     const size = 50 + i * 10; // サイズを変化させる例
     canvas.width = size;
     canvas.height = size;
-    // canvas.style.border = "1px solid black"; // 見やすくするためにボーダーを追加
     canvasContainer.appendChild(canvas);
     canvases.push(canvas);
   }
@@ -62,19 +61,11 @@ window.onload = async () => {
 
       // クリックされたCanvasのグラデーションの色を変更
       const newColor = Math.random() * 0xffffff;
-
       drawCircle(graphics, canvas.width / 2, newColor);
-      renderCanvas(renderer, stage, canvas, mainCanvas, container, graphics); // クリックされたCanvasを再描画
+      renderCanvas(renderer, stage, canvas, mainCanvas, container, graphics); // Canvasを再描画
     });
   });
 
-  // 初回レンダリング前にensureCanvasSizeを呼び出す
-  if (renderer.type === RendererType.WEBGL && renderer.context.multiView) {
-    canvasData.forEach(({ canvas, graphics }) => {
-      renderer.context.ensureCanvasSize(canvas);
-      graphics.position.y = mainCanvas.height - graphics.height; // 位置を調整
-    });
-  }
   // 初回レンダリング
   canvasData.forEach(({ canvas, container, graphics }) => {
     renderCanvas(renderer, stage, canvas, mainCanvas, container, graphics); // 全てのCanvasを初回レンダリング
@@ -99,6 +90,7 @@ const renderCanvas = (
       context.clearRect(0, 0, canvas.width, canvas.height);
     }
   };
+  renderer.context.ensureCanvasSize(canvas);
   graphics.position.y = mainCanvas.height - graphics.height; // 位置を調整
   container.renderable = true; // 再描画を許可
 
