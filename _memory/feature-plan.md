@@ -95,4 +95,57 @@ PixiJS v8 multiViewオプションが、当初想定した「1ビルボード = 
 
 ### 結論
 
-PixiJS v8のmultiViewアプローチは、手動でのレンダリング管理を前提とすれば目的とする機能の実現は可能である。しかし、機能の設計思想がユースケースと完全に一致しないため、実装および管理のコストが増加する可能性がある。
+PixiJS v8のmultiViewアプローチは、手動でのレンダリング管理を前提とすれば目的とする機能の実現は可能だ。しかし、機能の設計思想がユースケースと完全に一致しないため、実装および管理のコストが増加する可能性がある。
+
+## 7. 実装計画（PixiJS v8 multiViewアプローチ、独立クラス、レンダラー管理クラス、最適化されたレンダリング管理、Three.js連携、独立マテリアル、メモリ管理、テスト容易性向上、カプセル化）
+
+実験結果を踏まえ、PixiJS v8 multiViewアプローチを採用したビルボードおよびプレーンメッシュの実装計画は以下の通りです。既存機能への影響を最小限に抑えつつ、新しい機能を独立した形で開発・検証できるアーキテクチャを目指します。
+
+### 7.1. アーキテクチャ
+
+- **新規クラスの導入:**
+  - PixiJS v8 multiViewを使用した新しいビルボードクラス（例: `MultiViewPixiBillboard`）およびプレーンメッシュクラス（例: `MultiViewPixiPlaneMesh`）を `src/` ディレクトリに独立して作成します。これらのクラスは、対応するThree.jsのMesh（PlaneGeometryなどを使用）を持ちます。
+  - 各インスタンスは、コンストラクター内部でそれぞれ独立したHTMLCanvasElementとPixiJS Containerを持ちます。
+  - 各インスタンスは、コンストラクター内部でそれぞれ独立したThree.jsのマテリアル（例: `MeshBasicMaterial`）を生成し、その `map` パラメーターに、インスタンスに対応するHTMLCanvasElementから生成したThree.jsのCanvasTextureを割り当てます。([Three.js MeshBasicMaterial.map](https://threejs.org/docs/?q=meshbasi#api/en/materials/MeshBasicMaterial.map))
+  - リソース破棄メソッド: `MultiViewPixiBillboard` および `MultiViewPixiPlaneMesh` クラスに、インスタンスが保持するリソース（HTMLCanvasElement, PixiJS Container, Three.js Material, Three.js Texture）を適切に破棄するための `dispose` または `destroy` メソッドを実装します。
+  - 破棄フラグ: 各インスタンスに `isDisposed` のような真偽値フラグを持たせ、`dispose`/`destroy` メソッドが呼び出された際に `true` に設定するようにします。
+  - Containerの公開方法: `MultiViewPixiBillboard` および `MultiViewPixiPlaneMesh` クラスのメンバー変数であるPixiJS Containerは、外部から参照可能である必要がありますが、上書きを防ぐために **readonlyプロパティとして公開するか、getterメソッド経由でのみ参照可能とします。**
+  - レンダラー管理クラスの導入: 単一のPixiJS `Renderer` インスタンス（`multiView: true` で初期化）を生成・管理し、複数のビルボード/プレーンメッシュインスタンスからのレンダリング要求を調整するための新しいクラス（例: `PixiMultiViewManager`）を `src/` ディレクトリに作成します。このクラスのコンストラクターは、オプションでPixiJSの `Ticker` インスタンスを受け取れるようにし、デフォルト値として `Ticker.shared` を使用します。
+- `MultiViewPixiBillboard` および `MultiViewPixiPlaneMesh` の各インスタンスは、コンストラクターで `PixiMultiViewManager` のインスタンスを受け取るようにします。
+- 既存の `src/BillBoard.ts`、`src/BillBoardPlane.ts`、`src/SharedStageBillboard.ts`、`src/SharedStagePlaneMesh.ts` は維持します。
+
+### 7.2. レンダリング管理
+
+- `PixiMultiViewManager` クラス内に、コンストラクターで受け取ったtickerを利用してレンダリングループを監視する仕組みを実装します。
+- `PixiMultiViewManager` は、レンダリングが必要な `MultiViewPixiBillboard` および `MultiViewPixiPlaneMesh` インスタンスを保持するための内部スタック（Setなどが適しているでしょう）を持ちます。
+- `MultiViewPixiBillboard` および `MultiViewPixiPlaneMesh` の各インスタンスは、自身の描画内容が更新された際に、コンストラクターで受け取った `PixiMultiViewManager` インスタンスに対してレンダリングリクエストを行います。このリクエストは、マネージャーの内部スタックに自身（インスタンス）を登録する形で行われます。
+- `PixiMultiViewManager` は、tickerの更新タイミングで内部スタックを確認し、スタックに登録されているすべてのインスタンスに対して以下のレンダリング処理を実行します。
+  - 破棄済みインスタンスの確認: 処理対象のインスタンスの `isDisposed` フラグを確認し、`true` の場合はそのインスタンスの処理をスキップし、スタックから削除します。
+  - 対象インスタンスに対応するコンテナーのみを可視化。
+  - 単一のルート `stage` に対して `renderer.render(stage)` を呼び出し、オフスクリーンCanvasに描画内容を準備。
+  - 対象インスタンスに対応するCanvasをターゲットとして `renderer.render({ container, target: canvas })` を呼び出し、オフスクリーンCanvasの内容をターゲットCanvasにコピー。
+  - 可視化を解除。
+  - 対象インスタンスが持つThree.jsのテクスチャに対して `texture.needsUpdate = true` を設定します。([Three.js Texture.needsUpdate](https://threejs.org/docs/#api/en/textures/Texture.needsUpdate))
+  - 処理が完了したインスタンスをスタックからクリア。
+- この仕組みにより、単一フレーム内で同じインスタンスが複数回レンダリングされることを防ぎ、効率的な更新が可能になります。
+
+### 7.3. 既存コードへの影響
+
+- `src/SharedStageBillboard.ts` および `src/SharedStagePlaneMesh.ts` は直接変更せず、新しい `MultiViewPixiBillboard`、`MultiViewPixiPlaneMesh`、`PixiMultiViewManager` クラスを新規に作成します。
+- `src/index.ts` に新しいクラスをエクスポートとして追加することを検討します。
+
+### 7.4. ScaleCalculatorとCameraChaserへの影響
+
+- `ScaleCalculator` および `CameraChaser` は、新しい `MultiViewPixiBillboard` および `MultiViewPixiPlaneMesh` クラスから利用可能である必要があります。これらのユーティリティクラスが、必要に応じて `PixiMultiViewManager` を通じて情報にアクセスする必要があるか検討します。
+
+### 7.5. テスト計画
+
+- 新規に作成する `MultiViewPixiBillboard`、`MultiViewPixiPlaneMesh`、`PixiMultiViewManager` クラスに対して、専用のユニットテストを作成します。
+- とくに、`PixiMultiViewManager` の以下の点をテストする。
+  - スタックベースのレンダリング管理が正しく機能し、重複レンダリングが防止されるか
+  - 各ビルボード/プレーンメッシュが期待通りに描画されるか
+  - Three.js側でテクスチャが正しく更新されるか
+- メモリ管理のテスト: `dispose`/`destroy` メソッドがリソースを正しく解放するか、破棄されたインスタンスがレンダリングスタックから除外されるかを確認するテストを追加します。
+- tickerの注入: `PixiMultiViewManager` のコンストラクターにtickerを注入する機能を利用し、単体テスト内でレンダリングループの挙動を詳細に制御・検証するテストを作成します。
+- 既存の `ScaleCalculator` および `CameraChaser` のテストは、新しいクラスと組み合わせて実行し、連携が正しく行われるかを確認します。
+- 既存の `SharedStageBillboard` および `SharedStagePlaneMesh` のテストはそのまま維持します。
