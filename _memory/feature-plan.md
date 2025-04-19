@@ -63,3 +63,36 @@
       - 個別のCanvasのレンダリングタイミングを制御できるか？
   - （ステップ2以降はステップ1の結果を踏まえて計画）
 - **代替案:** 実験の結果、アプローチ2が困難と判断された場合は、アプローチ1 (Konva.js) の採用を再検討する。
+
+## 6. 実験結果: PixiJS v8 multiViewオプションの検証
+
+### 実験の目的
+
+PixiJS v8 multiViewオプションが、当初想定した「1ビルボード = 1描画コンテキスト」に近い独立した描画方式の実現に適しているか、その技術的な実現可能性と挙動を検証する。
+
+### 実験内容
+
+- 異なるサイズの32個のCanvas要素を生成し、DOMに追加。
+- `autoDetectRenderer` を `multiView: true` オプション付きで生成。
+- 各Canvasに対応するPixiJSコンテナーと描画内容（グラデーション付きの円）を作成し、単一のルートコンテナー（`stage`）に追加。
+- 各Canvasにクリックイベントリスナーを追加し、クリック時にそのCanvasの描画内容を更新し、再レンダリングを行うデモコードを作成。
+- PixiJSのソースコード（`AbstractRenderer.ts`, `GlContextSystem.ts`, `RenderTargetSystem.ts`, `GlRenderTargetAdaptor.ts`, `CanvasSource.ts`）を調査し、multiViewモードの内部的な仕組みを分析。
+
+### 実験結果から判明したmultiViewの挙動
+
+- multiViewモードでは、レンダリングはまずDOMにアタッチされないオフスクリーンCanvas（メインCanvas）に対して行われる。
+- ターゲットCanvas（`renderer.render` の `target` オプションで指定されたCanvas要素）にはフレームバッファーが存在せず、WebGLレンダリングの直接の対象ではない。
+- オフスクリーンCanvasに描画された内容は、レンダリングパスの終了後（`GlRenderTargetAdaptor` の `postrender` メソッド内）、ターゲットCanvasの2DレンダリングコンテキストにCanvas 2D APIの `drawImage` を使用してコピーされる。
+- このコピー処理は、オフスクリーンCanvasの左下隅を原点として行われる。
+- 意図した描画結果（各ターゲットCanvasへの表示）を得るためには、`renderer.render(stage)` でオフスクリーンCanvasに描画内容を準備し、その後 `renderer.render({ container, target: canvas })` でターゲットCanvasにコピーするという、2回のレンダリング呼び出しが必要であることが判明した。
+
+### 考察
+
+- multiView機能は、ソースコードの構造や挙動から、「単一のstageの描画結果を複数のCanvasに効率的に振り分ける」ことを主な目的として設計されていると推測される。
+- これは、ユーザーの本来のユースケースである「複数のCanvasがそれぞれ独立したstageを持つかのように扱う」という目的とは設計思想が完全に一致しない。
+- しかし、デモ実験で示したように、各Canvasに対応するコンテナーの `renderable` プロパティを手動で切り替えます。そして、`renderer.render(stage)` と `renderer.render({ container, target: canvas })` の2回の呼び出しを組み合わせることで、各Canvasに対して独立した描画内容を管理し、必要なCanvasだけを選択的にレンダリング・コピーすることが技術的に可能です。
+- ただし、この方法ではレンダリングの順番やコンテナーの表示/非表示を手動で管理する必要があり、ライブラリ側の管理項目と実装の複雑さが増加する。
+
+### 結論
+
+PixiJS v8のmultiViewアプローチは、手動でのレンダリング管理を前提とすれば目的とする機能の実現は可能である。しかし、機能の設計思想がユースケースと完全に一致しないため、実装および管理のコストが増加する可能性がある。
