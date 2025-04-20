@@ -1,13 +1,13 @@
-import { autoDetectRenderer, Container, Graphics, RendererType } from "pixi.js";
+import { autoDetectRenderer, Container, Graphics } from "pixi.js";
 
 window.onload = async () => {
   document.body.style.backgroundColor = "#333"; // 背景色を黒に設定
 
   // 既存のthree.js用Canvas要素を削除
-  const threeJSCanvas = document.getElementById("webgl-canvas");
-  if (threeJSCanvas) {
-    threeJSCanvas.remove();
-  }
+  // const threeJSCanvas = document.getElementById("webgl-canvas");
+  // if (threeJSCanvas) {
+  // threeJSCanvas.remove();
+  // }
 
   // 異なるサイズの32個のCanvas要素を生成し、DOMに追加
   const canvasContainer = document.createElement("div");
