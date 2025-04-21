@@ -9,6 +9,7 @@
   - 例: `import { Scene, PerspectiveCamera } from 'three';`
 - ただし、Three.jsのオプションモジュールなど、特定のサブパスからのインポートが必要な例外も存在します。
   - 例: `import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';`
+- ローカルのTypeScriptファイルをインポートする場合、ESMの仕様に基づき、インポートパスには `.js` 拡張子を明示的に指定してください。 例: `import { someFunction } from './someFile.js';`
 
 ## 2. 非同期処理の初期化
 
