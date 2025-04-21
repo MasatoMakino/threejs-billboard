@@ -16,12 +16,14 @@ export class CameraChaser {
   private cameraPos: Vector3 = new Vector3();
   private worldPos: Vector3 = new Vector3();
   private target: Object3D | undefined;
+  private originalOnBeforeRender;
 
   public needUpdateWorldPosition: boolean = false;
 
   constructor(target: Object3D) {
     this.target = target;
     this.target.getWorldPosition(this.worldPos);
+    this.originalOnBeforeRender = this.target.onBeforeRender;
     this.target.onBeforeRender = this.lookCamera;
   }
 
@@ -29,7 +31,10 @@ export class CameraChaser {
    * リソースを解放する。
    */
   dispose(): void {
-    this.target = undefined;
+    if (this.target) {
+      this.target.onBeforeRender = this.originalOnBeforeRender;
+      this.target = undefined;
+    }
   }
 
   /**

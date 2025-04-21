@@ -20,7 +20,7 @@ export class MultiViewPixiPlaneMesh
   private _container: Container;
   private _texture: CanvasTexture; // Three.js texture
   private _manager: PixiMultiViewManager;
-  private cameraChaser: CameraChaser | undefined; // Add CameraChaser property
+  private _cameraChaser: CameraChaser | undefined; // Add CameraChaser property
 
   get canvas(): HTMLCanvasElement {
     return this._canvas;
@@ -36,6 +36,10 @@ export class MultiViewPixiPlaneMesh
 
   get container(): Container {
     return this._container;
+  }
+
+  get cameraChaser(): CameraChaser | undefined {
+    return this._cameraChaser;
   }
 
   constructor(manager: PixiMultiViewManager, width: number, height: number) {
@@ -55,7 +59,7 @@ export class MultiViewPixiPlaneMesh
     this._texture.colorSpace = "srgb";
     (this.material as MeshBasicMaterial).map = this._texture;
 
-    this.cameraChaser = new CameraChaser(this); // Initialize CameraChaser
+    this._cameraChaser = new CameraChaser(this); // Initialize CameraChaser
 
     this._manager.requestRender(this);
   }
@@ -94,7 +98,8 @@ export class MultiViewPixiPlaneMesh
       this._canvas.parentNode.removeChild(this._canvas);
     }
 
-    this.cameraChaser?.dispose(); // Dispose CameraChaser safely
+    this._cameraChaser?.dispose(); // Dispose CameraChaser safely
+    this._cameraChaser = undefined;
     this.parent?.removeFromParent(); // Remove from parent if exists
   }
 }
