@@ -1,16 +1,16 @@
+import { Container } from "pixi.js";
 import {
   CanvasTexture,
-  Mesh,
-  MeshBasicMaterial,
-  PlaneGeometry,
+  Sprite,
   Texture,
+  SpriteMaterial,
+  MeshBasicMaterial,
 } from "three";
 import { PixiMultiViewManager } from "./PixiMultiViewManager.js";
 import { IRenderablePixiView } from "./RenderablePixiView";
-import { Container } from "pixi.js"; // Import Texture from pixi.js
 
 export class MultiViewPixiBillboard
-  extends Mesh
+  extends Sprite
   implements IRenderablePixiView
 {
   private _isDisposed: boolean = false;
@@ -34,12 +34,15 @@ export class MultiViewPixiBillboard
     return this._container;
   }
 
-  constructor(manager: PixiMultiViewManager, width: number, height: number) {
-    const geometry = new PlaneGeometry(width, height);
-    const material = new MeshBasicMaterial({ transparent: true });
+  constructor(
+    manager: PixiMultiViewManager,
+    width: number,
+    height: number,
+    scale: number = 0.01,
+  ) {
+    const material = new SpriteMaterial({ transparent: true, depthTest: true });
 
-    super(geometry, material);
-
+    super(material);
     this._manager = manager;
     this._canvas = document.createElement("canvas");
     this._canvas.width = width;
@@ -48,9 +51,10 @@ export class MultiViewPixiBillboard
     this._container = new Container();
     this._texture = new CanvasTexture(this._canvas); // Create Three.js texture
     this._texture.colorSpace = "srgb";
-    (this.material as MeshBasicMaterial).map = this._texture;
+    (this.material as SpriteMaterial).map = this._texture;
 
-    // Request initial render from manager
+    this.scale.set(scale * width, scale * height, 1); // Set the scale of the sprite
+
     this._manager.requestRender(this);
   }
 
@@ -72,16 +76,16 @@ export class MultiViewPixiBillboard
     this.geometry.dispose();
 
     // Handle material disposal for both single material and array of materials
-    const disposeMaterial = (material: MeshBasicMaterial) => {
+    const disposeMaterial = (material: MeshBasicMaterial | SpriteMaterial) => {
       material.map?.dispose();
       material.dispose();
     };
     if (Array.isArray(this.material)) {
       for (const mat of this.material) {
-        disposeMaterial(mat as MeshBasicMaterial);
+        disposeMaterial(mat as SpriteMaterial);
       }
     } else {
-      disposeMaterial(this.material as MeshBasicMaterial);
+      disposeMaterial(this.material as SpriteMaterial);
     }
 
     // Dispose PixiJS resources
