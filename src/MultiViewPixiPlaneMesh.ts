@@ -1,24 +1,30 @@
-import * as THREE from "three";
-import * as PIXI from "pixi.js";
+import {
+  CanvasTexture,
+  Mesh,
+  MeshBasicMaterial,
+  PlaneGeometry,
+  Texture,
+} from "three";
+import { Container } from "pixi.js";
 import { PixiMultiViewManager } from "./PixiMultiViewManager";
 import { IRenderablePixiView } from "./RenderablePixiView"; // Import the interface
 
 export class MultiViewPixiPlaneMesh
-  extends THREE.Mesh
+  extends Mesh
   implements IRenderablePixiView
 {
   // Implement the interface
   private _isDisposed: boolean = false;
   private _canvas: HTMLCanvasElement;
-  private _container: PIXI.Container;
-  private _texture: THREE.CanvasTexture; // Three.js texture
+  private _container: Container;
+  private _texture: CanvasTexture; // Three.js texture
   private _manager: PixiMultiViewManager;
 
   get canvas(): HTMLCanvasElement {
     return this._canvas;
   }
 
-  get texture(): THREE.Texture {
+  get texture(): Texture {
     return this._texture;
   }
 
@@ -26,13 +32,13 @@ export class MultiViewPixiPlaneMesh
     return this._isDisposed;
   }
 
-  get container(): PIXI.Container {
+  get container(): Container {
     return this._container;
   }
 
   constructor(manager: PixiMultiViewManager, width: number, height: number) {
-    const geometry = new THREE.PlaneGeometry(width, height);
-    const material = new THREE.MeshBasicMaterial({ transparent: true });
+    const geometry = new PlaneGeometry(width, height);
+    const material = new MeshBasicMaterial({ transparent: true });
 
     super(geometry, material);
 
@@ -41,11 +47,11 @@ export class MultiViewPixiPlaneMesh
     this._canvas.width = width;
     this._canvas.height = height;
 
-    this._container = new PIXI.Container();
+    this._container = new Container();
 
-    this._texture = new THREE.CanvasTexture(this._canvas);
+    this._texture = new CanvasTexture(this._canvas);
     this._texture.colorSpace = "srgb";
-    (this.material as THREE.MeshBasicMaterial).map = this._texture;
+    (this.material as MeshBasicMaterial).map = this._texture;
 
     this._manager.requestRender(this);
   }
@@ -66,7 +72,7 @@ export class MultiViewPixiPlaneMesh
 
     // Dispose Three.js resources
     this.geometry.dispose();
-    (this.material as THREE.MeshBasicMaterial).map?.dispose();
+    (this.material as MeshBasicMaterial).map?.dispose();
     // Handle material disposal for both single material and array of materials
     if (Array.isArray(this.material)) {
       for (const mat of this.material) {
