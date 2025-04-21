@@ -1,33 +1,32 @@
-import * as THREE from "three";
-import * as PIXI from "pixi.js";
+import { CanvasTexture, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import { PixiMultiViewManager } from "./PixiMultiViewManager.js";
-import { IRenderablePixiView } from "./RenderablePixiView"; // Import the interface
+import { IRenderablePixiView } from "./RenderablePixiView";
+import { Container } from "pixi.js";
 
 export class MultiViewPixiBillboard
-  extends THREE.Mesh
+  extends Mesh
   implements IRenderablePixiView
 {
-  // Implement the interface
   private _isDisposed: boolean = false;
   get canvas(): HTMLCanvasElement {
     return this._canvas;
   }
   private _canvas: HTMLCanvasElement;
-  private _container: PIXI.Container;
-  private _texture: THREE.CanvasTexture;
+  private _container: Container;
+  private _texture: CanvasTexture;
   private _manager: PixiMultiViewManager;
 
   get isDisposed(): boolean {
     return this._isDisposed;
   }
 
-  get container(): PIXI.Container {
+  get container(): Container {
     return this._container;
   }
 
   constructor(manager: PixiMultiViewManager, width: number, height: number) {
-    const geometry = new THREE.PlaneGeometry(width, height);
-    const material = new THREE.MeshBasicMaterial({ transparent: true });
+    const geometry = new PlaneGeometry(width, height);
+    const material = new MeshBasicMaterial({ transparent: true });
 
     super(geometry, material);
 
@@ -36,11 +35,10 @@ export class MultiViewPixiBillboard
     this._canvas.width = width;
     this._canvas.height = height;
 
-    this._container = new PIXI.Container();
-
-    this._texture = new THREE.CanvasTexture(this._canvas);
-    this._texture.needsUpdate = true;
-    (this.material as THREE.MeshBasicMaterial).map = this._texture;
+    this._container = new Container();
+    this._texture = new CanvasTexture(this._canvas);
+    this._texture.colorSpace = "srgb";
+    (this.material as MeshBasicMaterial).map = this._texture;
 
     // Request initial render from manager
     this._manager.requestRender(this);
@@ -51,8 +49,6 @@ export class MultiViewPixiBillboard
       console.warn("Attempted to update disposed MultiViewPixiBillboard.");
       return;
     }
-    // renderFunction(this._container);
-    // Request render from manager
     this._manager.requestRender(this);
   }
 
@@ -64,24 +60,27 @@ export class MultiViewPixiBillboard
 
     // Dispose Three.js resources
     this.geometry.dispose();
-    (this.material as THREE.MeshBasicMaterial).map?.dispose();
+
     // Handle material disposal for both single material and array of materials
+    const disposeMaterial = (material: MeshBasicMaterial) => {
+      material.map?.dispose();
+      material.dispose();
+    };
     if (Array.isArray(this.material)) {
       for (const mat of this.material) {
-        mat.dispose();
+        disposeMaterial(mat as MeshBasicMaterial);
       }
     } else {
-      this.material.dispose();
+      disposeMaterial(this.material as MeshBasicMaterial);
     }
 
-    // Dispose PixiJS resources (container itself doesn't need explicit dispose in this context, but its children might)
-    // Assuming children will be managed by the user of the class
+    // Dispose PixiJS resources
+    this._container.removeFromParent();
+    this._container.destroy({ children: true }); // Destroy the container and its children
 
     // Remove canvas from DOM if it was added (though in this plan, it's not added to DOM)
     if (this._canvas.parentNode) {
       this._canvas.parentNode.removeChild(this._canvas);
     }
-
-    // TODO: Notify manager about disposal
   }
 }

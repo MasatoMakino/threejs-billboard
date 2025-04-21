@@ -23,7 +23,7 @@ window.onload = async () => {
   await pixiManager.init(); // Initialize the PixiJS renderer
 
   // Create a MultiViewPixiBillboard instance
-  const billboard = new MultiViewPixiBillboard(pixiManager, 200, 800); // width, height in PixiJS pixels
+  const billboard = new MultiViewPixiBillboard(pixiManager, 200, 100); // width, height in PixiJS pixels
   scene.add(billboard);
 
   // Add some content to the billboard's PixiJS container

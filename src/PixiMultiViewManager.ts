@@ -4,7 +4,7 @@ import { IRenderablePixiView } from "./RenderablePixiView"; // Import the interf
 export class PixiMultiViewManager {
   get renderer(): WebGLRenderer | null {
     return this._renderer;
-  } // Getter for renderer
+  }
   private _renderer: WebGLRenderer | null = null; // Renderer is now initialized asynchronously
   private _ticker: Ticker;
   private _renderQueue: Set<IRenderablePixiView> = new Set(); // Use the interface
@@ -23,13 +23,10 @@ export class PixiMultiViewManager {
     }
 
     this._renderer = (await autoDetectRenderer({
-      // view: document.createElement('canvas'), // Offscreen canvas - Removed as per feedback
-      // width: 1, // Initial size, will be adjusted by content
-      // height: 1,
-      // autoDensity: true,
-      // powerPreference: 'high-performance',
-      // backgroundColor: 0x333333, // Transparent background
-      // backgroundAlpha: 0.5,
+      width: 1,
+      height: 1,
+      autoDensity: false,
+      preference: "webgl",
       backgroundAlpha: 0,
       multiView: true,
     })) as WebGLRenderer; // Cast to Renderer type

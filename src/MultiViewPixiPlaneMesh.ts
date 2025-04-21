@@ -36,10 +36,9 @@ export class MultiViewPixiPlaneMesh
     this._container = new PIXI.Container();
 
     this._texture = new THREE.CanvasTexture(this._canvas);
-    this._texture.needsUpdate = true;
+    this._texture.colorSpace = "srgb";
     (this.material as THREE.MeshBasicMaterial).map = this._texture;
 
-    // Request initial render from manager
     this._manager.requestRender(this);
   }
 
