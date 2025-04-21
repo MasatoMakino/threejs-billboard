@@ -1,7 +1,7 @@
+import * as PIXI from "pixi.js";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import * as PIXI from "pixi.js";
-import { PixiMultiViewManager, MultiViewPixiBillboard } from "../esm/index.js";
+import { MultiViewPixiPlaneMesh, PixiMultiViewManager } from "../esm/index.js";
 
 window.onload = async () => {
   const w = 800;
@@ -9,22 +9,21 @@ window.onload = async () => {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
 
-  // Get the canvas element created by the demo page generator
   const canvas = document.getElementById("webgl-canvas"); // Remove type assertion
   const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setSize(w, h);
-  // No need to append to body, it's already there
 
   const controls = new OrbitControls(camera, renderer.domElement);
   camera.position.z = 500;
 
   // Create PixiMultiViewManager
   const pixiManager = new PixiMultiViewManager();
-  await pixiManager.init(); // Initialize the PixiJS renderer
+  await pixiManager.init();
 
-  // Create a MultiViewPixiBillboard instance
-  const billboard = new MultiViewPixiBillboard(pixiManager, 200, 100); // width, height in PixiJS pixels
+  // Create a MultiViewPixiPlaneMesh instance
+  const billboard = new MultiViewPixiPlaneMesh(pixiManager, 200, 100);
   scene.add(billboard);
+  billboard.cameraChaser.isLookingCameraHorizontal = true;
 
   // Add some content to the billboard's PixiJS container
   const graphics = new PIXI.Graphics().rect(0, 0, 200, 100).fill(0xff0000);
@@ -38,33 +37,14 @@ window.onload = async () => {
   billboard.updateContent();
 
   // Position the billboard in the Three.js scene
-  billboard.position.set(0, 0, 0);
+  billboard.position.set(300, 0, 0);
 
   // Animation loop
   const animate = () => {
-    requestAnimationFrame(animate);
-
-    // Update controls
-    controls.update();
-
-    // Render Three.js scene
     renderer.render(scene, camera);
+    requestAnimationFrame(animate);
   };
-
   animate();
-
-  // Handle window resize
-  const onResize = () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    // Update the camera aspect ratio and renderer size
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
-  };
-  window.addEventListener("resize", onResize);
-  onResize();
 
   // Example of updating billboard content after a delay
   setTimeout(() => {
