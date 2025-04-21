@@ -1,7 +1,13 @@
-import { CanvasTexture, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
+import {
+  CanvasTexture,
+  Mesh,
+  MeshBasicMaterial,
+  PlaneGeometry,
+  Texture,
+} from "three";
 import { PixiMultiViewManager } from "./PixiMultiViewManager.js";
 import { IRenderablePixiView } from "./RenderablePixiView";
-import { Container } from "pixi.js";
+import { Container } from "pixi.js"; // Import Texture from pixi.js
 
 export class MultiViewPixiBillboard
   extends Mesh
@@ -13,8 +19,12 @@ export class MultiViewPixiBillboard
   }
   private _canvas: HTMLCanvasElement;
   private _container: Container;
-  private _texture: CanvasTexture;
+  private _texture: CanvasTexture; // Three.js texture
   private _manager: PixiMultiViewManager;
+
+  get texture(): Texture {
+    return this._texture;
+  }
 
   get isDisposed(): boolean {
     return this._isDisposed;
@@ -36,7 +46,7 @@ export class MultiViewPixiBillboard
     this._canvas.height = height;
 
     this._container = new Container();
-    this._texture = new CanvasTexture(this._canvas);
+    this._texture = new CanvasTexture(this._canvas); // Create Three.js texture
     this._texture.colorSpace = "srgb";
     (this.material as MeshBasicMaterial).map = this._texture;
 

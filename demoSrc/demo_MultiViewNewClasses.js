@@ -54,11 +54,17 @@ window.onload = async () => {
   animate();
 
   // Handle window resize
-  //   window.addEventListener("resize", () => {
-  //     camera.aspect = window.innerWidth / window.innerHeight;
-  //     camera.updateProjectionMatrix();
-  //     renderer.setSize(window.innerWidth, window.innerHeight);
-  //   });
+  const onResize = () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    // Update the camera aspect ratio and renderer size
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  };
+  window.addEventListener("resize", onResize);
+  onResize();
 
   // Example of updating billboard content after a delay
   setTimeout(() => {
@@ -84,9 +90,4 @@ window.onload = async () => {
   //     scene.remove(billboard);
   //     console.log('Billboard disposed and removed from scene.');
   // }, 6000); // Dispose after 6 seconds
-
-  document.body.appendChild(pixiManager.renderer.canvas);
-  document.body.appendChild(billboard.canvas);
-
-  //   document.body.appendChild(
 };

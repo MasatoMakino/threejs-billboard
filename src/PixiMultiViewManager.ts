@@ -71,7 +71,7 @@ export class PixiMultiViewManager {
       if (instance.isDisposed) {
         continue;
       }
-      const targetCanvas = (instance as any)._canvas; // Access the internal canvas
+      const targetCanvas = instance.canvas; // Access the canvas property
       // Use type assertion to access context
       if (targetCanvas && this._renderer.context.multiView) {
         console.log(
@@ -100,7 +100,7 @@ export class PixiMultiViewManager {
         continue;
       }
       const canvas = this._renderer.canvas;
-      const targetCanvas = (instance as any)._canvas; // Access the internal canvas
+      const targetCanvas = instance.canvas; // Access the canvas property
       if (canvas && targetCanvas) {
         instance.container.position.y = canvas.height - targetCanvas.height;
         console.log(
@@ -121,8 +121,8 @@ export class PixiMultiViewManager {
         continue; // Already handled above, but double check
       }
 
-      const canvas = (instance as any)._canvas; // Access the internal canvas
-      const texture = (instance as any)._texture; // Access the internal texture
+      const canvas = instance.canvas; // Access the canvas property
+      const texture = instance.texture; // Access the texture property (Three.js Texture)
 
       if (canvas && texture) {
         const clear = (canvas: HTMLCanvasElement) => {
@@ -139,7 +139,7 @@ export class PixiMultiViewManager {
           container: instance.container,
           target: canvas,
         });
-        texture.needsUpdate = true;
+        texture.needsUpdate = true; // Access needsUpdate on Three.js Texture
       }
     }
 

@@ -11,8 +11,16 @@ export class MultiViewPixiPlaneMesh
   private _isDisposed: boolean = false;
   private _canvas: HTMLCanvasElement;
   private _container: PIXI.Container;
-  private _texture: THREE.CanvasTexture;
+  private _texture: THREE.CanvasTexture; // Three.js texture
   private _manager: PixiMultiViewManager;
+
+  get canvas(): HTMLCanvasElement {
+    return this._canvas;
+  }
+
+  get texture(): THREE.Texture {
+    return this._texture;
+  }
 
   get isDisposed(): boolean {
     return this._isDisposed;

@@ -1,7 +1,10 @@
-import * as PIXI from "pixi.js";
+import { Texture } from "three";
+import { Container } from "pixi.js";
 
 export interface IRenderablePixiView {
   isDisposed: boolean;
-  container: PIXI.Container;
+  container: Container;
+  canvas: HTMLCanvasElement;
+  texture: Texture;
   // Add other common properties or methods if needed in the future
 }
