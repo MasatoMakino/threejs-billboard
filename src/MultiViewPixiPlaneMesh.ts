@@ -64,6 +64,22 @@ export class MultiViewPixiPlaneMesh
     this._manager.requestRender(this);
   }
 
+  /**
+   * Sets the scale of the mesh.
+   *
+   * @param scale The scale factor to apply.
+   * @returns void
+   */
+  setScale(scale: number): void {
+    if (this._isDisposed) {
+      console.warn(
+        "Attempted to set scale on disposed MultiViewPixiPlaneMesh.",
+      );
+      return;
+    }
+    this.scale.set(scale, scale, 1);
+  }
+
   updateContent(): void {
     if (this._isDisposed) {
       console.warn("Attempted to update disposed MultiViewPixiPlaneMesh.");

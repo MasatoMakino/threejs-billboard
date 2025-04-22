@@ -1,5 +1,4 @@
 import * as PIXI from "pixi.js";
-import * as THREE from "three";
 import { MultiViewPixiPlaneMesh, PixiMultiViewManager } from "../esm/index.js";
 import { initSceneSet } from "./common.js";
 
@@ -16,7 +15,7 @@ window.onload = async () => {
   const billboard = new MultiViewPixiPlaneMesh(pixiManager, 200, 100);
   scene.add(billboard);
   billboard.cameraChaser.isLookingCameraHorizontal = true;
-  billboard.scale.set(0.1, 0.1, 1); // Scale the billboard
+  billboard.setScale(0.1);
 
   // Add some content to the billboard's PixiJS container
   const graphics = new PIXI.Graphics().rect(0, 0, 200, 100).fill(0xff0000);
