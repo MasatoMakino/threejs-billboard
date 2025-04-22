@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import * as THREE from "three";
+import { AxesHelper } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { MultiViewPixiPlaneMesh, PixiMultiViewManager } from "../esm/index.js";
 
@@ -15,6 +16,10 @@ window.onload = async () => {
 
   const controls = new OrbitControls(camera, renderer.domElement);
   camera.position.z = 500;
+
+  // Add AxesHelper
+  const axesHelper = new AxesHelper(300);
+  scene.add(axesHelper);
 
   // Create PixiMultiViewManager
   const pixiManager = new PixiMultiViewManager();

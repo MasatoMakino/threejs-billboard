@@ -3,12 +3,6 @@ import { autoDetectRenderer, Container, Graphics } from "pixi.js";
 window.onload = async () => {
   document.body.style.backgroundColor = "#333"; // 背景色を黒に設定
 
-  // 既存のthree.js用Canvas要素を削除
-  // const threeJSCanvas = document.getElementById("webgl-canvas");
-  // if (threeJSCanvas) {
-  // threeJSCanvas.remove();
-  // }
-
   // 異なるサイズの32個のCanvas要素を生成し、DOMに追加
   const canvasContainer = document.createElement("div");
   document.body.appendChild(canvasContainer);
@@ -90,8 +84,12 @@ const renderCanvas = (
       context.clearRect(0, 0, canvas.width, canvas.height);
     }
   };
-  renderer.context.ensureCanvasSize(canvas);
-  graphics.position.y = mainCanvas.height - graphics.height; // 位置を調整
+  // renderer.context.ensureCanvasSize(canvas);
+  const w = Math.max(canvas.width, renderer.canvas.width);
+  const h = Math.max(canvas.height, renderer.canvas.height);
+  if (canvas.width !== w || canvas.height !== h) {
+    renderer.resize(w, h); // サイズをCanvasに合わせる
+  }
   container.renderable = true; // 再描画を許可
 
   clear(canvas);

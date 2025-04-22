@@ -1,5 +1,5 @@
-import { autoDetectRenderer, Container, Ticker, WebGLRenderer } from "pixi.js"; // Import necessary components from pixi.js
-import { IRenderablePixiView } from "./RenderablePixiView"; // Import the interface
+import { autoDetectRenderer, Container, Ticker, WebGLRenderer } from "pixi.js";
+import { IRenderablePixiView } from "./RenderablePixiView";
 
 export class PixiMultiViewManager {
   get renderer(): WebGLRenderer | null {
@@ -12,8 +12,7 @@ export class PixiMultiViewManager {
 
   constructor(ticker: Ticker = Ticker.shared) {
     this._ticker = ticker;
-    this._stage = new Container(); // Initialize the root stage
-    // Renderer is initialized in the init method
+    this._stage = new Container();
   }
 
   async init(): Promise<void> {
@@ -79,46 +78,20 @@ export class PixiMultiViewManager {
           targetCanvas.width,
           targetCanvas.height,
         );
-        // this._renderer.context.ensureCanvasSize(targetCanvas);
 
-        const canvas = this._renderer;
-        console.log(canvas.width, canvas.height);
-
-        const w = Math.max(canvas.width, targetCanvas.width);
-        const h = Math.max(canvas.height, targetCanvas.height);
-        if (canvas.width !== w || canvas.height !== h) {
-          canvas.resize(w, h);
-          console.log("Canvas size ensured:", canvas.width, canvas.height);
-          console.log(this._renderer.canvas);
+        const renderer = this._renderer;
+        const w = Math.max(renderer.width, targetCanvas.width);
+        const h = Math.max(renderer.height, targetCanvas.height);
+        if (renderer.width !== w || renderer.height !== h) {
+          renderer.resize(w, h);
         }
       }
     }
 
-    // Adjust container position for left-bottom origin before rendering to the offscreen canvas
-    for (const instance of this._renderQueue) {
-      if (instance.isDisposed) {
-        continue;
-      }
-      const canvas = this._renderer.canvas;
-      const targetCanvas = instance.canvas; // Access the canvas property
-      if (canvas && targetCanvas) {
-        instance.container.position.y = canvas.height - targetCanvas.height;
-        console.log(
-          "Container position adjusted:",
-          canvas.height,
-          targetCanvas.height,
-          instance.container.position.y,
-        );
-      }
-    }
-
-    // Render the entire stage to the offscreen canvas
-    this._renderer.render(this._stage);
-
     // Copy rendered content to individual canvases and update textures
     for (const instance of this._renderQueue) {
       if (instance.isDisposed) {
-        continue; // Already handled above, but double check
+        continue;
       }
 
       const canvas = instance.canvas; // Access the canvas property
