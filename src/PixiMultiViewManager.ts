@@ -1,6 +1,6 @@
 import { autoDetectRenderer, Container, Ticker, WebGLRenderer } from "pixi.js";
 import { IRenderablePixiView } from "./RenderablePixiView";
-import { CanvasTexture, Texture } from "three";
+import { Texture } from "three";
 
 export class PixiMultiViewManager {
   get renderer(): WebGLRenderer | null {
