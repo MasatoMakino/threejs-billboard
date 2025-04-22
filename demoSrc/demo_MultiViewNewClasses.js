@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js";
+import { Graphics, Text } from "pixi.js";
 import { MultiViewPixiPlaneMesh, PixiMultiViewManager } from "../esm/index.js";
 import { initSceneSet } from "./common.js";
 
@@ -18,8 +18,8 @@ window.onload = async () => {
   billboard.setScale(0.1);
 
   // Add some content to the billboard's PixiJS container
-  const graphics = new PIXI.Graphics().rect(0, 0, 200, 100).fill(0xff0000);
-  const text = new PIXI.Text({
+  const graphics = new Graphics().rect(0, 0, 200, 100).fill(0xff0000);
+  const text = new Text({
     text: "Hello MultiView!",
     style: { fill: 0xffffff },
   });
@@ -36,8 +36,8 @@ window.onload = async () => {
     console.log("Updating billboard content...");
     billboard.container.removeChildren();
 
-    const graphics2 = new PIXI.Graphics().rect(0, 0, 200, 100).fill(0x0000ff);
-    const text2 = new PIXI.Text({
+    const graphics2 = new Graphics().rect(0, 0, 200, 100).fill(0x0000ff);
+    const text2 = new Text({
       text: "Updated!",
       style: { fill: 0xffffff },
     });
