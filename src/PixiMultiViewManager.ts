@@ -1,5 +1,6 @@
 import { autoDetectRenderer, Container, Ticker, WebGLRenderer } from "pixi.js";
 import { IRenderablePixiView } from "./RenderablePixiView";
+import { CanvasTexture, Texture } from "three";
 
 export class PixiMultiViewManager {
   get renderer(): WebGLRenderer | null {
@@ -28,14 +29,13 @@ export class PixiMultiViewManager {
       preference: "webgl",
       backgroundAlpha: 0,
       multiView: true,
-    })) as WebGLRenderer; // Cast to Renderer type
+    })) as WebGLRenderer;
 
     this._ticker.add(this._renderLoop, this);
     this._ticker.start();
   }
 
   requestRender(instance: IRenderablePixiView): void {
-    // Use IRenderablePixiView
     if (instance.isDisposed) {
       return;
     }
@@ -50,19 +50,9 @@ export class PixiMultiViewManager {
     // Add only the containers that need rendering to the persistent stage
     for (const instance of this._renderQueue) {
       if (instance.isDisposed) {
-        // Remove disposed instances from the queue
         this._renderQueue.delete(instance);
         continue;
       }
-      // Ensure the container is not already a child of the stage
-      if (instance.container.parent !== this._stage) {
-        this._stage.addChild(instance.container);
-      }
-    }
-
-    if (this._stage.children.length === 0) {
-      this._renderQueue.clear();
-      return;
     }
 
     // Ensure canvas sizes are correct before rendering using renderer.context.ensureCanvasSize
@@ -70,66 +60,64 @@ export class PixiMultiViewManager {
       if (instance.isDisposed) {
         continue;
       }
-      const targetCanvas = instance.canvas; // Access the canvas property
-      // Use type assertion to access context
-      if (targetCanvas && this._renderer.context.multiView) {
-        console.log(
-          "Ensuring canvas size:",
-          targetCanvas.width,
-          targetCanvas.height,
-        );
-
-        const renderer = this._renderer;
-        const w = Math.max(renderer.width, targetCanvas.width);
-        const h = Math.max(renderer.height, targetCanvas.height);
-        if (renderer.width !== w || renderer.height !== h) {
-          renderer.resize(w, h);
-        }
-      }
+      this._stage.addChild(instance.container);
+      PixiMultiViewManager.ensureRendererSize(this._renderer, instance.canvas);
+      PixiMultiViewManager.renderToTargetCanvas(
+        this._renderer,
+        instance.canvas,
+        instance.texture,
+        instance.container,
+      );
+      instance.container.removeFromParent();
     }
 
-    // Copy rendered content to individual canvases and update textures
-    for (const instance of this._renderQueue) {
-      if (instance.isDisposed) {
-        continue;
-      }
-
-      const canvas = instance.canvas; // Access the canvas property
-      const texture = instance.texture; // Access the texture property (Three.js Texture)
-
-      if (canvas && texture) {
-        const clear = (canvas: HTMLCanvasElement) => {
-          const context = canvas.getContext("2d");
-          if (context) {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-          }
-        };
-        clear(this._renderer.canvas); // Clear the offscreen canvas
-        clear(canvas); // Clear the instance's canvas
-
-        this._renderer.render(this._stage);
-        this._renderer.render({
-          container: instance.container,
-          target: canvas,
-        });
-        texture.needsUpdate = true; // Access needsUpdate on Three.js Texture
-      }
-    }
-
-    // Remove processed containers from the stage
-    for (const instance of this._renderQueue) {
-      if (!instance.isDisposed && instance.container.parent === this._stage) {
-        this._stage.removeChild(instance.container);
-      }
-    }
-
-    // Clear the queue after rendering
     this._renderQueue.clear();
+    this._stage.removeChildren();
+  }
+
+  /**
+   * Ensures the renderer size matches the target canvas size.
+   * @param renderer
+   * @param targetCanvas
+   */
+  private static ensureRendererSize(
+    renderer: WebGLRenderer,
+    targetCanvas: HTMLCanvasElement,
+  ): void {
+    const w = Math.max(renderer.width, targetCanvas.width);
+    const h = Math.max(renderer.height, targetCanvas.height);
+    if (renderer.width !== w || renderer.height !== h) {
+      renderer.resize(w, h);
+    }
+  }
+
+  private static renderToTargetCanvas(
+    renderer: WebGLRenderer,
+    targetCanvas: HTMLCanvasElement,
+    targetTexture: Texture,
+    container: Container,
+  ): void {
+    if (!renderer || !targetCanvas || !targetTexture) {
+      return;
+    }
+
+    const clear = (canvas: HTMLCanvasElement) => {
+      const context = canvas.getContext("2d");
+      if (context) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    };
+    clear(targetCanvas); // Clear the instance's canvas
+
+    renderer.render({
+      container: container,
+      target: targetCanvas,
+    });
+    targetTexture.needsUpdate = true; // Access needsUpdate on Three.js Texture
   }
 
   dispose(): void {
     this._ticker.remove(this._renderLoop, this);
-    this._ticker.stop();
     if (this._renderer) {
       this._renderer.destroy();
     }
