@@ -14,25 +14,25 @@ export class MultiViewPixiBillboard
   implements IRenderablePixiView
 {
   private _isDisposed: boolean = false;
-  get canvas(): HTMLCanvasElement {
-    return this._canvas;
-  }
-  private _canvas: HTMLCanvasElement;
-  private _container: Container;
-  private _texture: CanvasTexture; // Three.js texture
-  private _manager: PixiMultiViewManager;
-
-  get texture(): Texture {
-    return this._texture;
-  }
-
   get isDisposed(): boolean {
     return this._isDisposed;
   }
 
+  private _canvas: HTMLCanvasElement;
+  get canvas(): HTMLCanvasElement {
+    return this._canvas;
+  }
+
+  private _container: Container;
   get container(): Container {
     return this._container;
   }
+
+  private _texture: CanvasTexture; // Three.js texture
+  get texture(): Texture {
+    return this._texture;
+  }
+  private _manager: PixiMultiViewManager;
 
   constructor(
     manager: PixiMultiViewManager,
@@ -72,29 +72,39 @@ export class MultiViewPixiBillboard
     }
     this._isDisposed = true;
 
-    // Dispose Three.js resources
     this.geometry.dispose();
+    MultiViewObject3DUtils.disposeMaterials(this.material);
+    MultiViewObject3DUtils.disposeStageContainer(this._container);
+    MultiViewObject3DUtils.disposeCanvas(this._canvas);
+  }
+}
 
-    // Handle material disposal for both single material and array of materials
-    const disposeMaterial = (material: MeshBasicMaterial | SpriteMaterial) => {
-      material.map?.dispose();
-      material.dispose();
-    };
-    if (Array.isArray(this.material)) {
-      for (const mat of this.material) {
-        disposeMaterial(mat as SpriteMaterial);
-      }
-    } else {
-      disposeMaterial(this.material as SpriteMaterial);
+type MaterialType = MeshBasicMaterial | SpriteMaterial;
+
+export class MultiViewObject3DUtils {
+  static disposeMaterials(materials: MaterialType | MaterialType[]): void {
+    if (!Array.isArray(materials)) {
+      materials = [materials];
     }
+    for (const material of materials) {
+      if (material.map) {
+        material.map.dispose();
+      }
+      material.dispose();
+    }
+  }
 
-    // Dispose PixiJS resources
-    this._container.removeFromParent();
-    this._container.destroy({ children: true }); // Destroy the container and its children
+  static disposeStageContainer(container: Container): void {
+    if (container) {
+      container.removeFromParent();
+      container.removeChildren();
+      container.destroy({ children: true });
+    }
+  }
 
-    // Remove canvas from DOM if it was added (though in this plan, it's not added to DOM)
-    if (this._canvas.parentNode) {
-      this._canvas.parentNode.removeChild(this._canvas);
+  static disposeCanvas(canvas: HTMLCanvasElement): void {
+    if (canvas && canvas.parentNode) {
+      canvas.parentNode.removeChild(canvas);
     }
   }
 }

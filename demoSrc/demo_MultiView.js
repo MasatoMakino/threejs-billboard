@@ -24,7 +24,6 @@ window.onload = async () => {
     backgroundAlpha: 0,
   });
   document.body.appendChild(renderer.canvas);
-  const stage = new Container();
   const mainCanvas = renderer.canvas;
 
   // 各Canvasに対応するコンテナとグラデーションを作成
@@ -44,7 +43,6 @@ window.onload = async () => {
 
     container.addChild(graphics);
     canvasData.push({ canvas, container, graphics }); // graphicsも保持
-    stage.addChild(container); // stageにコンテナを追加
     container.renderable = false; // 初期状態では描画しない
   }
 
@@ -56,13 +54,13 @@ window.onload = async () => {
       // クリックされたCanvasのグラデーションの色を変更
       const newColor = Math.random() * 0xffffff;
       drawCircle(graphics, canvas.width / 2, newColor);
-      renderCanvas(renderer, stage, canvas, mainCanvas, container, graphics); // Canvasを再描画
+      renderCanvas(renderer, canvas, container); // Canvasを再描画
     });
   });
 
   // 初回レンダリング
   canvasData.forEach(({ canvas, container, graphics }) => {
-    renderCanvas(renderer, stage, canvas, mainCanvas, container, graphics); // 全てのCanvasを初回レンダリング
+    renderCanvas(renderer, canvas, container); // 全てのCanvasを初回レンダリング
   });
 };
 
@@ -70,31 +68,11 @@ const drawCircle = (graphics, radius, color) => {
   graphics.clear().circle(radius, radius, radius).fill({ color, alpha: 0.5 });
 };
 
-const renderCanvas = (
-  renderer,
-  stage,
-  canvas,
-  mainCanvas,
-  container,
-  graphics,
-) => {
-  const clear = (canvas) => {
-    const context = canvas.getContext("2d");
-    if (context) {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-    }
-  };
-  // renderer.context.ensureCanvasSize(canvas);
+const renderCanvas = (renderer, canvas, container) => {
   const w = Math.max(canvas.width, renderer.canvas.width);
   const h = Math.max(canvas.height, renderer.canvas.height);
   if (canvas.width !== w || canvas.height !== h) {
     renderer.resize(w, h); // サイズをCanvasに合わせる
   }
-  container.renderable = true; // 再描画を許可
-
-  clear(canvas);
-  clear(mainCanvas); // mainCanvasもクリア
-  renderer.render(stage); // stageを再レンダリン
   renderer.render({ container, target: canvas });
-  container.renderable = false; // 再描画を防ぐ
 };

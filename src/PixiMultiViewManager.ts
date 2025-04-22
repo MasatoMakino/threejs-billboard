@@ -9,11 +9,9 @@ export class PixiMultiViewManager {
   private _renderer: WebGLRenderer | null = null; // Renderer is now initialized asynchronously
   private _ticker: Ticker;
   private _renderQueue: Set<IRenderablePixiView> = new Set(); // Use the interface
-  private _stage: Container; // Add a persistent root stage
 
   constructor(ticker: Ticker = Ticker.shared) {
     this._ticker = ticker;
-    this._stage = new Container();
   }
 
   async init(): Promise<void> {
@@ -60,7 +58,6 @@ export class PixiMultiViewManager {
       if (instance.isDisposed) {
         continue;
       }
-      this._stage.addChild(instance.container);
       PixiMultiViewManager.ensureRendererSize(this._renderer, instance.canvas);
       PixiMultiViewManager.renderToTargetCanvas(
         this._renderer,
@@ -68,11 +65,9 @@ export class PixiMultiViewManager {
         instance.texture,
         instance.container,
       );
-      instance.container.removeFromParent();
     }
 
     this._renderQueue.clear();
-    this._stage.removeChildren();
   }
 
   /**
@@ -101,19 +96,19 @@ export class PixiMultiViewManager {
       return;
     }
 
-    const clear = (canvas: HTMLCanvasElement) => {
-      const context = canvas.getContext("2d");
-      if (context) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    };
-    clear(targetCanvas); // Clear the instance's canvas
+    // const clear = (canvas: HTMLCanvasElement) => {
+    //   const context = canvas.getContext("2d");
+    //   if (context) {
+    //     context.clearRect(0, 0, canvas.width, canvas.height);
+    //   }
+    // };
+    // clear(targetCanvas); // Clear the instance's canvas
 
     renderer.render({
       container: container,
       target: targetCanvas,
     });
-    targetTexture.needsUpdate = true; // Access needsUpdate on Three.js Texture
+    targetTexture.needsUpdate = true;
   }
 
   dispose(): void {
@@ -121,7 +116,6 @@ export class PixiMultiViewManager {
     if (this._renderer) {
       this._renderer.destroy();
     }
-    this._stage.destroy({ children: true }); // Destroy the stage and its children
     this._renderQueue.clear();
   }
 }
