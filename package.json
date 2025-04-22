@@ -49,7 +49,7 @@
     "postversion": "git add package.json package-lock.json && git checkout -b version/$(git describe --tags --abbrev=0)",
     "start:dev": "npm run server & npm run watch:tsc & npm run watch:demo",
     "build": "npm run buildTS && npm run demo",
-    "demo": "npx @masatomakino/gulptask-demo-page --body '<canvas id=\"webgl-canvas\" width=\"640\" height=\"480\"></canvas>' --compileModule es2020",
+    "demo": "npx @masatomakino/gulptask-demo-page --compileModule es2020",
     "watch:demo": "npm run demo -- -W",
     "buildTS": "tsc",
     "watch:tsc": "tsc -W --incremental",
