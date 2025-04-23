@@ -25,9 +25,15 @@ export class PixiMultiViewManager {
       height: 1,
       autoDensity: false,
       preference: "webgl",
-      backgroundAlpha: 0,
+      backgroundAlpha: 0.0,
+      antialias: true,
       multiView: true,
     })) as WebGLRenderer;
+
+    console.log(
+      "PixiMultiViewManager initialized with renderer:",
+      this._renderer,
+    );
 
     this._ticker.add(this._renderLoop, this);
     this._ticker.start();
@@ -45,16 +51,13 @@ export class PixiMultiViewManager {
       return;
     }
 
-    // Add only the containers that need rendering to the persistent stage
     for (const instance of this._renderQueue) {
       if (instance.isDisposed) {
         this._renderQueue.delete(instance);
         continue;
       }
     }
-
     PixiMultiViewManager.renderAllQueued(this._renderQueue, this._renderer);
-
     this._renderQueue.clear();
   }
 
@@ -84,13 +87,9 @@ export class PixiMultiViewManager {
       return;
     }
 
-    const clear = (canvas: HTMLCanvasElement) => {
-      const context = canvas.getContext("2d");
-      if (context) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    };
-    clear(targetCanvas); // Clear the instance's canvas
+    targetCanvas
+      .getContext("2d")
+      ?.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
 
     renderer.render({
       container: container,
