@@ -53,6 +53,17 @@ export class MultiViewPixiBillboard
     this._manager.requestRender(this);
   }
 
+  setScale(scale: number): void {
+    if (this._isDisposed) {
+      console.warn(
+        "Attempted to set scale on disposed MultiViewPixiBillboard.",
+      );
+      return;
+    }
+    this.scale.set(scale * this._canvas.width, scale * this._canvas.height, 1);
+    this._manager.requestRender(this);
+  }
+
   updateContent(): void {
     if (this._isDisposed) {
       console.warn("Attempted to update disposed MultiViewPixiBillboard.");

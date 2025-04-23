@@ -1,5 +1,9 @@
 import { Graphics, Text } from "pixi.js";
-import { MultiViewPixiPlaneMesh, PixiMultiViewManager } from "../esm/index.js";
+import {
+  MultiViewPixiBillboard,
+  MultiViewPixiPlaneMesh,
+  PixiMultiViewManager,
+} from "../esm/index.js";
 import { initSceneSet } from "./common.js";
 
 window.onload = async () => {
@@ -12,33 +16,40 @@ window.onload = async () => {
   await pixiManager.init();
 
   // Create a MultiViewPixiPlaneMesh instance
-  const billboard = generateBillboard(pixiManager, 64, 1);
-  billboard.position.set(30, 0, 0);
-  scene.add(billboard);
+  // Create 16 MultiViewPixiPlaneMesh instances
+  for (let i = 0; i < 16; i++) {
+    const planeMesh = generatePlaneMesh(pixiManager, 64, i + 1);
+    const x = (i % 4) * 20 - 30; // 4x4グリッドのx座標
+    const y = Math.floor(i / 4) * 20 - 30; // 4x4グリッドのy座標
+    const z = 0; // z座標は固定
+    planeMesh.position.set(x, y, z);
+    planeMesh.cameraChaser.needUpdateWorldPosition = true;
+    scene.add(planeMesh);
+  }
 
-  const billboard2 = generateBillboard(pixiManager, 64, 2);
-  billboard2.position.set(-30, 0, 0);
-  scene.add(billboard2);
+  // Create 16 MultiViewPixiBillboard instances
+  for (let i = 0; i < 16; i++) {
+    const billboard = generateBillboard(pixiManager, 64, i + 1);
+    const x = (i % 4) * 20 - 30; // 4x4グリッドのx座標
+    const y = Math.floor(i / 4) * 20 - 30; // 4x4グリッドのy座標
+    const z = -50; // z座標はオフセット
+    billboard.position.set(x, y, z);
+    scene.add(billboard);
+  }
 };
 
-const generateBillboard = (pixiManager, r, index) => {
-  const billboard = new MultiViewPixiPlaneMesh(pixiManager, r * 2, r * 2);
-  billboard.cameraChaser.isLookingCameraHorizontal = true;
-  billboard.setScale(0.1);
-
+const drawContent = (container, r, initialText, billboad) => {
   const graphics = new Graphics().circle(r, r, r).fill(0xff0000);
   const text = new Text({
-    text: "Hello MultiView!",
+    text: initialText,
     style: { fill: 0xffffff },
   });
   text.position.set(10, 10);
-  billboard.container.addChild(graphics);
-  billboard.container.addChild(text);
-  billboard.updateContent();
+  container.addChild(graphics);
+  container.addChild(text);
 
-  // Example of updating billboard content after a delay
   setTimeout(() => {
-    billboard.container.removeChildren();
+    container.removeChildren();
 
     const color = Math.random() * 0xffffff;
     const graphics2 = new Graphics().circle(r, r, r).fill(color);
@@ -48,10 +59,25 @@ const generateBillboard = (pixiManager, r, index) => {
       style: { fill: 0xffffff },
     });
     text2.position.set(50, 40);
-    billboard.container.addChild(graphics2);
-    billboard.container.addChild(text2);
-    billboard.updateContent();
+    container.addChild(graphics2);
+    container.addChild(text2);
+    billboad.updateContent();
   }, 3000);
+};
 
+const generatePlaneMesh = (pixiManager, r, index) => {
+  const billboard = new MultiViewPixiPlaneMesh(pixiManager, r * 2, r * 2);
+  billboard.cameraChaser.isLookingCameraHorizontal = true;
+  billboard.setScale(0.1);
+  drawContent(billboard.container, r, "Hello MultiView!", billboard);
+  billboard.updateContent();
+  return billboard;
+};
+
+const generateBillboard = (pixiManager, r, index) => {
+  const billboard = new MultiViewPixiBillboard(pixiManager, r * 2, r * 2, 0.1);
+  billboard.setScale(0.1);
+  drawContent(billboard.container, r, "Billboard", billboard);
+  billboard.updateContent();
   return billboard;
 };
