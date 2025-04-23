@@ -12,13 +12,21 @@ window.onload = async () => {
   await pixiManager.init();
 
   // Create a MultiViewPixiPlaneMesh instance
-  const billboard = new MultiViewPixiPlaneMesh(pixiManager, 200, 100);
+  const billboard = generateBillboard(pixiManager, 64, 1);
+  billboard.position.set(30, 0, 0);
   scene.add(billboard);
+
+  const billboard2 = generateBillboard(pixiManager, 64, 2);
+  billboard2.position.set(-30, 0, 0);
+  scene.add(billboard2);
+};
+
+const generateBillboard = (pixiManager, r, index) => {
+  const billboard = new MultiViewPixiPlaneMesh(pixiManager, r * 2, r * 2);
   billboard.cameraChaser.isLookingCameraHorizontal = true;
   billboard.setScale(0.1);
 
-  // Add some content to the billboard's PixiJS container
-  const graphics = new Graphics().rect(0, 0, 200, 100).fill(0xff0000);
+  const graphics = new Graphics().circle(r, r, r).fill(0xff0000);
   const text = new Text({
     text: "Hello MultiView!",
     style: { fill: 0xffffff },
@@ -28,15 +36,13 @@ window.onload = async () => {
   billboard.container.addChild(text);
   billboard.updateContent();
 
-  // Position the billboard in the Three.js scene
-  billboard.position.set(30, 0, 0);
-
   // Example of updating billboard content after a delay
   setTimeout(() => {
-    console.log("Updating billboard content...");
     billboard.container.removeChildren();
 
-    const graphics2 = new Graphics().rect(0, 0, 200, 100).fill(0x0000ff);
+    const color = Math.random() * 0xffffff;
+    const graphics2 = new Graphics().circle(r, r, r).fill(color);
+
     const text2 = new Text({
       text: "Updated!",
       style: { fill: 0xffffff },
@@ -46,4 +52,6 @@ window.onload = async () => {
     billboard.container.addChild(text2);
     billboard.updateContent();
   }, 3000);
+
+  return billboard;
 };

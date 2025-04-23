@@ -9,7 +9,7 @@ import { Container } from "pixi.js";
 import { PixiMultiViewManager } from "./PixiMultiViewManager";
 import { IRenderablePixiView } from "./RenderablePixiView";
 import { CameraChaser } from "./CameraChaser.js";
-import { MultiViewObject3DUtils } from "./MultiViewObject3DUtils";
+import { MultiViewObject3DUtils } from "./MultiViewObject3DUtils.js";
 
 export class MultiViewPixiPlaneMesh
   extends Mesh

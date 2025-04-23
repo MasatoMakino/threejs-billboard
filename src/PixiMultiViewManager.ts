@@ -1,6 +1,6 @@
 import { autoDetectRenderer, Container, Ticker, WebGLRenderer } from "pixi.js";
-import { IRenderablePixiView } from "./RenderablePixiView";
 import { Texture } from "three";
+import { IRenderablePixiView } from "./RenderablePixiView";
 
 export class PixiMultiViewManager {
   get renderer(): WebGLRenderer | null {
@@ -83,6 +83,15 @@ export class PixiMultiViewManager {
     if (!renderer || !targetCanvas || !targetTexture) {
       return;
     }
+
+    const clear = (canvas: HTMLCanvasElement) => {
+      const context = canvas.getContext("2d");
+      if (context) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    };
+    clear(targetCanvas); // Clear the instance's canvas
+
     renderer.render({
       container: container,
       target: targetCanvas,
