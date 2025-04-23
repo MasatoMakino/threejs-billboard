@@ -30,11 +30,6 @@ export class PixiMultiViewManager {
       multiView: true,
     })) as WebGLRenderer;
 
-    console.log(
-      "PixiMultiViewManager initialized with renderer:",
-      this._renderer,
-    );
-
     this._ticker.add(this._renderLoop, this);
     this._ticker.start();
   }
