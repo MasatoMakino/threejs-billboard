@@ -7,37 +7,36 @@ import {
 } from "three";
 import { Container } from "pixi.js";
 import { PixiMultiViewManager } from "./PixiMultiViewManager";
-import { IRenderablePixiView } from "./RenderablePixiView"; // Import the interface
-import { CameraChaser } from "./CameraChaser.js"; // Import CameraChaser
+import { IRenderablePixiView } from "./RenderablePixiView";
+import { CameraChaser } from "./CameraChaser.js";
+import { MultiViewObject3DUtils } from "./MultiViewObject3DUtils";
 
 export class MultiViewPixiPlaneMesh
   extends Mesh
   implements IRenderablePixiView
 {
-  // Implement the interface
   private _isDisposed: boolean = false;
-  private _canvas: HTMLCanvasElement;
-  private _container: Container;
-  private _texture: CanvasTexture; // Three.js texture
-  private _manager: PixiMultiViewManager;
-  private _cameraChaser: CameraChaser | undefined; // Add CameraChaser property
-
-  get canvas(): HTMLCanvasElement {
-    return this._canvas;
-  }
-
-  get texture(): Texture {
-    return this._texture;
-  }
-
   get isDisposed(): boolean {
     return this._isDisposed;
   }
 
+  private _canvas: HTMLCanvasElement;
+  get canvas(): HTMLCanvasElement {
+    return this._canvas;
+  }
+
+  private _container: Container;
   get container(): Container {
     return this._container;
   }
 
+  private _texture: CanvasTexture; // Three.js texture
+  get texture(): Texture {
+    return this._texture;
+  }
+
+  private _manager: PixiMultiViewManager;
+  private _cameraChaser: CameraChaser | undefined; // Add CameraChaser property
   get cameraChaser(): CameraChaser | undefined {
     return this._cameraChaser;
   }
@@ -94,28 +93,13 @@ export class MultiViewPixiPlaneMesh
     }
     this._isDisposed = true;
 
-    // Dispose Three.js resources
     this.geometry.dispose();
-    (this.material as MeshBasicMaterial).map?.dispose();
-    // Handle material disposal for both single material and array of materials
-    if (Array.isArray(this.material)) {
-      for (const mat of this.material) {
-        mat.dispose();
-      }
-    } else {
-      this.material.dispose();
-    }
-
-    // Dispose PixiJS resources (container itself doesn't need explicit dispose in this context, but its children might)
-    // Assuming children will be managed by the user of the class
-
-    // Remove canvas from DOM if it was added (though in this plan, it's not added to DOM)
-    if (this._canvas.parentNode) {
-      this._canvas.parentNode.removeChild(this._canvas);
-    }
+    MultiViewObject3DUtils.disposeMaterials(this.material as MeshBasicMaterial);
+    MultiViewObject3DUtils.disposeStageContainer(this._container);
+    MultiViewObject3DUtils.disposeCanvas(this._canvas);
+    this.removeFromParent();
 
     this._cameraChaser?.dispose(); // Dispose CameraChaser safely
     this._cameraChaser = undefined;
-    this.parent?.removeFromParent(); // Remove from parent if exists
   }
 }

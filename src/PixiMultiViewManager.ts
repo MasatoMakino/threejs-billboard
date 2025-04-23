@@ -53,19 +53,7 @@ export class PixiMultiViewManager {
       }
     }
 
-    // Ensure canvas sizes are correct before rendering using renderer.context.ensureCanvasSize
-    for (const instance of this._renderQueue) {
-      if (instance.isDisposed) {
-        continue;
-      }
-      PixiMultiViewManager.ensureRendererSize(this._renderer, instance.canvas);
-      PixiMultiViewManager.renderToTargetCanvas(
-        this._renderer,
-        instance.canvas,
-        instance.texture,
-        instance.container,
-      );
-    }
+    PixiMultiViewManager.renderAllQueued(this._renderQueue, this._renderer);
 
     this._renderQueue.clear();
   }
@@ -95,20 +83,29 @@ export class PixiMultiViewManager {
     if (!renderer || !targetCanvas || !targetTexture) {
       return;
     }
-
-    // const clear = (canvas: HTMLCanvasElement) => {
-    //   const context = canvas.getContext("2d");
-    //   if (context) {
-    //     context.clearRect(0, 0, canvas.width, canvas.height);
-    //   }
-    // };
-    // clear(targetCanvas); // Clear the instance's canvas
-
     renderer.render({
       container: container,
       target: targetCanvas,
     });
     targetTexture.needsUpdate = true;
+  }
+
+  private static renderAllQueued(
+    renderQueue: Set<IRenderablePixiView>,
+    renderer: WebGLRenderer,
+  ): void {
+    for (const instance of renderQueue) {
+      if (instance.isDisposed) {
+        continue;
+      }
+      PixiMultiViewManager.ensureRendererSize(renderer, instance.canvas);
+      PixiMultiViewManager.renderToTargetCanvas(
+        renderer,
+        instance.canvas,
+        instance.texture,
+        instance.container,
+      );
+    }
   }
 
   dispose(): void {
