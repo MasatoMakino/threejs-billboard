@@ -1,78 +1,83 @@
-import { autoDetectRenderer, Container, Graphics } from "pixi.js";
+import { Graphics, Text } from "pixi.js";
+import {
+  MultiViewPixiBillboard,
+  MultiViewPixiPlaneMesh,
+  PixiMultiViewManager,
+} from "../esm/index.js";
+import { initSceneSet } from "./common.js";
 
 window.onload = async () => {
-  document.body.style.backgroundColor = "#333"; // 背景色を黒に設定
+  const w = 800;
+  const h = 600;
+  const scene = initSceneSet(w, h);
 
-  // 異なるサイズの32個のCanvas要素を生成し、DOMに追加
-  const canvasContainer = document.createElement("div");
-  document.body.appendChild(canvasContainer);
+  // Create PixiMultiViewManager
+  const pixiManager = new PixiMultiViewManager();
+  await pixiManager.init();
 
-  const canvases = [];
-  for (let i = 0; i < 32; i++) {
-    const canvas = document.createElement("canvas");
-    const size = 50 + i * 10; // サイズを変化させる例
-    canvas.width = size;
-    canvas.height = size;
-    canvasContainer.appendChild(canvas);
-    canvases.push(canvas);
+  // Create a MultiViewPixiPlaneMesh instance
+  // Create 16 MultiViewPixiPlaneMesh instances
+  for (let i = 0; i < 16; i++) {
+    const planeMesh = generatePlaneMesh(pixiManager, 64, i + 1);
+    const x = (i % 4) * 20 - 30; // 4x4グリッドのx座標
+    const y = Math.floor(i / 4) * 20 - 30; // 4x4グリッドのy座標
+    const z = 0; // z座標は固定
+    planeMesh.position.set(x, y, z);
+    planeMesh.cameraChaser.needUpdateWorldPosition = true;
+    scene.add(planeMesh);
   }
 
-  // PixiJSレンダラーを生成 (multiView: true)
-  const renderer = await autoDetectRenderer({
-    preference: "webgl",
-    multiView: true,
-    backgroundAlpha: 0,
+  // Create 16 MultiViewPixiBillboard instances
+  for (let i = 0; i < 16; i++) {
+    const billboard = generateBillboard(pixiManager, 64, i + 1);
+    const x = (i % 4) * 20 - 30; // 4x4グリッドのx座標
+    const y = Math.floor(i / 4) * 20 - 30; // 4x4グリッドのy座標
+    const z = -50; // z座標はオフセット
+    billboard.position.set(x, y, z);
+    scene.add(billboard);
+  }
+};
+
+const drawContent = (container, r, initialText, billboad) => {
+  const graphics = new Graphics().circle(r, r, r).fill(0xff0000);
+  const text = new Text({
+    text: initialText,
+    style: { fill: 0xffffff },
   });
-  document.body.appendChild(renderer.canvas);
-  const mainCanvas = renderer.canvas;
+  text.position.set(10, 10);
+  container.addChild(graphics);
+  container.addChild(text);
 
-  // 各Canvasに対応するコンテナとグラデーションを作成
-  const canvasData = [];
-  for (let i = 0; i < canvases.length; i++) {
-    const canvas = canvases[i];
-    const width = canvas.width;
-    const container = new Container();
+  setTimeout(() => {
+    container.removeChildren();
 
-    const color1 = (i / 31) * 0xffffff; // Canvasごとに色を変化させる
-    const graphics = new Graphics();
-    drawCircle(graphics, width / 2, color1); // 円を描画
+    const color = Math.random() * 0xffffff;
+    const graphics2 = new Graphics().circle(r, r, r).fill(color);
 
-    // 簡単のため単色塗りつぶしにしていますが、必要に応じてcreateLinearGradientなどでグラデーションを実装
-    // PixiJSのGraphicsで複雑なグラデーションを描画するにはシェーダーなどが必要になるため、ここでは簡易的に単色で区別します。
-    // もし複雑なグラデーションが必要な場合は、Canvas APIで描画したものをテクスチャとして使う方が容易かもしれません。
-
-    container.addChild(graphics);
-    canvasData.push({ canvas, container, graphics }); // graphicsも保持
-    container.renderable = false; // 初期状態では描画しない
-  }
-
-  // 各Canvasにクリックイベントリスナーを追加
-  canvasData.forEach(({ canvas, container, graphics }, index) => {
-    canvas.addEventListener("click", () => {
-      console.log(`Canvas ${index} clicked. Re-rendering...`);
-
-      // クリックされたCanvasのグラデーションの色を変更
-      const newColor = Math.random() * 0xffffff;
-      drawCircle(graphics, canvas.width / 2, newColor);
-      renderCanvas(renderer, canvas, container); // Canvasを再描画
+    const text2 = new Text({
+      text: "Updated!",
+      style: { fill: 0xffffff },
     });
-  });
-
-  // 初回レンダリング
-  canvasData.forEach(({ canvas, container, graphics }) => {
-    renderCanvas(renderer, canvas, container); // 全てのCanvasを初回レンダリング
-  });
+    text2.position.set(50, 40);
+    container.addChild(graphics2);
+    container.addChild(text2);
+    billboad.updateContent();
+  }, 3000);
 };
 
-const drawCircle = (graphics, radius, color) => {
-  graphics.clear().circle(radius, radius, radius).fill({ color, alpha: 0.5 });
+const generatePlaneMesh = (pixiManager, r, index) => {
+  const billboard = new MultiViewPixiPlaneMesh(pixiManager, r * 2, r * 2);
+  billboard.cameraChaser.isLookingCameraHorizontal = true;
+  billboard.setScale(0.1);
+  drawContent(billboard.container, r, "Hello MultiView!", billboard);
+  billboard.updateContent();
+  return billboard;
 };
 
-const renderCanvas = (renderer, canvas, container) => {
-  const w = Math.max(canvas.width, renderer.canvas.width);
-  const h = Math.max(canvas.height, renderer.canvas.height);
-  if (canvas.width !== w || canvas.height !== h) {
-    renderer.resize(w, h); // サイズをCanvasに合わせる
-  }
-  renderer.render({ container, target: canvas });
+const generateBillboard = (pixiManager, r, index) => {
+  const billboard = new MultiViewPixiBillboard(pixiManager, r * 2, r * 2, 0.1);
+  billboard.setScale(0.1);
+  drawContent(billboard.container, r, "Billboard", billboard);
+  billboard.updateContent();
+  return billboard;
 };
