@@ -141,6 +141,19 @@ describe("PixiMultiViewManager", () => {
     expect((manager as any)._renderer).toBe(mockRenderer); // モックRendererが設定されていることを確認
   });
 
+  it("should not re-initialize if init is called multiple times", async () => {
+    const consoleWarnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => {});
+    tickerStartSpy.mockClear(); // スパイをクリア
+
+    await manager.init(); // 多重実行
+
+    expect(consoleWarnSpy).toHaveBeenCalledOnce(); // console.warnが一度だけ呼ばれることを確認
+    expect(tickerStartSpy).not.toHaveBeenCalled(); // ticker.startが再度呼ばれないことを確認
+    consoleWarnSpy.mockRestore(); // スパイを元に戻す
+  });
+
   it("requestRender should add an instance to the render queue", () => {
     const mockInstance = createMockRenderablePixiView();
     manager.requestRender(mockInstance);
@@ -225,5 +238,24 @@ describe("PixiMultiViewManager", () => {
     );
     expect(mockRendererDestroySpy).toHaveBeenCalledOnce();
     expect((manager as any)._renderQueue.size).toBe(0);
+  });
+
+  it("should not re-dispose if dispose is called multiple times", () => {
+    const consoleWarnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => {});
+    manager.dispose(); // 初回dispose
+
+    // 初回dispose後のスパイをクリア
+    tickerRemoveSpy.mockClear();
+    mockRendererDestroySpy.mockClear();
+
+    manager.dispose(); // 多重実行
+
+    expect(consoleWarnSpy).toHaveBeenCalledOnce(); // console.warnが一度だけ呼ばれることを確認
+    expect(tickerRemoveSpy).not.toHaveBeenCalled(); // ticker.removeが再度呼ばれないことを確認
+    expect(mockRendererDestroySpy).not.toHaveBeenCalled(); // mockRenderer.destroyが再度呼ばれないことを確認
+    expect((manager as any)._renderQueue.size).toBe(0); // renderQueueが空のままであることを確認
+    consoleWarnSpy.mockRestore(); // スパイを元に戻す
   });
 });
