@@ -3,6 +3,11 @@ import { Texture } from "three";
 import { IRenderablePixiView } from "./RenderablePixiView";
 
 export class PixiMultiViewManager {
+  private _isDisposed: boolean = false;
+  get isDisposed(): boolean {
+    return this._isDisposed;
+  }
+
   get renderer(): WebGLRenderer | null {
     return this._renderer;
   }
@@ -112,6 +117,11 @@ export class PixiMultiViewManager {
   }
 
   dispose(): void {
+    if (this._isDisposed) {
+      console.warn("PixiMultiViewManager already disposed.");
+      return;
+    }
+    this._isDisposed = true;
     this._ticker.remove(this._renderLoop, this);
     if (this._renderer) {
       this._renderer.destroy();
