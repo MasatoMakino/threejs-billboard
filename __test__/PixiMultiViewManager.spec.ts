@@ -1,7 +1,16 @@
 import * as pixi from "pixi.js";
-import { Container, Ticker } from "pixi.js";
+import { Container, Ticker, TickerCallback } from "pixi.js";
 import { Texture } from "three";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  Mock,
+  MockInstance,
+  vi,
+} from "vitest";
 import { PixiMultiViewManager } from "../src/PixiMultiViewManager.js";
 import { IRenderablePixiView } from "../src/RenderablePixiView";
 
@@ -38,18 +47,26 @@ const createMockRenderablePixiView = () => {
 describe("PixiMultiViewManager", () => {
   let manager: PixiMultiViewManager;
   let ticker: Ticker;
-  let mockRenderer: any; // モックRenderer
+  let mockRenderer: {
+    render: Mock;
+    destroy: Mock;
+    resize: Mock;
+    width?: number;
+    height?: number;
+  };
 
   // スパイの定義
   let autoDetectRendererSpy: {
     (options: Partial<pixi.AutoDetectOptions>): Promise<pixi.Renderer>;
-    mockResolvedValue?: any;
+    mockResolvedValue?;
   };
   let mockRendererRenderSpy;
   let mockRendererDestroySpy;
   let mockRendererResizeSpy;
-  let tickerRemoveSpy;
-  let tickerStartSpy;
+  let tickerRemoveSpy: MockInstance<
+    <T = any>(fn: TickerCallback<T>, context?: T | undefined) => Ticker
+  >;
+  let tickerStartSpy: MockInstance<() => void>;
 
   // 非同期処理を含むためasync
   beforeEach(async () => {
@@ -77,6 +94,8 @@ describe("PixiMultiViewManager", () => {
 
     // initを呼び出し、非同期初期化を待つ
     await manager.init();
+    ticker.stop();
+    ticker.update(0);
 
     // モックRendererのメソッドのスパイを取得
     mockRendererRenderSpy = mockRenderer.render;
@@ -156,6 +175,23 @@ describe("PixiMultiViewManager", () => {
     });
     expect(mockInstance1.texture.needsUpdate).toBe(true); // needsUpdateがtrueになることを確認
     expect(mockInstance2.texture.needsUpdate).toBe(true); // needsUpdateがtrueになることを確認
+
+    expect((manager as any)._renderQueue.size).toBe(0);
+  });
+
+  it("render loop should render queued instances when ticker updates", () => {
+    const mockInstance = createMockRenderablePixiView();
+    manager.requestRender(mockInstance);
+
+    // Tickerのupdateを手動で呼び出すことで、レンダリングループが実行されることをシミュレート
+    ticker.update(1); // currentTimeは0以上の値
+
+    expect(mockRendererRenderSpy).toHaveBeenCalledTimes(1); // スパイで検証
+    expect(mockRendererRenderSpy).toHaveBeenCalledWith({
+      container: mockInstance.container,
+      target: mockInstance.canvas,
+    });
+    expect(mockInstance.texture.needsUpdate).toBe(true); // needsUpdateがtrueになることを確認
     expect((manager as any)._renderQueue.size).toBe(0);
   });
 
@@ -186,8 +222,8 @@ describe("PixiMultiViewManager", () => {
     expect(tickerRemoveSpy).toHaveBeenCalledWith(
       (manager as any)._renderLoop,
       manager,
-    ); // スパイで検証
-    expect(mockRendererDestroySpy).toHaveBeenCalledOnce(); // スパイで検証
+    );
+    expect(mockRendererDestroySpy).toHaveBeenCalledOnce();
     expect((manager as any)._renderQueue.size).toBe(0);
   });
 });
