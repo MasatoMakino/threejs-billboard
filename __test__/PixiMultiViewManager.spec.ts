@@ -60,9 +60,9 @@ describe("PixiMultiViewManager", () => {
     (options: Partial<pixi.AutoDetectOptions>): Promise<pixi.Renderer>;
     mockResolvedValue?;
   };
-  let mockRendererRenderSpy;
-  let mockRendererDestroySpy;
-  let mockRendererResizeSpy;
+  let mockRendererRenderSpy: Mock<(...args: any[]) => any>;
+  let mockRendererDestroySpy: Mock<(...args: any[]) => any>;
+  let mockRendererResizeSpy: Mock<(...args: any[]) => any>;
   let tickerRemoveSpy: MockInstance<
     <T = any>(fn: TickerCallback<T>, context?: T | undefined) => Ticker
   >;
