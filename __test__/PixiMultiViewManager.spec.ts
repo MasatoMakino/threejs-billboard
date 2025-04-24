@@ -284,3 +284,11 @@ describe("PixiMultiViewManager", () => {
     consoleWarnSpy.mockRestore(); // スパイを元に戻す
   });
 });
+
+describe("PixiMultiViewManager with default Ticker", () => {
+  it("should use the shared Ticker when no Ticker is provided in the constructor", () => {
+    const manager = new PixiMultiViewManager();
+    expect((manager as any)._ticker).toBe(Ticker.shared);
+    manager.dispose(); // テスト後のクリーンアップ
+  });
+});
