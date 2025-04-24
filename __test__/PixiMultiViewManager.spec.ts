@@ -154,6 +154,13 @@ describe("PixiMultiViewManager", () => {
     consoleWarnSpy.mockRestore(); // スパイを元に戻す
   });
 
+  it("render loop should not throw error when render queue is empty", () => {
+    // レンダリングループを直接呼び出す
+    expect(() => (manager as any)._renderLoop()).not.toThrow();
+    expect(mockRendererRenderSpy).not.toHaveBeenCalled(); // レンダリングが実行されないことを確認
+    expect((manager as any)._renderQueue.size).toBe(0); // キューが空のままであることを確認
+  });
+
   it("requestRender should add an instance to the render queue", () => {
     const mockInstance = createMockRenderablePixiView();
     manager.requestRender(mockInstance);
@@ -227,6 +234,24 @@ describe("PixiMultiViewManager", () => {
     expect(mockInstance1.texture.needsUpdate).toBe(true); // needsUpdateがtrueになることを確認
     expect(mockInstance2.texture.needsUpdate).toBe(false); // disposedなのでneedsUpdateはfalseのまま
     expect((manager as any)._renderQueue.size).toBe(0);
+  });
+
+  it("render loop should skip instances disposed before rendering", () => {
+    const mockInstance = createMockRenderablePixiView();
+    manager.requestRender(mockInstance); // isDisposed: falseでキューに追加
+
+    mockInstance.isDisposed = true; // レンダリング前にisDisposedをtrueに設定
+
+    // レンダリングループを直接呼び出す
+    (manager as any)._renderLoop();
+
+    expect(mockRendererRenderSpy).not.toHaveBeenCalledWith({
+      // 当該インスタンスがレンダリングされないことを確認
+      container: mockInstance.container,
+      target: mockInstance.canvas,
+    });
+    expect(mockInstance.texture.needsUpdate).toBe(false); // needsUpdateがfalseのままであることを確認
+    expect((manager as any)._renderQueue.size).toBe(0); // キューがクリアされていることを確認
   });
 
   it("dispose should remove ticker listener and destroy renderer", () => {
