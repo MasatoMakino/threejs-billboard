@@ -65,7 +65,7 @@ describe("PixiMultiViewManager Rendering", () => {
     document.body.appendChild(testCanvas);
 
     // 実際のPixiMultiViewManagerインスタンスを作成
-    manager = new PixiMultiViewManager(ticker);
+    manager = new PixiMultiViewManager({ ticker });
 
     // initを呼び出し、非同期初期化を待つ
     await manager.init();

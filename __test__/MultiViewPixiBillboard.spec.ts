@@ -48,7 +48,7 @@ describe("MultiViewPixiBillboard", () => {
     ticker = new Ticker();
     ticker.autoStart = false; // autoStartを無効化
 
-    manager = new PixiMultiViewManager(ticker);
+    manager = new PixiMultiViewManager({ ticker });
     await manager.init(); // 非同期初期化を待つ
     ticker.stop(); // テストのためにTickerを停止
 

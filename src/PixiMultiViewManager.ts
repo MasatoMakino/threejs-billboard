@@ -2,6 +2,10 @@ import { autoDetectRenderer, Container, Ticker, WebGLRenderer } from "pixi.js";
 import { Texture } from "three";
 import { IRenderablePixiView } from "./RenderablePixiView";
 
+interface PixiMultiViewManagerOptions {
+  ticker?: Ticker;
+}
+
 export class PixiMultiViewManager {
   private _isDisposed: boolean = false;
   get isDisposed(): boolean {
@@ -15,8 +19,8 @@ export class PixiMultiViewManager {
   private _ticker: Ticker;
   private _renderQueue: Set<IRenderablePixiView> = new Set(); // Use the interface
 
-  constructor(ticker: Ticker = Ticker.shared) {
-    this._ticker = ticker;
+  constructor(options?: PixiMultiViewManagerOptions) {
+    this._ticker = options?.ticker ?? Ticker.shared;
   }
 
   async init(): Promise<void> {
