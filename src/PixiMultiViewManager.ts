@@ -81,6 +81,22 @@ export class PixiMultiViewManager {
     }
   }
 
+  /**
+   * Renders the specified container to the target canvas using the provided renderer and texture.
+   *
+   * note : targetCanvas is cleared before rendering with the clearRect method.
+   * clearRect method clears with black transparent pixels, which is the default behavior of the 2D context.
+   * 2D context does not support premultiplied alpha.
+   * @see https://html.spec.whatwg.org/multipage/canvas.html#premultiplied-alpha-and-the-2d-rendering-context
+   * If black lines are noticeable on the edges of the texture, change the alphaTest property from the default of 0.0 to a smaller value.
+   * @see https://threejs.org/docs/#api/en/materials/Material.alphaTest
+   *
+   * @param renderer
+   * @param targetCanvas
+   * @param targetTexture
+   * @param container
+   * @returns
+   */
   private static renderToTargetCanvas(
     renderer: WebGLRenderer,
     targetCanvas: HTMLCanvasElement,
