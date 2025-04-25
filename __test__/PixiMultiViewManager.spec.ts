@@ -138,7 +138,7 @@ describe("PixiMultiViewManager", () => {
       antialias: true,
       multiView: true,
     });
-    expect((manager as any)._renderer).toBe(mockRenderer); // モックRendererが設定されていることを確認
+    expect(manager.renderer).toBe(mockRenderer); // モックRendererが設定されていることを確認
   });
 
   it("should not re-initialize if init is called multiple times", async () => {
