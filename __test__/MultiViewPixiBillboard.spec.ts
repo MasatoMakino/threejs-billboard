@@ -62,12 +62,12 @@ describe("MultiViewPixiBillboard", () => {
     disposeCanvasSpy = vi.spyOn(MultiViewObject3DUtils, "disposeCanvas");
 
     // テスト対象のインスタンス生成
-    billboard = new MultiViewPixiBillboard(
+    billboard = new MultiViewPixiBillboard({
       manager,
       width,
       height,
-      initialScale,
-    );
+      scale: initialScale,
+    });
   });
 
   afterEach(() => {

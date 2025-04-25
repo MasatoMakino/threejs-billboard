@@ -66,17 +66,23 @@ const drawContent = (container, r, initialText, billboad) => {
 };
 
 const generatePlaneMesh = (pixiManager, r, index) => {
-  const billboard = new MultiViewPixiPlaneMesh(pixiManager, r * 2, r * 2);
+  const billboard = new MultiViewPixiPlaneMesh({
+    manager: pixiManager,
+    width: r * 2,
+    height: r * 2,
+  });
   billboard.cameraChaser.isLookingCameraHorizontal = true;
-  billboard.setScale(0.1);
   drawContent(billboard.container, r, "Hello MultiView!", billboard);
   billboard.updateContent();
   return billboard;
 };
 
 const generateBillboard = (pixiManager, r, index) => {
-  const billboard = new MultiViewPixiBillboard(pixiManager, r * 2, r * 2, 0.1);
-  billboard.setScale(0.1);
+  const billboard = new MultiViewPixiBillboard({
+    manager: pixiManager,
+    width: r * 2,
+    height: r * 2,
+  });
   drawContent(billboard.container, r, "Billboard", billboard);
   billboard.updateContent();
   return billboard;

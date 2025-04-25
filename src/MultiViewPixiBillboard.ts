@@ -3,6 +3,11 @@ import { CanvasTexture, Sprite, Texture, SpriteMaterial } from "three";
 import { PixiMultiViewManager } from "./PixiMultiViewManager.js";
 import { IRenderablePixiView } from "./RenderablePixiView";
 import { MultiViewObject3DUtils } from "./MultiViewObject3DUtils.js";
+import { MultiViewPixiObjectOptions } from "./MultiViewPixiObjectOptions.js";
+
+interface MultiViewPixiBillboardOptions extends MultiViewPixiObjectOptions {
+  // MultiViewPixiBillboard 固有のオプションがあればここに追加
+}
 
 export class MultiViewPixiBillboard
   extends Sprite
@@ -29,12 +34,9 @@ export class MultiViewPixiBillboard
   }
   private _manager: PixiMultiViewManager;
 
-  constructor(
-    manager: PixiMultiViewManager,
-    width: number,
-    height: number,
-    scale: number = 0.01,
-  ) {
+  constructor(options: MultiViewPixiBillboardOptions) {
+    const { manager, width, height, scale = 0.1 } = options;
+
     const material = new SpriteMaterial({ transparent: true, depthTest: true });
 
     super(material);

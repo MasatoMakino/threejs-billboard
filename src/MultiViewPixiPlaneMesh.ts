@@ -10,6 +10,11 @@ import { PixiMultiViewManager } from "./PixiMultiViewManager";
 import { IRenderablePixiView } from "./RenderablePixiView";
 import { CameraChaser } from "./CameraChaser.js";
 import { MultiViewObject3DUtils } from "./MultiViewObject3DUtils.js";
+import { MultiViewPixiObjectOptions } from "./MultiViewPixiObjectOptions.js";
+
+interface MultiViewPixiPlaneMeshOptions extends MultiViewPixiObjectOptions {
+  // MultiViewPixiPlaneMesh 固有のオプションがあればここに追加
+}
 
 export class MultiViewPixiPlaneMesh
   extends Mesh
@@ -41,7 +46,9 @@ export class MultiViewPixiPlaneMesh
     return this._cameraChaser;
   }
 
-  constructor(manager: PixiMultiViewManager, width: number, height: number) {
+  constructor(options: MultiViewPixiPlaneMeshOptions) {
+    const { manager, width, height, scale = 0.1 } = options;
+
     const geometry = new PlaneGeometry(width, height);
     const material = new MeshBasicMaterial({ transparent: true });
 
@@ -60,6 +67,7 @@ export class MultiViewPixiPlaneMesh
 
     this._cameraChaser = new CameraChaser(this); // Initialize CameraChaser
 
+    this.setScale(scale);
     this._manager.requestRender(this);
   }
 

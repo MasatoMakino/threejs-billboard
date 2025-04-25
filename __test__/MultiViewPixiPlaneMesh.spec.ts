@@ -74,7 +74,7 @@ describe("MultiViewPixiPlaneMesh", () => {
     disposeCanvasSpy = vi.spyOn(MultiViewObject3DUtils, "disposeCanvas");
 
     // テスト対象のインスタンス生成
-    planeMesh = new MultiViewPixiPlaneMesh(manager, width, height);
+    planeMesh = new MultiViewPixiPlaneMesh({ manager, width, height });
     // cameraChaser = planeMesh.cameraChaser!; // 生成されたCameraChaserインスタンスを取得
   });
 
