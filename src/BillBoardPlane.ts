@@ -6,6 +6,10 @@ import {
 } from "./index.js";
 import { BillBoardController } from "./BillBoardController.js";
 
+/**
+ * 画像ファイルをテクスチャとするPlaneMesh機能を提供します。
+ * CameraChaser によるカメラ追従機能も提供します。
+ */
 export class BillBoardPlane extends Mesh {
   private obj: BillBoardController;
   public cameraChaser: CameraChaser;
