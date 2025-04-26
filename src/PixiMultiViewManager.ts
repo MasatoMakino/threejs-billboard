@@ -2,27 +2,65 @@ import { autoDetectRenderer, Container, Ticker, WebGLRenderer } from "pixi.js";
 import { Texture } from "three";
 import { IRenderablePixiView } from "./RenderablePixiView";
 
+/**
+ * PixiMultiViewManagerOptions インターフェイスは、PixiMultiViewManager クラスのコンストラクターに渡されるオプションを定義します。
+ */
 interface PixiMultiViewManagerOptions {
+  /**
+   * レンダリングループに使用する PixiJS Ticker インスタンス。指定しない場合は Ticker.shared が使用されます。
+   */
   ticker?: Ticker;
 }
 
+/**
+ * PixiMultiViewManager クラスは、PixiJS v8 の multiView レンダラーの単一インスタンスを管理し、
+ * 複数の IRenderablePixiView インスタンス（MultiViewPixiBillboard や MultiViewPixiPlaneMesh など）のレンダリング要求を調整します。
+ *
+ * SharedStage クラス群が単一の共有 Stage と Texture を使用するのに対し、
+ * このマネージャーは複数の独立した Canvas と Texture を効率的に管理することに特化しています。
+ *
+ * 主に MultiViewPixiBillboard や MultiViewPixiPlaneMesh と組み合わせて使用され、
+ * 各ビューの描画内容の更新を効率的に処理します。
+ */
 export class PixiMultiViewManager {
+  /**
+   * このインスタンスが破棄されたかどうかを示すフラグ。
+   */
   private _isDisposed: boolean = false;
+  /**
+   * このインスタンスが破棄されたかどうかを取得します。
+   */
   get isDisposed(): boolean {
     return this._isDisposed;
   }
 
+  /**
+   * 管理している PixiJS WebGLRenderer インスタンス。
+   */
   get renderer(): WebGLRenderer | null {
     return this._renderer;
   }
-  private _renderer: WebGLRenderer | null = null; // Renderer is now initialized asynchronously
+  private _renderer: WebGLRenderer | null = null;
+  /**
+   * レンダリングループに使用される PixiJS Ticker インスタンス。
+   */
   private _ticker: Ticker;
-  private _renderQueue: Set<IRenderablePixiView> = new Set(); // Use the interface
+  /**
+   * レンダリングが必要な IRenderablePixiView インスタンスのキュー。
+   */
+  private _renderQueue: Set<IRenderablePixiView> = new Set();
 
+  /**
+   * PixiMultiViewManager の新しいインスタンスを生成します。
+   * @param options - コンストラクターオプション。
+   */
   constructor(options?: PixiMultiViewManagerOptions) {
     this._ticker = options?.ticker ?? Ticker.shared;
   }
 
+  /**
+   * PixiJS レンダラーを非同期で初期化し、レンダリングループを開始します。
+   */
   async init(): Promise<void> {
     if (this._renderer) {
       console.warn("PixiMultiViewManager already initialized.");
@@ -43,6 +81,10 @@ export class PixiMultiViewManager {
     this._ticker.start();
   }
 
+  /**
+   * 指定された IRenderablePixiView インスタンスのレンダリングをリクエストします。
+   * @param instance - レンダリングが必要なインスタンス。
+   */
   requestRender(instance: IRenderablePixiView): void {
     if (instance.isDisposed) {
       return;
@@ -50,6 +92,9 @@ export class PixiMultiViewManager {
     this._renderQueue.add(instance);
   }
 
+  /**
+   * レンダリングキュー内のインスタンスを処理するレンダリングループ。
+   */
   private _renderLoop(): void {
     if (this._renderQueue.size === 0 || !this._renderer) {
       return;
@@ -118,6 +163,11 @@ export class PixiMultiViewManager {
     targetTexture.needsUpdate = true;
   }
 
+  /**
+   * レンダリングキュー内のすべてのインスタンスをレンダリングします。
+   * @param renderQueue - レンダリング対象のインスタンスのセット。
+   * @param renderer - 使用する PixiJS レンダラー。
+   */
   private static renderAllQueued(
     renderQueue: Set<IRenderablePixiView>,
     renderer: WebGLRenderer,
@@ -136,6 +186,9 @@ export class PixiMultiViewManager {
     }
   }
 
+  /**
+   * このマネージャーインスタンスが保持するリソースを解放します。
+   */
   dispose(): void {
     if (this._isDisposed) {
       console.warn("PixiMultiViewManager already disposed.");
