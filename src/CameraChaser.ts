@@ -15,14 +15,26 @@ export class CameraChaser {
   public isLookingCameraHorizontal: boolean = false;
   private cameraPos: Vector3 = new Vector3();
   private worldPos: Vector3 = new Vector3();
-  private target: Object3D;
+  private target: Object3D | undefined;
+  private originalOnBeforeRender;
 
   public needUpdateWorldPosition: boolean = false;
 
   constructor(target: Object3D) {
     this.target = target;
     this.target.getWorldPosition(this.worldPos);
+    this.originalOnBeforeRender = this.target.onBeforeRender;
     this.target.onBeforeRender = this.lookCamera;
+  }
+
+  /**
+   * リソースを解放する。
+   */
+  dispose(): void {
+    if (this.target) {
+      this.target.onBeforeRender = this.originalOnBeforeRender;
+      this.target = undefined;
+    }
   }
 
   /**
@@ -46,9 +58,9 @@ export class CameraChaser {
     camera: Camera,
     geometry: BufferGeometry,
     material: Material,
-    group: Object3D
+    group: Object3D,
   ) => {
-    if (!this.isLookingCameraHorizontal) return;
+    if (!this.isLookingCameraHorizontal || !this.target) return; // Add check for target
     if (this.needUpdateWorldPosition) {
       this.target.getWorldPosition(this.worldPos);
       this.needUpdateWorldPosition = false;

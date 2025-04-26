@@ -2,18 +2,28 @@ import { Application, Container, Ticker } from "pixi.js";
 import { BufferGeometry, Material, Texture } from "three";
 
 /**
- * Billboard用の共有テクスチャ
- * 各Billboardはこのテクスチャを参照し、UV座標を調整して画像を表示する。
+ * SharedStageTexture クラスは、SharedStageBillboard および SharedStagePlaneMesh クラスで使用される単一の共有 Canvas および Texture を管理します。
+ * PixiJS Application インスタンスを持ち、その Canvas を Three.js の Texture として使用します。
  *
- * デフォルトでは、テクスチャは自動更新されない。
- * テクスチャを共有するBillboardが責任を持って、setNeedUpdate関数を呼び出してテクスチャの更新を宣言する必要がある。
+ * ## 概要
+ * SharedStage クラス群で使用される共有テクスチャです。
+ * 各 SharedStage クラスインスタンスは、この単一のテクスチャを参照し、UV座標を調整して画像を表示します。
+ *
+ * ## MultiView クラス群との比較
+ * MultiView クラス群が各インスタンスごとに独立した CanvasTexture を持つことに対し、
+ * SharedStageTexture は複数の SharedStage クラスインスタンス間で共有される単一のテクスチャを提供します。
+ * これにより、ドローコール数の削減に貢献しますが、テクスチャ全体のサイズに限界があります。
+ *
+ * ## 注意点
+ * デフォルトでは、テクスチャは自動更新されません。
+ * テクスチャを共有する Billboard または PlaneMesh が責任を持って、`setNeedUpdate` 関数を呼び出してテクスチャの更新を宣言する必要があります。
  */
 export class SharedStageTexture extends Texture {
   readonly app: Application;
   #_needsUpdateStage = false;
 
   /**
-   * 共有テクスチャを生成する
+   * SharedStageTexture の新しいインスタンスを生成します。
    */
   constructor() {
     super();

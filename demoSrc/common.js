@@ -38,15 +38,14 @@ export function initControl(camera, render) {
 }
 
 export function initRenderer(W, H) {
-  const renderOption = {
-    canvas: document.getElementById("webgl-canvas"),
+  const renderer = new WebGLRenderer({
     antialias: true,
-  };
-  const renderer = new WebGLRenderer(renderOption);
+  });
   console.log("Three.js rev :", REVISION);
   renderer.setClearColor(new Color(0x000000));
   renderer.setSize(W, H);
   renderer.setPixelRatio(window.devicePixelRatio);
+  document.body.appendChild(renderer.domElement);
   return renderer;
 }
 

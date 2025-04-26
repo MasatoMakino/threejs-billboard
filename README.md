@@ -46,6 +46,14 @@ const billboard = new BillBoard("./map01.png", 0.1);
 scene.add(billboard);
 ```
 
+### Choosing the Right Class
+
+The library provides different classes for creating billboards and plane meshes, each with distinct characteristics and use cases:
+
+- **Image-based Classes (BillBoard, BillBoardPlane):** Use image files as source. Simple to use for static images.
+- **SharedStage Classes (Billboard, PlaneMesh):** Utilize a single shared Canvas/Texture, excelling in reducing draw calls. Suitable for scenarios with a fixed number of billboards where performance is critical.
+- **MultiView Classes (Billboard, PlaneMesh):** Each instance has an independent Canvas, offering superior performance for partial updates and flexibility in the number of billboards. Suitable for scenarios with numerous and dynamically changing billboards.
+
 ### Dot-by-dot display
 
 If you want to display dot-by-dot billboard, get image scale with ScaleCalculator.
@@ -58,6 +66,10 @@ const scale = ScaleCalculator.getNonAttenuateScale(
 const billboard = new BillBoard("./map01.png", scale);
 billboard.material.sizeAttenuation = false;
 ```
+
+### Camera Chaser
+
+The `CameraChaser` utility can be used with `SharedStagePlaneMesh`, `MultiViewPixiPlaneMesh`, and `BillBoardPlane` to make the plane track the camera's rotation. By default, this feature is off. You can enable it to make the plane always face the camera, similar to a billboard but maintaining its plane geometry. Note that unlike a Sprite, the rotation is limited to the Y-axis.
 
 ## API documents
 
