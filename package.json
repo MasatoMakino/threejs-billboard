@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@masatomakino/gulptask-demo-page": "^0.8.0",
+    "@masatomakino/release-helper": "^0.1.7",
     "@types/three": "^0.175.0",
     "@types/webxr": "^0.5.19",
     "@vitest/browser": "*",
@@ -42,11 +43,13 @@
     "webdriverio": "^9.0.1"
   },
   "scripts": {
-    "test": "vitest",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "coverage": "vitest --run --coverage",
     "prepare": "husky",
-    "preversion": "git checkout main && git pull && npm ci && npx vitest --run",
-    "postversion": "git add package.json package-lock.json && git checkout -b version/$(git describe --tags --abbrev=0)",
+    "preversion": "npx @masatomakino/release-helper preversion",
+    "postversion": "npx @masatomakino/release-helper postversion",
+    "release": "npx @masatomakino/release-helper release",
     "start:dev": "npm run server & npm run watch:tsc & npm run watch:demo",
     "build": "npm run buildTS && npm run demo",
     "demo": "npx @masatomakino/gulptask-demo-page --compileModule es2020",
