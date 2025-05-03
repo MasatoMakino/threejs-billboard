@@ -59,9 +59,9 @@ window.onload = async () => {
   });
 
   // 初回レンダリング
-  canvasData.forEach(({ canvas, container, graphics }) => {
+  for (const { canvas, container, graphics } of canvasData) {
     renderCanvas(renderer, canvas, container); // 全てのCanvasを初回レンダリング
-  });
+  }
 };
 
 const drawCircle = (graphics, radius, color) => {
