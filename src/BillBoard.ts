@@ -9,13 +9,13 @@ export interface InitializedBillBoardOptions extends BillBoardOptions {
   minFilter: TextureFilter;
 }
 
-export class BillBoardOptionUtil {
-  static init(option?: BillBoardOptions): InitializedBillBoardOptions {
+export const BillBoardOptionUtil = {
+  init(option?: BillBoardOptions): InitializedBillBoardOptions {
     option ??= {};
     option.minFilter ??= LinearFilter;
     return option as InitializedBillBoardOptions;
-  }
-}
+  },
+};
 
 /**
  * 画像ファイルをテクスチャとするビルボードクラス
