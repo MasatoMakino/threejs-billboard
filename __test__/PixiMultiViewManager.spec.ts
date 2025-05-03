@@ -1,18 +1,18 @@
 import * as pixi from "pixi.js";
-import { Container, Ticker, TickerCallback } from "pixi.js";
-import { Texture } from "three";
+import { Container, Ticker, type TickerCallback } from "pixi.js";
+import type { Texture } from "three";
 import {
   afterEach,
   beforeEach,
   describe,
   expect,
   it,
-  Mock,
-  MockInstance,
+  type Mock,
+  type MockInstance,
   vi,
 } from "vitest";
 import { PixiMultiViewManager } from "../src/PixiMultiViewManager.js";
-import { IRenderablePixiView } from "../src/RenderablePixiView";
+import type { IRenderablePixiView } from "../src/RenderablePixiView";
 
 // autoDetectRenderer をモック化
 vi.mock("pixi.js", async (importOriginal) => {
@@ -60,11 +60,11 @@ describe("PixiMultiViewManager", () => {
     (options: Partial<pixi.AutoDetectOptions>): Promise<pixi.Renderer>;
     mockResolvedValue?;
   };
-  let mockRendererRenderSpy: Mock<(...args: any[]) => any>;
-  let mockRendererDestroySpy: Mock<(...args: any[]) => any>;
-  let mockRendererResizeSpy: Mock<(...args: any[]) => any>;
+  let mockRendererRenderSpy: Mock<(...args: unknown[]) => unknown>;
+  let mockRendererDestroySpy: Mock<(...args: unknown[]) => unknown>;
+  let mockRendererResizeSpy: Mock<(...args: unknown[]) => unknown>;
   let tickerRemoveSpy: MockInstance<
-    <T = any>(fn: TickerCallback<T>, context?: T | undefined) => Ticker
+    <T = unknown>(fn: TickerCallback<T>, context?: T | undefined) => Ticker
   >;
   let tickerStartSpy: MockInstance<() => void>;
 

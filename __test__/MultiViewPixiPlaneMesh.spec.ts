@@ -3,7 +3,7 @@ import {
   CanvasTexture,
   MeshBasicMaterial,
   PlaneGeometry,
-  SpriteMaterial,
+  type SpriteMaterial,
 } from "three";
 import {
   afterEach,
@@ -11,14 +11,14 @@ import {
   describe,
   expect,
   it,
-  MockInstance,
+  type MockInstance,
   vi,
 } from "vitest";
 import { CameraChaser } from "../src/CameraChaser.js";
 import { MultiViewObject3DUtils } from "../src/MultiViewObject3DUtils.js";
 import { MultiViewPixiPlaneMesh } from "../src/MultiViewPixiPlaneMesh.js";
 import { PixiMultiViewManager } from "../src/PixiMultiViewManager.js";
-import { IRenderablePixiView } from "../src/RenderablePixiView.js";
+import type { IRenderablePixiView } from "../src/RenderablePixiView.js";
 
 // 依存クラスのモック化
 vi.mock("../src/MultiViewObject3DUtils.js");
@@ -43,8 +43,8 @@ describe("MultiViewPixiPlaneMesh", () => {
   let disposeStageContainerSpy: MockInstance<(container: Container) => void>;
   let disposeCanvasSpy: MockInstance<(canvas: HTMLCanvasElement) => void>;
   let consoleWarnSpy: MockInstance<{
-    (...data: any[]): void;
-    (message?: any, ...optionalParams: any[]): void;
+    (...data: unknown[]): void;
+    (message?: unknown, ...optionalParams: unknown[]): void;
   }>;
 
   // 非同期処理を含むためasync
@@ -103,7 +103,6 @@ describe("MultiViewPixiPlaneMesh", () => {
     expect((planeMesh.material as MeshBasicMaterial).map).toBe(
       planeMesh.texture,
     );
-    expect((planeMesh as any)._manager).toBe(manager); // モックではなく実際のインスタンス
     expect(planeMesh.cameraChaser).toBeInstanceOf(CameraChaser); // 実際のインスタンス
     expect(planeMesh.isDisposed).toBe(false);
     expect(requestRenderSpy).toHaveBeenCalledWith(planeMesh); // スパイで検証

@@ -1,8 +1,8 @@
 import { Container, Ticker, Graphics } from "pixi.js";
-import { Texture } from "three";
+import type { Texture } from "three";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { PixiMultiViewManager } from "../src/PixiMultiViewManager.js";
-import { IRenderablePixiView } from "../src/RenderablePixiView";
+import type { IRenderablePixiView } from "../src/RenderablePixiView";
 
 // autoDetectRenderer のモック化はここでは行わない。実際のレンダラーを使用する。
 
@@ -78,7 +78,7 @@ describe("PixiMultiViewManager Rendering", () => {
     ticker.destroy();
 
     // テスト用canvasをbodyから削除
-    if (testCanvas && testCanvas.parentElement) {
+    if (testCanvas?.parentElement) {
       testCanvas.parentElement.removeChild(testCanvas);
     }
 
