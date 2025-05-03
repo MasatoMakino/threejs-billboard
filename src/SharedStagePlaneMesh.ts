@@ -1,8 +1,8 @@
-import { Material, Mesh, PlaneGeometry } from "three";
+import { type Material, Mesh, PlaneGeometry } from "three";
 import { CameraChaser } from "./CameraChaser.js";
 import {
   isSharedStageMaterial,
-  TextureArea,
+  type TextureArea,
   updateUVAttribute,
 } from "./SharedStageTexture.js";
 

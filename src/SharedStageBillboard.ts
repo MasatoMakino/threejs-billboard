@@ -1,6 +1,6 @@
-import { PlaneGeometry, Sprite, SpriteMaterial } from "three";
+import { PlaneGeometry, Sprite, type SpriteMaterial } from "three";
 import {
-  TextureArea,
+  type TextureArea,
   isSharedStageMaterial,
   updateUVAttribute,
 } from "./index.js";
@@ -71,7 +71,7 @@ export class SharedStageBillboard extends Sprite {
   constructor(
     public sharedMaterial: SpriteMaterial,
     private _textureArea: TextureArea,
-    private _imageScale: number = 1,
+    private _imageScale = 1,
   ) {
     super();
 

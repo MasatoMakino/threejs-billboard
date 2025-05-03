@@ -1,14 +1,12 @@
-import { Container } from "pixi.js";
-import { MeshBasicMaterial, SpriteMaterial } from "three";
+import type { Container } from "pixi.js";
+import type { MeshBasicMaterial, SpriteMaterial } from "three";
 
 type MaterialType = MeshBasicMaterial | SpriteMaterial;
 
 export const MultiViewObject3DUtils = {
   disposeMaterials(materials: MaterialType | MaterialType[]): void {
-    if (!Array.isArray(materials)) {
-      materials = [materials];
-    }
-    for (const material of materials) {
+    const materialArray = Array.isArray(materials) ? materials : [materials];
+    for (const material of materialArray) {
       if (material.map) {
         material.map.dispose();
       }
@@ -25,7 +23,7 @@ export const MultiViewObject3DUtils = {
   },
 
   disposeCanvas(canvas: HTMLCanvasElement): void {
-    if (canvas && canvas.parentNode) {
+    if (canvas?.parentNode) {
       canvas.parentNode.removeChild(canvas);
     }
   },

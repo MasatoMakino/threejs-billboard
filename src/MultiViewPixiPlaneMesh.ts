@@ -1,16 +1,16 @@
+import { Container } from "pixi.js";
 import {
   CanvasTexture,
   Mesh,
   MeshBasicMaterial,
   PlaneGeometry,
-  Texture,
+  type Texture,
 } from "three";
-import { Container } from "pixi.js";
-import { PixiMultiViewManager } from "./PixiMultiViewManager";
-import { IRenderablePixiView } from "./RenderablePixiView";
 import { CameraChaser } from "./CameraChaser.js";
 import { MultiViewObject3DUtils } from "./MultiViewObject3DUtils.js";
-import { MultiViewPixiObjectOptions } from "./MultiViewPixiObjectOptions.js";
+import type { MultiViewPixiObjectOptions } from "./MultiViewPixiObjectOptions.js";
+import type { PixiMultiViewManager } from "./PixiMultiViewManager";
+import type { IRenderablePixiView } from "./RenderablePixiView";
 
 /**
  * MultiViewPixiPlaneMeshOptions インターフェイスは、MultiViewPixiPlaneMesh クラスのコンストラクターに渡されるオプションを定義します。
@@ -40,7 +40,7 @@ export class MultiViewPixiPlaneMesh
   /**
    * このインスタンスが破棄されたかどうかを示すフラグ。
    */
-  private _isDisposed: boolean = false;
+  private _isDisposed = false;
   /**
    * このインスタンスが破棄されたかどうかを取得します。
    */
