@@ -3,7 +3,7 @@ import { PerspectiveCamera, MathUtils } from "three";
 /**
  * ビルボードのスケール値をカメラとレンダラーから算出するためのクラス。
  */
-export class ScaleCalculator {
+export const ScaleCalculator = {
   /**
    * SpriteMaterial.sizeAttenuation = false
    * の設定されたSprite用のスケール値を取得する。
@@ -11,19 +11,16 @@ export class ScaleCalculator {
    * @param rendererHeight レンダラーで描画するCanvasの高さ 単位ピクセル
    * @param camera
    */
-  public static getNonAttenuateScale(
+  getNonAttenuateScale(
     rendererHeight: number,
     camera: PerspectiveCamera,
   ): number {
-    return ScaleCalculator.getFovHeight(1.0, camera) / rendererHeight;
-  }
+    return getFovHeight(1.0, camera) / rendererHeight;
+  },
+};
 
-  private static getFovHeight(
-    distance: number,
-    camera: PerspectiveCamera,
-  ): number {
-    const halfFov = MathUtils.degToRad(camera.fov / 2);
-    const half_fov_height = Math.tan(halfFov) * distance;
-    return half_fov_height * 2;
-  }
-}
+const getFovHeight = (distance: number, camera: PerspectiveCamera): number => {
+  const halfFov = MathUtils.degToRad(camera.fov / 2);
+  const half_fov_height = Math.tan(halfFov) * distance;
+  return half_fov_height * 2;
+};
