@@ -92,7 +92,7 @@ describe("MultiViewPixiBillboard", () => {
     expect(billboard.container).toBeInstanceOf(Container);
     expect(billboard.texture).toBeInstanceOf(CanvasTexture);
     expect((billboard.material as SpriteMaterial).map).toBe(billboard.texture);
-    expect((billboard as any)._manager).toBe(manager); // モックではなく実際のインスタンス
+    expect(billboard["_manager"]).toBe(manager); // モックではなく実際のインスタンス
     expect(billboard.isDisposed).toBe(false);
     expect(billboard.scale.x).toBe(initialScale * width);
     expect(billboard.scale.y).toBe(initialScale * height);
