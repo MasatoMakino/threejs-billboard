@@ -1,7 +1,7 @@
 import { PerspectiveCamera, MathUtils } from "three";
 
 /**
- * ビルボードのスケール値をカメラとレンダラーから算出するためのクラス。
+ * ビルボードのスケール値をカメラとレンダラーから算出するためのユーティリティ。
  */
 export const ScaleCalculator = {
   /**
