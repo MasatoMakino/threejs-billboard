@@ -1,10 +1,4 @@
-import {
-  autoDetectRenderer,
-  Container,
-  Ticker,
-  Graphics,
-  WebGLRenderer,
-} from "pixi.js";
+import { Container, Ticker, Graphics } from "pixi.js";
 import { Texture } from "three";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { PixiMultiViewManager } from "../src/PixiMultiViewManager.js";
@@ -81,9 +75,8 @@ describe("PixiMultiViewManager Rendering", () => {
     if (manager && !manager.isDisposed) {
       manager.dispose();
     }
-    if (ticker && !(ticker as any).isDestroyed) {
-      ticker.destroy();
-    }
+    ticker.destroy();
+
     // テスト用canvasをbodyから削除
     if (testCanvas && testCanvas.parentElement) {
       testCanvas.parentElement.removeChild(testCanvas);

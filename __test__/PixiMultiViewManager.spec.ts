@@ -112,10 +112,7 @@ describe("PixiMultiViewManager", () => {
     if (manager && !manager.isDisposed) {
       manager.dispose();
     }
-    if (ticker && !(ticker as any).isDestroyed) {
-      // tickerが存在し、破棄されていないことを確認
-      ticker.destroy();
-    }
+    ticker.destroy();
 
     // スパイとモックの実装をリストア
     vi.restoreAllMocks();

@@ -92,7 +92,7 @@ export class SharedStageTexture extends Texture {
 }
 
 export const isSharedStageMaterial = (
-  material: any,
+  material: Material,
 ): material is ISharedStageMaterial => {
   return "map" in material && material.map instanceof SharedStageTexture;
 };
@@ -130,6 +130,6 @@ export interface TextureArea {
 /**
  * mapがSharedStageTextureであることを保証するためのインターフェース
  */
-export interface ISharedStageMaterial {
+export interface ISharedStageMaterial extends Material {
   map: SharedStageTexture;
 }
