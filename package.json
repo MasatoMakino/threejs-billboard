@@ -11,9 +11,7 @@
     }
   },
   "types": "./esm/index.d.ts",
-  "files": [
-    "esm"
-  ],
+  "files": ["esm"],
   "repository": {
     "type": "git",
     "url": "git+https://MasatoMakino@github.com/MasatoMakino/threejs-billboard.git"
@@ -69,6 +67,6 @@
     "lib": "esm"
   },
   "lint-staged": {
-    "*.{js,ts,css,md}": "npx @biomejs/biome check --write --organize-imports-enabled=false --no-errors-on-unmatched"
+    "*.{js,ts,css,md}": "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched"
   }
 }
