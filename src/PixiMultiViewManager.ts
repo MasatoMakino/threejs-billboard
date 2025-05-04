@@ -1,6 +1,11 @@
-import { autoDetectRenderer, Container, Ticker, WebGLRenderer } from "pixi.js";
-import { Texture } from "three";
-import { IRenderablePixiView } from "./RenderablePixiView";
+import {
+  autoDetectRenderer,
+  type Container,
+  Ticker,
+  type WebGLRenderer,
+} from "pixi.js";
+import type { Texture } from "three";
+import type { IRenderablePixiView } from "./RenderablePixiView";
 
 /**
  * PixiMultiViewManagerOptions インターフェイスは、PixiMultiViewManager クラスのコンストラクターに渡されるオプションを定義します。
@@ -26,7 +31,7 @@ export class PixiMultiViewManager {
   /**
    * このインスタンスが破棄されたかどうかを示すフラグ。
    */
-  private _isDisposed: boolean = false;
+  private _isDisposed = false;
   /**
    * このインスタンスが破棄されたかどうかを取得します。
    */
@@ -95,7 +100,7 @@ export class PixiMultiViewManager {
   /**
    * レンダリングキュー内のインスタンスを処理するレンダリングループ。
    */
-  private _renderLoop(): void {
+  private _renderLoop = (): void => {
     if (this._renderQueue.size === 0 || !this._renderer) {
       return;
     }
@@ -103,12 +108,11 @@ export class PixiMultiViewManager {
     for (const instance of this._renderQueue) {
       if (instance.isDisposed) {
         this._renderQueue.delete(instance);
-        continue;
       }
     }
     PixiMultiViewManager.renderAllQueued(this._renderQueue, this._renderer);
     this._renderQueue.clear();
-  }
+  };
 
   /**
    * Ensures the renderer size matches the target canvas size.

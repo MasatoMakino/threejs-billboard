@@ -1,5 +1,5 @@
-import { Application, Container, Ticker } from "pixi.js";
-import { BufferGeometry, Material, Texture } from "three";
+import { Application, type Container, Ticker } from "pixi.js";
+import { type BufferGeometry, type Material, Texture } from "three";
 
 /**
  * SharedStageTexture クラスは、SharedStageBillboard および SharedStagePlaneMesh クラスで使用される単一の共有 Canvas および Texture を管理します。

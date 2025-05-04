@@ -1,4 +1,4 @@
-import { LinearFilter, Sprite, TextureFilter } from "three";
+import { LinearFilter, Sprite, type TextureFilter } from "three";
 import { BillBoardController } from "./BillBoardController.js";
 
 export interface BillBoardOptions {
@@ -11,9 +11,9 @@ export interface InitializedBillBoardOptions extends BillBoardOptions {
 
 export const BillBoardOptionUtil = {
   init(option?: BillBoardOptions): InitializedBillBoardOptions {
-    option ??= {};
-    option.minFilter ??= LinearFilter;
-    return option as InitializedBillBoardOptions;
+    const initializedOption = option ?? {};
+    initializedOption.minFilter ??= LinearFilter;
+    return initializedOption as InitializedBillBoardOptions;
   },
 };
 

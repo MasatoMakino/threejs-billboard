@@ -1,8 +1,8 @@
-import { PixiMultiViewManager } from "./PixiMultiViewManager";
+import type { PixiMultiViewManager } from "./PixiMultiViewManager";
 
 export interface MultiViewPixiObjectOptions {
   manager: PixiMultiViewManager;
   width: number;
   height: number;
-  scale?: number; // 省略可能
+  scale?: number;
 }

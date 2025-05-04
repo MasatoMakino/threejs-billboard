@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { MultiViewObject3DUtils } from "../src/MultiViewObject3DUtils.js";
-import { MeshBasicMaterial } from "three";
-import { Container } from "pixi.js";
+import type { MeshBasicMaterial } from "three";
+import type { Container } from "pixi.js";
 
 describe("MultiViewObject3DUtils", () => {
   it("disposeMaterials should dispose single material and its map", () => {
@@ -72,7 +72,9 @@ describe("MultiViewObject3DUtils", () => {
     document.body.appendChild(mockCanvas);
 
     // Spy on the removeChild method of the actual parentNode
-    const removeChildSpy = vi.spyOn(mockCanvas.parentNode!, "removeChild");
+    const parent = mockCanvas.parentNode;
+    if (!parent) throw new Error("Canvas parent node not found");
+    const removeChildSpy = vi.spyOn(parent, "removeChild");
 
     MultiViewObject3DUtils.disposeCanvas(mockCanvas);
 

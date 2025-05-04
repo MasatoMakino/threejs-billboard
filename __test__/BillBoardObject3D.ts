@@ -1,4 +1,4 @@
-import { BillBoard, BillBoardPlane } from "../src/index.js";
+import type { BillBoard, BillBoardPlane } from "../src/index.js";
 import { expect, test } from "vitest";
 
 export const billboardCommonTest = (target: BillBoard | BillBoardPlane) => {

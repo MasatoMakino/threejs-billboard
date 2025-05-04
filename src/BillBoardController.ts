@@ -7,7 +7,7 @@ import {
   SpriteMaterial,
   TextureLoader,
 } from "three";
-import { InitializedBillBoardOptions } from "./BillBoard.js";
+import type { InitializedBillBoardOptions } from "./BillBoard.js";
 
 export type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
 export type BillBoardObject3D = Mesh | Sprite;
@@ -19,8 +19,8 @@ export type BillBoardObject3D = Mesh | Sprite;
 export class BillBoardController {
   protected _imageScale: number;
   protected _target: Mesh | Sprite;
-  private isInitGeometry: boolean = false;
-  readonly textureLoaderPromise: Promise<void | ErrorEvent>;
+  private isInitGeometry = false;
+  readonly textureLoaderPromise: Promise<undefined | ErrorEvent>;
 
   /**
    * コンストラクタ
@@ -53,7 +53,7 @@ export class BillBoardController {
           mat.needsUpdate = true;
           mat.visible = true;
           this.updateScale();
-          resolve();
+          resolve(undefined);
         },
         undefined,
         (e) => {

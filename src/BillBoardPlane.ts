@@ -1,6 +1,6 @@
 import { Mesh } from "three";
 import {
-  BillBoardOptions,
+  type BillBoardOptions,
   BillBoardOptionUtil,
   CameraChaser,
 } from "./index.js";

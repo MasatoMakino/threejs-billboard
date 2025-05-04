@@ -1,9 +1,9 @@
 import { Container } from "pixi.js";
-import { CanvasTexture, Sprite, Texture, SpriteMaterial } from "three";
-import { PixiMultiViewManager } from "./PixiMultiViewManager.js";
-import { IRenderablePixiView } from "./RenderablePixiView";
+import { CanvasTexture, Sprite, type Texture, SpriteMaterial } from "three";
+import type { PixiMultiViewManager } from "./PixiMultiViewManager.js";
+import type { IRenderablePixiView } from "./RenderablePixiView";
 import { MultiViewObject3DUtils } from "./MultiViewObject3DUtils.js";
-import { MultiViewPixiObjectOptions } from "./MultiViewPixiObjectOptions.js";
+import type { MultiViewPixiObjectOptions } from "./MultiViewPixiObjectOptions.js";
 
 /**
  * MultiViewPixiBillboardOptions インターフェイスは、MultiViewPixiBillboard クラスのコンストラクターに渡されるオプションを定義します。
@@ -33,7 +33,7 @@ export class MultiViewPixiBillboard
   /**
    * このインスタンスが破棄されたかどうかを示すフラグ。
    */
-  private _isDisposed: boolean = false;
+  private _isDisposed = false;
   /**
    * このインスタンスが破棄されたかどうかを取得します。
    */

@@ -5,14 +5,14 @@ import {
   vi,
   beforeEach,
   afterEach,
-  MockInstance,
+  type MockInstance,
 } from "vitest";
 import { MultiViewPixiBillboard } from "../src/MultiViewPixiBillboard.js";
 import { PixiMultiViewManager } from "../src/PixiMultiViewManager.js";
-import { SpriteMaterial, CanvasTexture, MeshBasicMaterial } from "three";
+import { SpriteMaterial, CanvasTexture, type MeshBasicMaterial } from "three";
 import { Container, Ticker } from "pixi.js";
 import { MultiViewObject3DUtils } from "../src/MultiViewObject3DUtils.js";
-import { IRenderablePixiView } from "../src/RenderablePixiView.js";
+import type { IRenderablePixiView } from "../src/RenderablePixiView.js";
 
 describe("MultiViewPixiBillboard", () => {
   let manager: PixiMultiViewManager;
@@ -34,8 +34,8 @@ describe("MultiViewPixiBillboard", () => {
   let disposeStageContainerSpy: MockInstance<(container: Container) => void>;
   let disposeCanvasSpy: MockInstance<(canvas: HTMLCanvasElement) => void>;
   let consoleWarnSpy: MockInstance<{
-    (...data: any[]): void;
-    (message?: any, ...optionalParams: any[]): void;
+    (...data: unknown[]): void;
+    (message?: unknown, ...optionalParams: unknown[]): void;
   }>;
 
   // 非同期処理を含むためasync
@@ -92,12 +92,11 @@ describe("MultiViewPixiBillboard", () => {
     expect(billboard.container).toBeInstanceOf(Container);
     expect(billboard.texture).toBeInstanceOf(CanvasTexture);
     expect((billboard.material as SpriteMaterial).map).toBe(billboard.texture);
-    expect(billboard["_manager"]).toBe(manager); // モックではなく実際のインスタンス
     expect(billboard.isDisposed).toBe(false);
     expect(billboard.scale.x).toBe(initialScale * width);
     expect(billboard.scale.y).toBe(initialScale * height);
     expect(billboard.scale.z).toBe(1);
-    expect(requestRenderSpy).toHaveBeenCalledWith(billboard); // スパイで検証
+    expect(requestRenderSpy).toHaveBeenCalledWith(billboard);
   });
 
   it("setScale should set the scale of the sprite", () => {

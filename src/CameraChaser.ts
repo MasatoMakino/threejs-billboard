@@ -1,24 +1,24 @@
 import {
-  BufferGeometry,
-  Camera,
-  Material,
-  Object3D,
-  Scene,
+  type BufferGeometry,
+  type Camera,
+  type Material,
+  type Object3D,
+  type Scene,
   Vector3,
-  WebGLRenderer,
+  type WebGLRenderer,
 } from "three";
 
 export class CameraChaser {
   /**
    * 水平方向に回転し、カメラに追従するか否か。
    */
-  public isLookingCameraHorizontal: boolean = false;
+  public isLookingCameraHorizontal = false;
   private cameraPos: Vector3 = new Vector3();
   private worldPos: Vector3 = new Vector3();
   private target: Object3D | undefined;
   private originalOnBeforeRender;
 
-  public needUpdateWorldPosition: boolean = false;
+  public needUpdateWorldPosition = false;
 
   constructor(target: Object3D) {
     this.target = target;

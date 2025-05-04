@@ -1,5 +1,5 @@
-import { Texture } from "three";
-import { Container } from "pixi.js";
+import type { Texture } from "three";
+import type { Container } from "pixi.js";
 
 export interface IRenderablePixiView {
   isDisposed: boolean;

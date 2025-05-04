@@ -1,6 +1,6 @@
 import {
   BillBoardController,
-  BillBoardObject3D,
+  type BillBoardObject3D,
 } from "../src/BillBoardController.js";
 import { Mesh, Sprite } from "three";
 import { BillBoardOptionUtil } from "../src/index.js";
