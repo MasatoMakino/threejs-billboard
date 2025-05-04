@@ -11,9 +11,7 @@
     }
   },
   "types": "./esm/index.d.ts",
-  "files": [
-    "esm"
-  ],
+  "files": ["esm"],
   "repository": {
     "type": "git",
     "url": "git+https://MasatoMakino@github.com/MasatoMakino/threejs-billboard.git"
@@ -25,6 +23,7 @@
     "three": ">=0.126.0 <1.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@masatomakino/gulptask-demo-page": "^0.8.0",
     "@masatomakino/release-helper": "^0.1.7",
     "@types/three": "^0.176.0",
@@ -36,7 +35,6 @@
     "lil-gui": "^0.20.0",
     "lint-staged": "^15.0.2",
     "pixi.js": "^8.9.1",
-    "prettier": "^3.0.2",
     "three": "^0.176.0",
     "typedoc": "^0.28.0",
     "typescript": "^5.5.2",
@@ -69,6 +67,6 @@
     "lib": "esm"
   },
   "lint-staged": {
-    "*.{js,ts,css,md}": "prettier --write"
+    "*.{js,ts,css,md}": "npx @biomejs/biome check --write --organize-imports-enabled=false --no-errors-on-unmatched"
   }
 }
