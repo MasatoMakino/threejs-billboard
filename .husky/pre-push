@@ -1,1 +1,3 @@
+npx @biomejs/biome ci .
+
 npx vitest --run
