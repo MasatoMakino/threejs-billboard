@@ -14,7 +14,11 @@ import {
 import { PixiMultiViewManager } from "../src/PixiMultiViewManager.js";
 import type { IRenderablePixiView } from "../src/RenderablePixiView";
 
-// プライベートメンバー_renderQueueにアクセスするためのヘルパー関数
+/**
+ * Retrieves the render queue from the PixiMultiViewManager instance.
+ * @param manager - The PixiMultiViewManager instance.
+ * @returns The render queue as a Set of IRenderablePixiView.
+ */
 const getRenderQueue = (
   manager: PixiMultiViewManager,
 ): Set<IRenderablePixiView> => {
@@ -22,10 +26,24 @@ const getRenderQueue = (
   return (manager as any)._renderQueue;
 };
 
-// プライベートメンバー_tickerにアクセスするためのヘルパー関数
+/**
+ * Retrieves the ticker instance from the PixiMultiViewManager instance.
+ * @param manager - The PixiMultiViewManager instance.
+ * @returns The Ticker instance.
+ */
 const getTicker = (manager: PixiMultiViewManager): Ticker => {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   return (manager as any)._ticker;
+};
+
+/**
+ * Retrieves the render loop function from the PixiMultiViewManager instance.
+ * @param manager - The PixiMultiViewManager instance.
+ * @returns The render loop function.
+ */
+const getRenderLoop = (manager: PixiMultiViewManager): (() => void) => {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  return (manager as any)._renderLoop;
 };
 
 // autoDetectRenderer をモック化
@@ -268,8 +286,7 @@ describe("PixiMultiViewManager", () => {
     manager.dispose();
 
     expect(tickerRemoveSpy).toHaveBeenCalledWith(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      (manager as any)._renderLoop,
+      getRenderLoop(manager),
       manager,
     );
     expect(mockRendererDestroySpy).toHaveBeenCalledOnce();

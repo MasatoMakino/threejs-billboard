@@ -100,7 +100,7 @@ export class PixiMultiViewManager {
   /**
    * レンダリングキュー内のインスタンスを処理するレンダリングループ。
    */
-  private _renderLoop(): void {
+  private _renderLoop = (): void => {
     if (this._renderQueue.size === 0 || !this._renderer) {
       return;
     }
@@ -112,7 +112,7 @@ export class PixiMultiViewManager {
     }
     PixiMultiViewManager.renderAllQueued(this._renderQueue, this._renderer);
     this._renderQueue.clear();
-  }
+  };
 
   /**
    * Ensures the renderer size matches the target canvas size.
