@@ -1,14 +1,14 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "vcs": {
-    "enabled": false,
+    "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true,
     "defaultBranch": "main"
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["esm/**/*", "coverage/**/*", "dist/**/*", "docs/**/*"]
+    "ignore": []
   },
   "formatter": {
     "enabled": true,
