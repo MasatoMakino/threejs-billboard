@@ -33,7 +33,7 @@
     "browser-sync": "^3.0.2",
     "husky": "^9.0.11",
     "lil-gui": "^0.20.0",
-    "lint-staged": "^15.0.2",
+    "lint-staged": "^16.0.0",
     "pixi.js": "^8.9.1",
     "three": "^0.176.0",
     "typedoc": "^0.28.0",
