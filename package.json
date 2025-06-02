@@ -35,7 +35,7 @@
     "lil-gui": "^0.20.0",
     "lint-staged": "^16.1.0",
     "pixi.js": "^8.9.1",
-    "three": "^0.176.0",
+    "three": "^0.177.0",
     "typedoc": "^0.28.0",
     "typescript": "^5.5.2",
     "webdriverio": "^9.0.1"
