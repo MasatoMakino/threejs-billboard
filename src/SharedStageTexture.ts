@@ -52,11 +52,11 @@ export class SharedStageTexture extends Texture {
     return this.app.stage;
   }
 
-  public get width(): number {
+  override get width(): number {
     return this.app.renderer.width;
   }
 
-  public get height(): number {
+  override get height(): number {
     return this.app.renderer.height;
   }
 
