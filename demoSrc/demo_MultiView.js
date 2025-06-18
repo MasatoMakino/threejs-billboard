@@ -18,7 +18,7 @@ window.onload = async () => {
   // Create a MultiViewPixiPlaneMesh instance
   // Create 16 MultiViewPixiPlaneMesh instances
   for (let i = 0; i < 16; i++) {
-    const planeMesh = generatePlaneMesh(pixiManager, 64, i + 1);
+    const planeMesh = generatePlaneMesh(pixiManager, 64);
     const x = (i % 4) * 20 - 30; // 4x4グリッドのx座標
     const y = Math.floor(i / 4) * 20 - 30; // 4x4グリッドのy座標
     const z = 0; // z座標は固定
@@ -29,7 +29,7 @@ window.onload = async () => {
 
   // Create 16 MultiViewPixiBillboard instances
   for (let i = 0; i < 16; i++) {
-    const billboard = generateBillboard(pixiManager, 64, i + 1);
+    const billboard = generateBillboard(pixiManager, 64);
     const x = (i % 4) * 20 - 30; // 4x4グリッドのx座標
     const y = Math.floor(i / 4) * 20 - 30; // 4x4グリッドのy座標
     const z = -50; // z座標はオフセット
