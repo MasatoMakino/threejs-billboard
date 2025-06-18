@@ -47,7 +47,7 @@ describe("SharedStageBillboard", () => {
     "should throw an error when to create a SharedStageBillboard without SharedStageTexture",
     () => {
       const material = new SpriteMaterial();
-      const billboard = new SharedStageBillboard(material, textureArea);
+      new SharedStageBillboard(material, textureArea);
     },
   );
 
