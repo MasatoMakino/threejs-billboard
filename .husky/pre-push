@@ -1,3 +1,5 @@
-biome check --organize-imports-enabled=false --no-errors-on-unmatched
+#!/usr/bin/env sh
+set -e
 
+npx biome ci .
 npx vitest --run
