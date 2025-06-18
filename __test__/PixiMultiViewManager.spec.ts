@@ -22,7 +22,7 @@ import type { IRenderablePixiView } from "../src/RenderablePixiView";
 const getRenderQueue = (
   manager: PixiMultiViewManager,
 ): Set<IRenderablePixiView> => {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint: false positive
   return (manager as any)._renderQueue;
 };
 
@@ -32,7 +32,7 @@ const getRenderQueue = (
  * @returns The Ticker instance.
  */
 const getTicker = (manager: PixiMultiViewManager): Ticker => {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint: false positive
   return (manager as any)._ticker;
 };
 
@@ -42,7 +42,7 @@ const getTicker = (manager: PixiMultiViewManager): Ticker => {
  * @returns The render loop function.
  */
 const getRenderLoop = (manager: PixiMultiViewManager): (() => void) => {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint: false positive
   return (manager as any)._renderLoop;
 };
 
@@ -94,7 +94,6 @@ describe("PixiMultiViewManager", () => {
   };
   let mockRendererRenderSpy: Mock<(...args: unknown[]) => unknown>;
   let mockRendererDestroySpy: Mock<(...args: unknown[]) => unknown>;
-  let mockRendererResizeSpy: Mock<(...args: unknown[]) => unknown>;
   let tickerRemoveSpy: MockInstance<
     <T = unknown>(fn: TickerCallback<T>, context?: T | undefined) => Ticker
   >;
@@ -132,7 +131,6 @@ describe("PixiMultiViewManager", () => {
     // モックRendererのメソッドのスパイを取得
     mockRendererRenderSpy = mockRenderer.render;
     mockRendererDestroySpy = mockRenderer.destroy;
-    mockRendererResizeSpy = mockRenderer.resize;
     tickerRemoveSpy = vi.spyOn(ticker, "remove");
 
     // initでstartされることを検証（ただしスパイされているので実際には開始されない）
