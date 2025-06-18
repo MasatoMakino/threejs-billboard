@@ -22,7 +22,7 @@ import type { IRenderablePixiView } from "../src/RenderablePixiView";
 const getRenderQueue = (
   manager: PixiMultiViewManager,
 ): Set<IRenderablePixiView> => {
-  // biome-ignore lint: false positive
+  // biome-ignore lint/suspicious/noExplicitAny: intentional private access in tests
   return (manager as any)._renderQueue;
 };
 
@@ -32,7 +32,7 @@ const getRenderQueue = (
  * @returns The Ticker instance.
  */
 const getTicker = (manager: PixiMultiViewManager): Ticker => {
-  // biome-ignore lint: false positive
+  // biome-ignore lint/suspicious/noExplicitAny: intentional private access in tests
   return (manager as any)._ticker;
 };
 
@@ -42,7 +42,7 @@ const getTicker = (manager: PixiMultiViewManager): Ticker => {
  * @returns The render loop function.
  */
 const getRenderLoop = (manager: PixiMultiViewManager): (() => void) => {
-  // biome-ignore lint: false positive
+  // biome-ignore lint/suspicious/noExplicitAny: intentional private access in tests
   return (manager as any)._renderLoop;
 };
 
