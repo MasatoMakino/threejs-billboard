@@ -65,7 +65,7 @@ const drawContent = (container, r, initialText, billboad) => {
   }, 3000);
 };
 
-const generatePlaneMesh = (pixiManager, r, index) => {
+const generatePlaneMesh = (pixiManager, r) => {
   const billboard = new MultiViewPixiPlaneMesh({
     manager: pixiManager,
     width: r * 2,
@@ -77,7 +77,7 @@ const generatePlaneMesh = (pixiManager, r, index) => {
   return billboard;
 };
 
-const generateBillboard = (pixiManager, r, index) => {
+const generateBillboard = (pixiManager, r) => {
   const billboard = new MultiViewPixiBillboard({
     manager: pixiManager,
     width: r * 2,
