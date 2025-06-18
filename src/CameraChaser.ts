@@ -48,7 +48,7 @@ export class CameraChaser {
    * @param _render
    * @param _scene
    * @param camera
-   * @param geometry
+   * @param _geometry
    * @param _material
    * @param _group
    */
