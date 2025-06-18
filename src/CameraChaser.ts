@@ -45,20 +45,20 @@ export class CameraChaser {
    * カメラ位置がPlaneの北極、南極をまたぐと急激に回転するので注意。
    * 利用する場合はカメラの高さ方向に制限をかけた方が良い。
    *
-   * @param render
-   * @param scene
+   * @param _render
+   * @param _scene
    * @param camera
-   * @param geometry
-   * @param material
-   * @param group
+   * @param _geometry
+   * @param _material
+   * @param _group
    */
   private lookCamera = (
-    render: WebGLRenderer,
-    scene: Scene,
+    _render: WebGLRenderer,
+    _scene: Scene,
     camera: Camera,
-    geometry: BufferGeometry,
-    material: Material,
-    group: Object3D,
+    _geometry: BufferGeometry,
+    _material: Material,
+    _group: Object3D,
   ) => {
     if (!this.isLookingCameraHorizontal || !this.target) return; // Add check for target
     if (this.needUpdateWorldPosition) {

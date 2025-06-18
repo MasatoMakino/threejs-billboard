@@ -24,7 +24,7 @@ describe("SharedStagePlaneMesh", () => {
     "should throw an error when to create a SharedStagePlaneMesh without SharedStageTexture",
     () => {
       const material = new MeshBasicMaterial();
-      const plane = new SharedStagePlaneMesh(material, textureArea);
+      new SharedStagePlaneMesh(material, textureArea);
     },
   );
 

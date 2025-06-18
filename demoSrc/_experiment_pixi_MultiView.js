@@ -24,7 +24,6 @@ window.onload = async () => {
     backgroundAlpha: 0,
   });
   document.body.appendChild(renderer.canvas);
-  const mainCanvas = renderer.canvas;
 
   // 各Canvasに対応するコンテナとグラデーションを作成
   const canvasData = [];
@@ -59,7 +58,7 @@ window.onload = async () => {
   });
 
   // 初回レンダリング
-  for (const { canvas, container, graphics } of canvasData) {
+  for (const { canvas, container } of canvasData) {
     renderCanvas(renderer, canvas, container); // 全てのCanvasを初回レンダリング
   }
 };
