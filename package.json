@@ -28,7 +28,7 @@
     "@biomejs/biome": "2.0.6",
     "@masatomakino/gulptask-demo-page": "^0.10.0",
     "@masatomakino/release-helper": "^0.2.0",
-    "@types/three": "^0.177.0",
+    "@types/three": "^0.178.0",
     "@types/webxr": "^0.5.19",
     "@vitest/browser": "*",
     "@vitest/coverage-istanbul": "^3.0.2",
