@@ -1,6 +1,6 @@
 # threejs-billboard
 
-> billboard module for three.js
+> Billboard module for three.js with multiple rendering approaches
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5e46ba2a716da782e45e/test_coverage)](https://codeclimate.com/github/MasatoMakino/threejs-billboard/test_coverage)
@@ -20,43 +20,99 @@
 npm install @masatomakino/threejs-billboard --save-dev
 ```
 
-threejs-billboard depend on [three.js](https://threejs.org/) and [pixi.js](https://github.com/pixijs/pixi.js).
+This library depends on [three.js](https://threejs.org/) (>=0.126.0) and [pixi.js](https://github.com/pixijs/pixi.js) (^8.4.0).
 
 ### Import
 
 threejs-billboard is composed of ES6 modules and TypeScript d.ts files.
 
-At first, import classes.
+Import the classes you need:
 
 ```js
 import {
   BillBoard,
-  StageBillBoard,
-  StagePlaneMesh,
+  BillBoardPlane,
+  SharedStageBillboard,
+  SharedStagePlaneMesh,
+  MultiViewPixiBillboard,
+  MultiViewPixiPlaneMesh,
   ScaleCalculator,
+  CameraChaser,
 } from "@masatomakino/threejs-billboard";
 ```
 
-### Show billboard
+### Basic Usage
 
-Add billboard in [THREE.Scene](https://threejs.org/docs/#manual/en/introduction/Creating-a-scene).
+Add a billboard to your [THREE.Scene](https://threejs.org/docs/#manual/en/introduction/Creating-a-scene):
 
 ```js
 const billboard = new BillBoard("./map01.png", 0.1);
 scene.add(billboard);
 ```
 
-### Choosing the Right Class
+## Billboard Types
 
-The library provides different classes for creating billboards and plane meshes, each with distinct characteristics and use cases:
+The library provides three distinct approaches for different use cases:
 
-- **Image-based Classes (BillBoard, BillBoardPlane):** Use image files as source. Simple to use for static images.
-- **SharedStage Classes (Billboard, PlaneMesh):** Utilize a single shared Canvas/Texture, excelling in reducing draw calls. Suitable for scenarios with a fixed number of billboards where performance is critical.
-- **MultiView Classes (Billboard, PlaneMesh):** Each instance has an independent Canvas, offering superior performance for partial updates and flexibility in the number of billboards. Suitable for scenarios with numerous and dynamically changing billboards.
+### 1. Image-based Classes
 
-### Dot-by-dot display
+Simple billboards using image files directly as texture source.
 
-If you want to display dot-by-dot billboard, get image scale with ScaleCalculator.
+```js
+// Billboard that always faces the camera
+const billboard = new BillBoard("./image.png", 0.1);
+scene.add(billboard);
+
+// Plane mesh with image texture
+const plane = new BillBoardPlane("./image.png", 0.1);
+scene.add(plane);
+```
+
+**Best for**: Static images, simple use cases
+
+### 2. SharedStage Classes
+
+Multiple billboards sharing a single Canvas/Texture for optimal performance.
+
+```js
+// Create shared stage texture
+const sharedTexture = new SharedStageTexture(512, 512);
+
+// Create billboards using shared texture
+const billboard1 = new SharedStageBillboard(sharedTexture, 0.1);
+const billboard2 = new SharedStageBillboard(sharedTexture, 0.1);
+
+// Or plane meshes
+const plane1 = new SharedStagePlaneMesh(sharedTexture, 0.1);
+const plane2 = new SharedStagePlaneMesh(sharedTexture, 0.1);
+```
+
+**Best for**: Fixed number of billboards, reducing draw calls, performance-critical scenarios
+
+### 3. MultiView Classes
+
+Each instance has independent Canvas using PixiJS v8 multiView technology.
+
+```js
+// Create manager for multiview rendering
+const manager = new PixiMultiViewManager();
+
+// Create independent billboards
+const billboard1 = new MultiViewPixiBillboard(manager, 0.1);
+const billboard2 = new MultiViewPixiBillboard(manager, 0.1);
+
+// Or plane meshes
+const plane1 = new MultiViewPixiPlaneMesh(manager, 0.1);
+const plane2 = new MultiViewPixiPlaneMesh(manager, 0.1);
+```
+
+**Best for**: Partial updates, flexible billboard count, dynamic scenarios
+
+## Advanced Features
+
+### Dot-by-dot Display
+
+For pixel-perfect display without size attenuation:
 
 ```js
 const scale = ScaleCalculator.getNonAttenuateScale(
@@ -69,9 +125,41 @@ billboard.material.sizeAttenuation = false;
 
 ### Camera Chaser
 
-The `CameraChaser` utility can be used with `SharedStagePlaneMesh`, `MultiViewPixiPlaneMesh`, and `BillBoardPlane` to make the plane track the camera's rotation. By default, this feature is off. You can enable it to make the plane always face the camera, similar to a billboard but maintaining its plane geometry. Note that unlike a Sprite, the rotation is limited to the Y-axis.
+Make plane meshes track camera rotation (Y-axis only). CameraChaser is automatically created for all plane mesh classes - you don't need to instantiate it manually:
 
-## API documents
+```js
+const plane = new BillBoardPlane("./image.png", 0.1);
+
+// Enable camera chasing (disabled by default)
+plane.cameraChaser.isLookingCameraHorizontal = true;
+
+// Disable camera chasing
+plane.cameraChaser.isLookingCameraHorizontal = false;
+```
+
+Works with `SharedStagePlaneMesh`, `MultiViewPixiPlaneMesh`, and `BillBoardPlane`. No manual update calls needed - it automatically updates before each render.
+
+## Development
+
+### Build Commands
+
+```bash
+npm run build        # Build TypeScript and generate demo pages
+npm run buildTS      # Compile TypeScript to ESM
+npm test            # Run tests with Vitest
+npm run test:watch  # Run tests in watch mode
+npm run coverage    # Run tests with coverage
+```
+
+### Development Server
+
+```bash
+npm run start:dev   # Start development server with file watching
+npm run server      # Start browser-sync server for demo pages
+npm run demo        # Generate demo pages
+```
+
+## API Documentation
 
 [API documents](https://masatomakino.github.io/threejs-billboard/api/)
 
