@@ -65,3 +65,5 @@ docs/
 esm
 
 __test__/__screenshots__/
+
+.claude/settings.local.json
