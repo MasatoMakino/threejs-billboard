@@ -8,63 +8,197 @@ import type { Texture } from "three";
 import type { IRenderablePixiView } from "./RenderablePixiView";
 
 /**
- * PixiMultiViewManagerOptions インターフェイスは、PixiMultiViewManager クラスのコンストラクターに渡されるオプションを定義します。
+ * Configuration options for PixiMultiViewManager initialization.
+ *
+ * This interface defines the optional parameters that can be passed to the
+ * PixiMultiViewManager constructor to customize its behavior.
  */
 interface PixiMultiViewManagerOptions {
   /**
-   * レンダリングループに使用する PixiJS Ticker インスタンス。指定しない場合は Ticker.shared が使用されます。
+   * The PixiJS Ticker instance to use for the rendering loop.
+   *
+   * If not specified, `Ticker.shared` will be used. Providing a custom ticker
+   * allows for fine-grained control over the rendering timing and integration
+   * with existing application timing systems.
+   *
+   * @default Ticker.shared
+   * @example
+   * ```typescript
+   * // Use custom ticker for controlled rendering
+   * const customTicker = new Ticker();
+   * const manager = new PixiMultiViewManager({ ticker: customTicker });
+   * ```
    */
   ticker?: Ticker;
 }
 
 /**
- * PixiMultiViewManager クラスは、PixiJS v8 の multiView レンダラーの単一インスタンスを管理し、
- * 複数の IRenderablePixiView インスタンス（MultiViewPixiBillboard や MultiViewPixiPlaneMesh など）のレンダリング要求を調整します。
+ * Manages a single PixiJS v8 multiView renderer instance and coordinates rendering requests from multiple IRenderablePixiView instances.
  *
- * SharedStage クラス群が単一の共有 Stage と Texture を使用するのに対し、
- * このマネージャーは複数の独立した Canvas と Texture を効率的に管理することに特化しています。
+ * This class serves as the central coordinator for the MultiView billboard system, managing
+ * rendering requests from MultiViewPixiBillboard and MultiViewPixiPlaneMesh instances.
+ * It leverages PixiJS v8's multiView capability to efficiently render multiple independent
+ * canvas elements using a single WebGL renderer.
  *
- * 主に MultiViewPixiBillboard や MultiViewPixiPlaneMesh と組み合わせて使用され、
- * 各ビューの描画内容の更新を効率的に処理します。
+ * ## Architecture Overview
+ *
+ * Unlike the SharedStage approach which uses a single shared canvas and texture,
+ * the MultiView system specializes in efficiently managing multiple independent
+ * canvases and textures. This provides several advantages:
+ *
+ * - **Independent Updates**: Each billboard can be updated independently
+ * - **Flexible Scaling**: Number of billboards can be dynamic
+ * - **Resource Isolation**: Each billboard has its own canvas and texture
+ * - **Optimized Rendering**: Single renderer handles multiple render targets
+ *
+ * ## Rendering Queue System
+ *
+ * The manager uses a queue-based approach where:
+ * 1. MultiView instances request rendering via `requestRender()`
+ * 2. Requests are queued until the next ticker frame
+ * 3. All queued instances are rendered in a single batch
+ * 4. Queue is cleared after processing
+ *
+ * ## Integration with MultiView Classes
+ *
+ * This manager is primarily used with:
+ * - `MultiViewPixiBillboard`: Sprite-based billboards with independent canvas
+ * - `MultiViewPixiPlaneMesh`: Mesh-based billboards with independent canvas
+ *
+ * @example
+ * ```typescript
+ * // Create and initialize the manager
+ * const manager = new PixiMultiViewManager();
+ * await manager.init();
+ *
+ * // Create billboards that will use this manager
+ * const billboard1 = new MultiViewPixiBillboard({
+ *   width: 256,
+ *   height: 256,
+ *   imageScale: 1.0,
+ *   manager: manager
+ * });
+ * const billboard2 = new MultiViewPixiPlaneMesh({
+ *   width: 512,
+ *   height: 512,
+ *   imageScale: 0.5,
+ *   manager: manager
+ * });
+ *
+ * // Billboards automatically request rendering when content changes
+ * // The manager handles all rendering coordination
+ *
+ * // Clean up when done
+ * manager.dispose();
+ * ```
  */
 export class PixiMultiViewManager {
   /**
-   * このインスタンスが破棄されたかどうかを示すフラグ。
+   * Flag indicating whether this manager instance has been disposed.
+   * Set to true during disposal to prevent further operations.
    */
   private _isDisposed = false;
+
   /**
-   * このインスタンスが破棄されたかどうかを取得します。
+   * Gets whether this manager instance has been disposed.
+   *
+   * When `true`, the manager's resources have been cleaned up and it should
+   * no longer be used. All rendering operations will be ignored after disposal.
+   *
+   * @returns True if disposed, false otherwise
+   * @example
+   * ```typescript
+   * if (!manager.isDisposed) {
+   *   manager.requestRender(billboard);
+   * }
+   * ```
    */
   get isDisposed(): boolean {
     return this._isDisposed;
   }
 
   /**
-   * 管理している PixiJS WebGLRenderer インスタンス。
+   * Gets the managed PixiJS WebGLRenderer instance.
+   *
+   * The renderer is created during initialization and used to render all
+   * MultiView instances. Returns null if the manager has not been initialized
+   * or has been disposed.
+   *
+   * @returns The WebGL renderer instance, or null if not available
+   * @example
+   * ```typescript
+   * const manager = new PixiMultiViewManager();
+   * console.log(manager.renderer); // null - not initialized yet
+   *
+   * await manager.init();
+   * console.log(manager.renderer); // WebGLRenderer instance
+   * ```
    */
   get renderer(): WebGLRenderer | null {
     return this._renderer;
   }
-  private _renderer: WebGLRenderer | null = null;
+
   /**
-   * レンダリングループに使用される PixiJS Ticker インスタンス。
+   * The internal WebGL renderer instance used for rendering all MultiView instances.
+   * Created during initialization and destroyed during disposal.
+   */
+  private _renderer: WebGLRenderer | null = null;
+
+  /**
+   * The PixiJS Ticker instance used for the rendering loop.
+   * Either provided via options or defaults to Ticker.shared.
    */
   private _ticker: Ticker;
+
   /**
-   * レンダリングが必要な IRenderablePixiView インスタンスのキュー。
+   * Queue of IRenderablePixiView instances that need rendering.
+   * Instances are added via requestRender() and processed in batches during the render loop.
    */
   private _renderQueue: Set<IRenderablePixiView> = new Set();
 
   /**
-   * PixiMultiViewManager の新しいインスタンスを生成します。
-   * @param options - コンストラクターオプション。
+   * Creates a new PixiMultiViewManager instance.
+   *
+   * The constructor sets up the basic configuration but does not initialize
+   * the renderer. Call init() after construction to start the rendering system.
+   *
+   * @param options - Configuration options for the manager
+   * @example
+   * ```typescript
+   * // Create with default options
+   * const manager = new PixiMultiViewManager();
+   *
+   * // Create with custom ticker
+   * const customTicker = new Ticker();
+   * const manager = new PixiMultiViewManager({ ticker: customTicker });
+   * ```
    */
   constructor(options?: PixiMultiViewManagerOptions) {
     this._ticker = options?.ticker ?? Ticker.shared;
   }
 
   /**
-   * PixiJS レンダラーを非同期で初期化し、レンダリングループを開始します。
+   * Asynchronously initializes the PixiJS renderer and starts the rendering loop.
+   *
+   * This method creates a WebGL renderer with multiView capability enabled and
+   * starts the ticker-based rendering loop. The renderer is configured with
+   * optimal settings for billboard rendering.
+   *
+   * ## Renderer Configuration
+   *
+   * - **MultiView enabled**: Supports rendering to multiple canvas targets
+   * - **WebGL preference**: Uses WebGL for optimal performance
+   * - **Transparent background**: Alpha 0.0 for proper compositing
+   * - **Antialiasing enabled**: Smooth rendering for better visual quality
+   *
+   * @example
+   * ```typescript
+   * const manager = new PixiMultiViewManager();
+   * await manager.init();
+   *
+   * // Manager is now ready to handle rendering requests
+   * console.log(manager.renderer); // WebGLRenderer instance
+   * ```
    */
   async init(): Promise<void> {
     if (this._renderer) {
@@ -87,8 +221,41 @@ export class PixiMultiViewManager {
   }
 
   /**
-   * 指定された IRenderablePixiView インスタンスのレンダリングをリクエストします。
-   * @param instance - レンダリングが必要なインスタンス。
+   * Requests rendering for the specified IRenderablePixiView instance.
+   *
+   * This method adds the instance to the render queue to be processed on the
+   * next ticker frame. Multiple requests for the same instance within a single
+   * frame are automatically deduplicated using a Set.
+   *
+   * ## Internal Usage Pattern
+   *
+   * This method is primarily called internally by MultiView billboard classes:
+   * - **During construction**: Initial rendering request when the billboard is created
+   * - **On content updates**: When `updateContent()` is called on the billboard
+   * - **On property changes**: When properties like scale are modified via `setScale()`
+   *
+   * ## Queue Behavior
+   *
+   * - Instances are queued until the next ticker frame
+   * - Duplicate requests are automatically ignored
+   * - Disposed instances are automatically filtered out
+   * - Queue is processed in batch for optimal performance
+   *
+   * @param instance - The renderable instance that needs updating
+   * @example
+   * ```typescript
+   * // Typically called internally by billboard classes:
+   * // - In constructor: this._manager.requestRender(this);
+   * // - In updateContent(): this._manager.requestRender(this);
+   * // - In setScale(): this._manager.requestRender(this);
+   *
+   * // Manual usage (if needed):
+   * manager.requestRender(billboard);
+   *
+   * // Multiple requests in the same frame are deduplicated
+   * manager.requestRender(billboard);
+   * manager.requestRender(billboard); // Only rendered once
+   * ```
    */
   requestRender(instance: IRenderablePixiView): void {
     if (instance.isDisposed) {
@@ -98,7 +265,20 @@ export class PixiMultiViewManager {
   }
 
   /**
-   * レンダリングキュー内のインスタンスを処理するレンダリングループ。
+   * Internal rendering loop that processes queued instances.
+   *
+   * This method is called automatically by the ticker on each frame to process
+   * all instances in the render queue. It filters out disposed instances and
+   * renders all remaining instances in a single batch operation.
+   *
+   * ## Processing Steps
+   *
+   * 1. Check if queue is empty or renderer is unavailable
+   * 2. Remove any disposed instances from the queue
+   * 3. Render all remaining instances in batch
+   * 4. Clear the queue for the next frame
+   *
+   * **Note**: This is an internal method and should not be called directly.
    */
   private _renderLoop = (): void => {
     if (this._renderQueue.size === 0 || !this._renderer) {
@@ -115,9 +295,20 @@ export class PixiMultiViewManager {
   };
 
   /**
-   * Ensures the renderer size matches the target canvas size.
-   * @param renderer
-   * @param targetCanvas
+   * Ensures the renderer size is adequate for the target canvas dimensions.
+   *
+   * This internal utility method dynamically resizes the renderer to accommodate
+   * the largest canvas dimensions encountered during rendering. This ensures that
+   * all canvas targets can be rendered without clipping or scaling issues.
+   *
+   * ## Sizing Strategy
+   *
+   * - Takes the maximum of current renderer dimensions and target canvas dimensions
+   * - Only resizes when necessary to avoid unnecessary operations
+   * - Ensures renderer is always large enough for all render targets
+   *
+   * @param renderer - The PixiJS WebGL renderer to resize
+   * @param targetCanvas - The canvas that needs to be rendered to
    */
   private static ensureRendererSize(
     renderer: WebGLRenderer,
@@ -131,20 +322,44 @@ export class PixiMultiViewManager {
   }
 
   /**
-   * Renders the specified container to the target canvas using the provided renderer and texture.
+   * Renders the specified PixiJS container to the target canvas and updates the Three.js texture.
    *
-   * note : targetCanvas is cleared before rendering with the clearRect method.
-   * clearRect method clears with black transparent pixels, which is the default behavior of the 2D context.
-   * 2D context does not support premultiplied alpha.
-   * @see https://html.spec.whatwg.org/multipage/canvas.html#premultiplied-alpha-and-the-2d-rendering-context
-   * If black lines are noticeable on the edges of the texture, change the alphaTest property from the default of 0.0 to a smaller value.
-   * @see https://threejs.org/docs/#api/en/materials/Material.alphaTest
+   * This method performs the core rendering operation for MultiView instances by:
+   * 1. Clearing the target canvas with transparent pixels
+   * 2. Rendering the PixiJS container to the canvas using multiView capability
+   * 3. Marking the Three.js texture for update
    *
-   * @param renderer
-   * @param targetCanvas
-   * @param targetTexture
-   * @param container
-   * @returns
+   * ## Canvas Clearing Behavior
+   *
+   * The target canvas is cleared using the 2D context's `clearRect` method, which
+   * fills with black transparent pixels (RGBA: 0,0,0,0). This is the standard
+   * behavior for 2D canvas contexts.
+   *
+   * ## Alpha Handling Notes
+   *
+   * - Canvas 2D context does not support premultiplied alpha
+   * - If black edges appear on textures, adjust the material's `alphaTest` property
+   * - Consider values smaller than the default 0.0 for `alphaTest`
+   *
+   * @param renderer - The PixiJS WebGL renderer to use
+   * @param targetCanvas - The HTML canvas to render to
+   * @param targetTexture - The Three.js texture to mark for update
+   * @param container - The PixiJS container to render
+   *
+   * @see {@link https://html.spec.whatwg.org/multipage/canvas.html#premultiplied-alpha-and-the-2d-rendering-context | Canvas 2D Premultiplied Alpha}
+   * @see {@link https://threejs.org/docs/#api/en/materials/Material.alphaTest | Three.js Material.alphaTest}
+   *
+   * @example
+   * ```typescript
+   * // This method is called internally by the manager
+   * // No direct usage required in application code
+   * PixiMultiViewManager.renderToTargetCanvas(
+   *   renderer,
+   *   billboard.canvas,
+   *   billboard.texture,
+   *   billboard.container
+   * );
+   * ```
    */
   private static renderToTargetCanvas(
     renderer: WebGLRenderer,
@@ -168,9 +383,21 @@ export class PixiMultiViewManager {
   }
 
   /**
-   * レンダリングキュー内のすべてのインスタンスをレンダリングします。
-   * @param renderQueue - レンダリング対象のインスタンスのセット。
-   * @param renderer - 使用する PixiJS レンダラー。
+   * Renders all instances in the render queue in a single batch operation.
+   *
+   * This static method processes all queued instances by ensuring the renderer
+   * is appropriately sized and then rendering each instance to its target canvas.
+   * Disposed instances are automatically skipped during processing.
+   *
+   * ## Batch Processing Benefits
+   *
+   * - Single renderer handles multiple render targets
+   * - Automatic renderer sizing for optimal performance
+   * - Efficient processing of multiple instances
+   * - Automatic filtering of disposed instances
+   *
+   * @param renderQueue - Set of instances that need rendering
+   * @param renderer - The PixiJS WebGL renderer to use for all instances
    */
   private static renderAllQueued(
     renderQueue: Set<IRenderablePixiView>,
@@ -191,7 +418,34 @@ export class PixiMultiViewManager {
   }
 
   /**
-   * このマネージャーインスタンスが保持するリソースを解放します。
+   * Disposes of this manager instance and releases all associated resources.
+   *
+   * This method performs complete cleanup of the manager including:
+   * - Stopping the ticker-based rendering loop
+   * - Destroying the WebGL renderer and its resources
+   * - Clearing the render queue
+   * - Marking the instance as disposed
+   *
+   * ## Important Notes
+   *
+   * - After disposal, the manager cannot be reused
+   * - All rendering operations will be ignored after disposal
+   * - The manager will log a warning if dispose is called multiple times
+   * - Individual billboard instances are not disposed automatically
+   *
+   * @example
+   * ```typescript
+   * const manager = new PixiMultiViewManager();
+   * await manager.init();
+   *
+   * // Use the manager...
+   *
+   * // Clean up when done
+   * manager.dispose();
+   *
+   * // Manager is now unusable
+   * console.log(manager.isDisposed); // true
+   * ```
    */
   dispose(): void {
     if (this._isDisposed) {
