@@ -6,7 +6,7 @@ import {
 } from "./index.js";
 
 /**
- * Billboard class that uses a single shared Canvas and Texture for rendering.
+ * Billboard class that uses a single shared Canvas via SharedStageTexture for rendering.
  *
  * This class extends Three.js Sprite and displays a specific area of a shared texture
  * as a billboard. It utilizes SharedStageTexture for efficient resource management
@@ -20,12 +20,12 @@ import {
  * ## Comparison with MultiView Classes
  *
  * Compared to MultiViewPixiBillboard, SharedStageBillboard uses a single shared Canvas
- * and Texture, allowing texture and material instances to be shared across multiple billboards.
+ * via SharedStageTexture, allowing texture and material instances to be shared across multiple billboards.
  * This approach can significantly reduce draw calls and improve performance.
  *
  * However, there are limitations:
  * - Shared Canvas size constraints can cause texture mapping failures with many billboards
- * - Frequent partial content updates require full shared Canvas redraws, potentially reducing performance
+ * - Frequent partial content updates require full shared Canvas redraws and GPU texture transfers, potentially reducing performance
  *
  * **Best Use Cases:**
  * SharedStageBillboard is ideal when you have a relatively fixed number of billboards
