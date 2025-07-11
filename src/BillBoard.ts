@@ -64,7 +64,7 @@ export const BillBoardOptionUtil = {
  * });
  *
  * // Scale the billboard to match pixel-perfect display (dot-by-dot)
- * const scale = ScaleCalculator.getDotByDotScale(renderer.domElement.height, camera);
+ * const scale = ScaleCalculator.getNonAttenuateScale(renderer.domElement.height, camera);
  * billboard.imageScale = scale;
  * billboard.material.sizeAttenuation = false; // Required for dot-by-dot display
  * ```
@@ -117,7 +117,7 @@ export class BillBoard extends Sprite {
    *
    * ## Pixel-Perfect Rendering
    *
-   * When combined with ScaleCalculator.getDotByDotScale(), this allows for pixel-perfect
+   * When combined with ScaleCalculator.getNonAttenuateScale(), this allows for pixel-perfect
    * rendering where the billboard matches the exact pixel size of the source image on screen.
    * This requires setting `sizeAttenuation = false` on the material.
    *
@@ -131,7 +131,7 @@ export class BillBoard extends Sprite {
    * billboard.imageScale = 1.0;
    *
    * // Scale for pixel-perfect display (dot-by-dot)
-   * const scale = ScaleCalculator.getDotByDotScale(renderer.domElement.height, camera);
+   * const scale = ScaleCalculator.getNonAttenuateScale(renderer.domElement.height, camera);
    * billboard.imageScale = scale;
    * billboard.material.sizeAttenuation = false; // Required for dot-by-dot display
    * ```
