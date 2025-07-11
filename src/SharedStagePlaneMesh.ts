@@ -7,46 +7,99 @@ import {
 } from "./SharedStageTexture.js";
 
 /**
- * SharedStagePlaneMesh クラスは、単一の共有 Canvas および Texture を使用して描画されるプレーンメッシュ機能を提供します。
- * Three.js の Mesh を継承し、共有テクスチャ上の特定の領域を表示します。
- * CameraChaser によるカメラ追従機能も提供します。
+ * Plane mesh class that uses a single shared Canvas via SharedStageTexture for rendering.
  *
- * ## 概要
- * Canvasに描画可能な板オブジェクトです。
- * SharedStageTexture を使用し、共有テクスチャ上の特定の領域をプレーンメッシュとして表示します。
- * ビルボードと異なり、デフォルトではカメラには追従しませんが、CameraChaser を使用して追従させることも可能です。
+ * This class extends Three.js Mesh and displays a specific area of a shared texture
+ * as a plane mesh. It also provides camera following functionality through CameraChaser.
  *
- * ## MultiView クラス群との比較
- * MultiViewPixiPlaneMesh クラスと比較して、SharedStagePlaneMesh は単一の共有 Canvas と Texture を使用するため、
- * テクスチャとマテリアルインスタンスを複数のプレーンメッシュで共有可能で、ドローコール数の削減が期待できます。
- * 一方、共有 Canvas のサイズに限界があり、多数のプレーンメッシュを配置するとテクスチャのマッピングに失敗する可能性があります。
- * また、部分的な内容更新が多い場合には、共有 Canvas 全体の再描画が必要となり、パフォーマンスが低下する可能性があります。
+ * ## Overview
  *
- * SharedStagePlaneMesh は、プレーンメッシュの数が比較的固定されており、パフォーマンスのためにドローコール数を削減したい場合に適しています。
+ * This is a canvas-drawable plane object that uses SharedStageTexture
+ * to display a specific region of the shared texture as a plane mesh.
+ * Unlike billboards, it does not follow the camera by default, but can be made
+ * to follow using CameraChaser.
  *
- * ## ジオメトリに関する注意
- * ジオメトリは PlaneGeometry なので、中心点からずらす場合は translate を使用してください。
+ * ## Comparison with MultiView Classes
+ *
+ * Compared to MultiViewPixiPlaneMesh, SharedStagePlaneMesh uses a single shared
+ * Canvas via SharedStageTexture, allowing texture and material instances to be shared across
+ * multiple plane meshes, which can significantly reduce draw calls.
+ *
+ * However, there are limitations:
+ * - Shared Canvas size constraints can cause texture mapping failures with many meshes
+ * - Frequent partial content updates require full shared Canvas redraws and GPU texture transfers, potentially reducing performance
+ *
+ * **Best Use Cases:**
+ * SharedStagePlaneMesh is ideal when you have a relatively fixed number of plane meshes
+ * and want to reduce draw calls for optimal performance.
+ *
+ * ## Geometry Implementation Notes
+ *
+ * The geometry uses PlaneGeometry. To offset from the center point, use the translate method:
  * https://threejs.org/docs/#api/en/core/BufferGeometry.translate
  *
- * 各頂点には UV 座標が設定されます。
- * 4頂点2ポリゴンであることを前提としているため、それ以外のジオメトリを渡した場合は正常に動作しない可能性があります。
+ * UV coordinates are set for each vertex. This implementation assumes 4 vertices
+ * and 2 polygons - other geometry configurations may not work correctly.
+ *
+ * @example
+ * ```typescript
+ * // Create shared texture and material
+ * const sharedTexture = new SharedStageTexture();
+ * await sharedTexture.init(1024, 1024);
+ * const sharedMaterial = new MeshBasicMaterial({
+ *   map: sharedTexture,
+ *   transparent: true
+ * });
+ *
+ * // Create plane mesh with specific texture area
+ * const planeMesh = new SharedStagePlaneMesh(
+ *   sharedMaterial,
+ *   { x: 0, y: 0, width: 256, height: 256 }
+ * );
+ *
+ * // Enable camera following (optional)
+ * planeMesh.cameraChaser.enabled = true;
+ *
+ * scene.add(planeMesh);
+ * ```
  */
 export class SharedStagePlaneMesh extends Mesh {
   public cameraChaser: CameraChaser = new CameraChaser(this);
 
   /**
-   * 現在の表示領域を取得する。
+   * Returns a clone of the current texture area.
    *
-   * @returns テクスチャの表示領域 単位ビクセル
+   * This method creates a shallow copy of the texture area object to prevent
+   * external modifications to the internal state.
+   *
+   * @returns A copy of the texture area in pixel coordinates
+   * @example
+   * ```typescript
+   * const currentArea = planeMesh.cloneTextureArea();
+   * console.log(currentArea); // { x: 0, y: 0, width: 256, height: 256 }
+   * ```
    */
   cloneTextureArea(): TextureArea {
     return { ...this._textureArea };
   }
 
   /**
-   * 共有テクスチャからビルボードに表示する領域を更新する。
+   * Updates the texture area displayed by this plane mesh and refreshes UV mapping.
    *
-   * @param value テクスチャの表示領域 単位ビクセル
+   * This method updates the texture area and regenerates the geometry if the dimensions
+   * have changed. It also updates the UV coordinates to reflect the new region.
+   *
+   * @param value - The new texture area in pixel coordinates
+   * @example
+   * ```typescript
+   * // Move plane mesh to display a different area of the shared texture
+   * planeMesh.updateTextureAreaAndUV({
+   *   x: 256,
+   *   y: 256,
+   *   width: 128,
+   *   height: 128
+   * });
+   * ```
    */
   updateTextureAreaAndUV(value: TextureArea) {
     const prevTextureArea = { ...this._textureArea };
@@ -62,9 +115,31 @@ export class SharedStagePlaneMesh extends Mesh {
   }
 
   /**
-   * SharedStagePlaneMesh の新しいインスタンスを生成します。
-   * @param sharedMaterial - 共有される Material インスタンス。
-   * @param _textureArea - テクスチャの表示領域（ピクセル単位）。
+   * Creates a new SharedStagePlaneMesh instance.
+   *
+   * The constructor initializes the plane mesh with a shared material that must contain
+   * a SharedStageTexture. It sets up the geometry based on texture area dimensions,
+   * applies UV mapping for the specified texture area, and initializes the CameraChaser.
+   *
+   * @param sharedMaterial - The shared Material instance that contains a SharedStageTexture
+   * @param _textureArea - The texture area to display in pixel coordinates
+   *
+   * @throws {Error} If the sharedMaterial does not contain a SharedStageTexture
+   *
+   * @example
+   * ```typescript
+   * const sharedTexture = new SharedStageTexture();
+   * await sharedTexture.init(1024, 1024);
+   * const material = new MeshBasicMaterial({ map: sharedTexture });
+   *
+   * const planeMesh = new SharedStagePlaneMesh(
+   *   material,
+   *   { x: 0, y: 0, width: 256, height: 256 }
+   * );
+   *
+   * // Optional: Enable camera following
+   * planeMesh.cameraChaser.enabled = true;
+   * ```
    */
   constructor(
     public sharedMaterial: Material,
@@ -81,7 +156,10 @@ export class SharedStagePlaneMesh extends Mesh {
   }
 
   /**
-   * ジオメトリにUV座標を設定する。
+   * Updates the geometry's UV coordinates for the current texture area.
+   *
+   * This method configures the UV mapping to display the specified texture area
+   * from the shared texture on this plane mesh instance.
    */
   private updateUVAttribute(): void {
     updateUVAttribute(this.geometry, this.sharedMaterial, this._textureArea);

@@ -6,82 +6,151 @@ import { MultiViewObject3DUtils } from "./MultiViewObject3DUtils.js";
 import type { MultiViewPixiObjectOptions } from "./MultiViewPixiObjectOptions.js";
 
 /**
- * MultiViewPixiBillboardOptions インターフェイスは、MultiViewPixiBillboard クラスのコンストラクターに渡されるオプションを定義します。
+ * Configuration options for MultiViewPixiBillboard constructor.
+ *
+ * This interface extends MultiViewPixiObjectOptions to provide configuration
+ * for billboard-specific features and behaviors.
  */
 interface MultiViewPixiBillboardOptions extends MultiViewPixiObjectOptions {
-  // MultiViewPixiBillboard 固有のオプションがあればここに追加
+  // Billboard-specific options can be added here in the future
 }
 
 /**
- * MultiViewPixiBillboard クラスは、PixiJS v8 の multiView 機能を使用して、独立した Canvas に描画されるビルボード機能を提供します。
- * Three.js の Sprite を継承し、独自の HTMLCanvasElement と PixiJS Container を持ちます。
- * レンダリング管理には PixiMultiViewManager を利用します。
+ * Billboard class that uses PixiJS v8 multiView functionality for independent Canvas rendering.
  *
- * SharedStageBillboard クラスと比較して、MultiViewPixiBillboard は各インスタンスが独立した Canvas を持つため、
- * 部分的な内容更新が多い場合にパフォーマンス上の利点があります。
- * また、必要なビルボード数が事前に不明な場合でも柔軟に対応できます。
- * 一方、SharedStageBillboard は単一の共有 Canvas と Texture を使用するため、テクスチャとマテリアルインスタンスを共有可能で、
- * ドローコール数の削減が期待できますが、共有 Canvas のサイズに限界があり、多数のビルボードを配置するとテクスチャのマッピングに失敗する可能性があります。
+ * This class extends Three.js Sprite and maintains its own HTMLCanvasElement and PixiJS Container.
+ * Rendering management is handled by PixiMultiViewManager.
  *
- * MultiViewPixiBillboard は、多数のビルボードがあり、それぞれが頻繁に、かつ独立して内容を更新する場合、
- * または必要なビルボード数が動的に変動する場合に適しています。
+ * ## Comparison with SharedStage Classes
+ *
+ * Compared to SharedStageBillboard, MultiViewPixiBillboard provides each instance with
+ * an independent Canvas, offering performance advantages when partial content updates
+ * are frequent. It also handles dynamic billboard counts more flexibly.
+ *
+ * However, SharedStageBillboard uses a single shared Canvas via SharedStageTexture,
+ * allowing texture and material instances to be shared across multiple billboards for reduced draw calls,
+ * though it has Canvas size limitations that may cause texture mapping failures with many billboards.
+ *
+ * **Best Use Cases:**
+ * MultiViewPixiBillboard is ideal when you have many billboards that update
+ * frequently and independently, or when the required number of billboards
+ * varies dynamically.
+ *
+ * @example
+ * ```typescript
+ * // Initialize manager
+ * const manager = new PixiMultiViewManager();
+ * await manager.init();
+ *
+ * // Create billboard with independent canvas
+ * const billboard = new MultiViewPixiBillboard({
+ *   manager: manager,
+ *   width: 512,
+ *   height: 512,
+ *   scale: 1.0
+ * });
+ *
+ * // Add content to the PixiJS container
+ * const text = new Text({ text: 'Hello World', style: { fill: 'white' } });
+ * billboard.container.addChild(text);
+ *
+ * // Update content and request re-render
+ * billboard.updateContent();
+ *
+ * scene.add(billboard);
+ * ```
  */
 export class MultiViewPixiBillboard
   extends Sprite
   implements IRenderablePixiView
 {
   /**
-   * このインスタンスが破棄されたかどうかを示すフラグ。
+   * Flag indicating whether this instance has been disposed.
    */
   private _isDisposed = false;
   /**
-   * このインスタンスが破棄されたかどうかを取得します。
+   * Gets whether this instance has been disposed.
+   *
+   * @returns True if the billboard has been disposed
    */
   get isDisposed(): boolean {
     return this._isDisposed;
   }
 
   /**
-   * このビルボードに関連付けられた HTMLCanvasElement。
+   * The HTMLCanvasElement associated with this billboard.
    */
   private _canvas: HTMLCanvasElement;
   /**
-   * このビルボードに関連付けられた HTMLCanvasElement を取得します。
+   * Gets the HTMLCanvasElement associated with this billboard.
+   *
+   * This canvas serves as both the PixiJS render target and the source
+   * for the Three.js texture applied to the billboard sprite.
+   *
+   * @returns The canvas element for this billboard instance
    */
   get canvas(): HTMLCanvasElement {
     return this._canvas;
   }
 
   /**
-   * このビルボードに関連付けられた PixiJS Container。
+   * The PixiJS Container associated with this billboard.
    */
   private _container: Container;
   /**
-   * このビルボードに関連付けられた PixiJS Container を取得します。
-   * 外部から参照可能ですが、上書きはできません。
+   * Gets the PixiJS Container associated with this billboard.
+   *
+   * This container is the root display object for PixiJS content.
+   * External access is allowed for adding/removing children, but the
+   * container reference itself should not be overwritten.
+   *
+   * @returns The PixiJS container for content management
    */
   get container(): Container {
     return this._container;
   }
 
   /**
-   * このビルボードに関連付けられた Three.js の CanvasTexture。
+   * The Three.js CanvasTexture associated with this billboard.
    */
   private _texture: CanvasTexture;
   /**
-   * このビルボードに関連付けられた Three.js の Texture を取得します。
+   * Gets the Three.js Texture associated with this billboard.
+   *
+   * This texture references the HTMLCanvasElement and is automatically updated
+   * by PixiMultiViewManager when the canvas content changes through PixiJS rendering.
+   *
+   * @returns The texture used by the billboard sprite
    */
   get texture(): Texture {
     return this._texture;
   }
   /**
-   * このビルボードを管理する PixiMultiViewManager インスタンス。
+   * The PixiMultiViewManager instance that manages this billboard.
    */
   private _manager: PixiMultiViewManager;
 
   /**
-   * MultiViewPixiBillboard の新しいインスタンスを生成します。
-   * @param options - コンストラクターオプション。
+   * Creates a new MultiViewPixiBillboard instance.
+   *
+   * The constructor initializes the billboard with its own canvas, PixiJS container,
+   * and Three.js texture. It automatically registers with the provided manager
+   * for rendering coordination.
+   *
+   * @param options - Constructor options including manager, dimensions, and scale
+   *
+   * @example
+   * ```typescript
+   * const manager = new PixiMultiViewManager();
+   * await manager.init();
+   *
+   * const billboard = new MultiViewPixiBillboard({
+   *   manager: manager,
+   *   width: 512,
+   *   height: 512,
+   *   scale: 1.0
+   * });
+   * ```
    */
   constructor(options: MultiViewPixiBillboardOptions) {
     const { manager, width, height, scale = 0.1 } = options;
@@ -105,9 +174,18 @@ export class MultiViewPixiBillboard
   }
 
   /**
-   * ビルボードのスケールを設定します。
+   * Sets the billboard scale factor.
    *
-   * @param scale - 適用するスケールファクター。
+   * This method updates the billboard size in the Three.js scene based on
+   * the canvas dimensions and the provided scale factor.
+   *
+   * @param scale - The scale factor to apply to the billboard
+   *
+   * @example
+   * ```typescript
+   * // Make billboard twice as large
+   * billboard.setScale(2.0);
+   * ```
    */
   setScale(scale: number): void {
     if (this._isDisposed) {
@@ -121,7 +199,20 @@ export class MultiViewPixiBillboard
   }
 
   /**
-   * ビルボードの内容が更新されたことをマネージャーに通知し、再レンダリングをリクエストします。
+   * Notifies the manager that billboard content has been updated and requests re-rendering.
+   *
+   * Call this method after modifying the PixiJS container content to ensure
+   * the changes are rendered to the canvas and reflected in the Three.js scene.
+   *
+   * @example
+   * ```typescript
+   * // Add new content to the container
+   * const sprite = new Sprite(texture);
+   * billboard.container.addChild(sprite);
+   *
+   * // Request re-render to show changes
+   * billboard.updateContent();
+   * ```
    */
   updateContent(): void {
     if (this._isDisposed) {
@@ -132,7 +223,17 @@ export class MultiViewPixiBillboard
   }
 
   /**
-   * このビルボードインスタンスが保持するリソースを解放します。
+   * Releases all resources held by this billboard instance.
+   *
+   * This method properly disposes of the geometry, materials, PixiJS container,
+   * canvas element, and removes the billboard from its parent in the scene.
+   * Call this when the billboard is no longer needed to prevent memory leaks.
+   *
+   * @example
+   * ```typescript
+   * // Clean up when billboard is no longer needed
+   * billboard.dispose();
+   * ```
    */
   dispose(): void {
     if (this._isDisposed) {
