@@ -456,6 +456,7 @@ export class PixiMultiViewManager {
     this._ticker.remove(this._renderLoop, this);
     if (this._renderer) {
       this._renderer.destroy();
+      this._renderer = null;
     }
     this._renderQueue.clear();
   }
