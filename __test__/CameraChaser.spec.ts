@@ -3,14 +3,14 @@ import { Object3D, PerspectiveCamera, Vector3 } from "three";
 import { describe, expect, test } from "vitest";
 
 describe("CameraChaser", () => {
-  test("constructor", () => {
+  test("should initialize CameraChaser and set up onBeforeRender callback for camera tracking", () => {
     const target = new Object3D();
     const cameraChaser = new CameraChaser(target);
     expect(cameraChaser).not.toBeUndefined();
     expect(target.onBeforeRender).not.toBeUndefined();
   });
 
-  test("lookCamera", () => {
+  test("should correctly rotate object to face camera horizontally", () => {
     const camera = new PerspectiveCamera(45, 1, 1, 1000);
 
     const target = new Object3D();

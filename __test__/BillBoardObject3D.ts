@@ -2,7 +2,7 @@ import type { BillBoard, BillBoardPlane } from "../src/index.js";
 import { expect, test } from "vitest";
 
 export const billboardCommonTest = (target: BillBoard | BillBoardPlane) => {
-  test("change image scale", () => {
+  test("should update imageScale property and maintain correct scaling behavior", () => {
     expect(target).not.toBeUndefined();
     expect(target.imageScale).toBe(1);
 
