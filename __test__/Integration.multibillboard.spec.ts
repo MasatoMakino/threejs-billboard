@@ -409,7 +409,7 @@ describe("Multi-Billboard Integration Tests", () => {
         });
 
         // Render
-        ticker.update(cycle + 1 * 100);
+        ticker.update((cycle + 1) * 100);
 
         // Dispose all
         billboards.forEach((billboard) => {
@@ -417,7 +417,7 @@ describe("Multi-Billboard Integration Tests", () => {
         });
 
         // Force another render to clear disposed items
-        ticker.update(cycle + 1 * 100 + 1);
+        ticker.update((cycle + 1) * 100 + 1);
 
         mockRenderer.render.mockClear();
       }
