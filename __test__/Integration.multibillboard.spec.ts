@@ -184,14 +184,14 @@ describe("Multi-Billboard Integration Tests", () => {
       const billboard = createMockBillboard("high-freq");
 
       // Simulate high-frequency updates
-      for (let frame = 10; frame < 70; frame++) {
+      for (let frame = 0; frame < 60; frame++) {
         // 60 frames
         for (let update = 0; update < 10; update++) {
           // 10 updates per frame
           manager.requestRender(billboard);
         }
 
-        ticker.update(frame);
+        ticker.update(frame + 1);
 
         // Each frame should only render once due to deduplication
         expect(mockRenderer.render).toHaveBeenCalledTimes(1);
