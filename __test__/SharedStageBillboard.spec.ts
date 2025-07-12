@@ -15,7 +15,7 @@ describe("SharedStageBillboard", () => {
     return billboard;
   };
 
-  it("should be able to create a SharedStageBillboard", async () => {
+  it("should create SharedStageBillboard instance successfully", async () => {
     const billboard = await generateBillboard();
     expect(billboard).toBeInstanceOf(Sprite);
   });
@@ -44,7 +44,7 @@ describe("SharedStageBillboard", () => {
   });
 
   it.fails(
-    "should throw an error when to create a SharedStageBillboard without SharedStageTexture",
+    "should throw an error when creating SharedStageBillboard without SharedStageTexture",
     () => {
       const material = new SpriteMaterial();
       new SharedStageBillboard(material, textureArea);
@@ -52,7 +52,7 @@ describe("SharedStageBillboard", () => {
   );
 
   it.fails(
-    "should throw an error when updating texture area with a material that has not a map of SharedStageTexture",
+    "should throw an error when updating texture area with material that does not have SharedStageTexture map",
     async () => {
       const billboard = await generateBillboard();
       billboard.sharedMaterial = new SpriteMaterial();
@@ -60,12 +60,12 @@ describe("SharedStageBillboard", () => {
     },
   );
 
-  it("should be able to update texture area", async () => {
+  it("should correctly update UV coordinates when texture area changes on shared canvas", async () => {
     const billboard = await generateBillboard();
     testUpdateTextureAreaAndUV(billboard);
   });
 
-  it("should be able to update image scale", async () => {
+  it("should scale billboard dimensions proportionally when imageScale property changes", async () => {
     const billboard = await generateBillboard();
 
     const scale = 2.0;

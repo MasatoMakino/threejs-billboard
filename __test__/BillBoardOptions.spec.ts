@@ -3,7 +3,7 @@ import { LinearFilter } from "three";
 import { describe, expect, test } from "vitest";
 
 describe("BillBoardOptions", () => {
-  test("init", () => {
+  test("should initialize default BillBoard options with LinearFilter for lightweight performance", () => {
     const options = BillBoardOptionUtil.init(undefined);
     expect(options.minFilter).toBe(LinearFilter);
   });
