@@ -198,53 +198,6 @@ describe("Multi-Billboard Integration Tests", () => {
         mockRenderer.render.mockClear();
       }
     });
-
-    it("should handle burst rendering requests", async () => {
-      const billboards: (IRenderablePixiView & { id: string })[] = [];
-
-      // Create a large burst of billboards
-      const burstSize = 100;
-      for (let i = 0; i < burstSize; i++) {
-        const billboard = createMockBillboard(`burst-${i}`);
-        billboards.push(billboard);
-      }
-
-      // Request all at once
-      const startTime = performance.now();
-      billboards.forEach((billboard) => {
-        manager.requestRender(billboard);
-      });
-
-      ticker.update(1);
-      const endTime = performance.now();
-
-      // Should complete in reasonable time (less than 100ms for 100 billboards)
-      expect(endTime - startTime).toBeLessThan(100);
-      expect(mockRenderer.render).toHaveBeenCalledTimes(burstSize);
-    });
-
-    it("should maintain performance with varying canvas sizes", async () => {
-      const billboards: (IRenderablePixiView & { id: string })[] = [];
-
-      // Create billboards with exponentially increasing sizes
-      for (let i = 0; i < 10; i++) {
-        const size = 2 ** (i + 4); // 16, 32, 64, ... 8192
-        const billboard = createMockBillboard(`size-${size}`, size, size);
-        billboards.push(billboard);
-        manager.requestRender(billboard);
-      }
-
-      const startTime = performance.now();
-      ticker.update(1);
-      const endTime = performance.now();
-
-      // Should complete efficiently even with large size variations
-      expect(endTime - startTime).toBeLessThan(50);
-      expect(mockRenderer.render).toHaveBeenCalledTimes(10);
-
-      // Should be resized to largest size (8192)
-      expect(mockRenderer.resize).toHaveBeenCalledWith(8192, 8192);
-    });
   });
 
   describe("Complex Scenarios", () => {

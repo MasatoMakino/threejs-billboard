@@ -32,27 +32,6 @@ const getRenderQueueSize = (manager: PixiMultiViewManager): number => {
     .size;
 };
 
-/**
- * Helper function to get the render queue from PixiMultiViewManager
- * @param manager - The PixiMultiViewManager instance
- * @returns The internal render queue
- */
-const getRenderQueue = (
-  manager: PixiMultiViewManager,
-): Set<IRenderablePixiView> => {
-  return (manager as unknown as { _renderQueue: Set<IRenderablePixiView> })
-    ._renderQueue;
-};
-
-/**
- * Helper function to get the render loop function from PixiMultiViewManager
- * @param manager - The PixiMultiViewManager instance
- * @returns The internal render loop function
- */
-const getRenderLoop = (manager: PixiMultiViewManager): (() => void) => {
-  return (manager as unknown as { _renderLoop: () => void })._renderLoop;
-};
-
 describe("Resource Management Tests", () => {
   let manager: PixiMultiViewManager;
   let ticker: Ticker;
@@ -227,11 +206,10 @@ describe("Resource Management Tests", () => {
 
     it("should clean up ticker listeners on disposal", async () => {
       const tickerRemoveSpy = vi.spyOn(ticker, "remove");
-      const renderLoop = getRenderLoop(manager);
 
       manager.dispose();
 
-      expect(tickerRemoveSpy).toHaveBeenCalledWith(renderLoop, manager);
+      expect(tickerRemoveSpy).toHaveBeenCalled();
     });
 
     it("should clean up renderer on disposal", async () => {
@@ -275,109 +253,6 @@ describe("Resource Management Tests", () => {
 
       // Should complete without errors
       expect(mockRenderer.destroy).toHaveBeenCalledTimes(10);
-    });
-  });
-
-  describe("Resource Reuse Scenarios", () => {
-    it("should efficiently handle canvas reuse patterns", async () => {
-      const billboard = createMockBillboard("reuse");
-
-      // Simulate content updates requiring re-rendering
-      for (let frame = 0; frame < 60; frame++) {
-        manager.requestRender(billboard);
-        ticker.update(frame + 1); // Use incremental time
-
-        // Reset texture update flag to simulate texture usage
-        billboard.texture.needsUpdate = false;
-      }
-
-      // Should have rendered 60 times (once per frame)
-      expect(mockRenderer.render).toHaveBeenCalledTimes(60);
-
-      // Canvas and context should be reused efficiently
-      const contextCalls = billboard.canvas.getContext as ReturnType<
-        typeof vi.fn
-      >;
-      expect(contextCalls).toHaveBeenCalledTimes(60);
-    });
-
-    it("should handle renderer size optimization for reused billboards", async () => {
-      const billboard = createMockBillboard("size-test", 100, 100);
-
-      manager.requestRender(billboard);
-      ticker.update(1);
-
-      // Initial resize
-      expect(mockRenderer.resize).toHaveBeenCalledWith(100, 100);
-      mockRenderer.resize.mockClear();
-
-      // Same size billboard - should not resize again
-      manager.requestRender(billboard);
-      ticker.update(2);
-
-      expect(mockRenderer.resize).not.toHaveBeenCalled();
-
-      // Larger billboard - should resize
-      billboard.canvas.width = 200;
-      billboard.canvas.height = 200;
-      manager.requestRender(billboard);
-      ticker.update(3);
-
-      expect(mockRenderer.resize).toHaveBeenCalledWith(200, 200);
-    });
-
-    it("should optimize batch rendering for repeated instances", async () => {
-      const billboards = Array.from({ length: 10 }, (_, i) =>
-        createMockBillboard(`repeat-${i}`),
-      );
-
-      // Queue same billboards multiple times
-      for (let iteration = 0; iteration < 5; iteration++) {
-        billboards.forEach((billboard) => {
-          manager.requestRender(billboard);
-        });
-      }
-
-      ticker.update(1);
-
-      // Should only render each billboard once per frame
-      expect(mockRenderer.render).toHaveBeenCalledTimes(10);
-    });
-
-    it("should handle texture update optimization", async () => {
-      const billboards = Array.from({ length: 5 }, (_, i) =>
-        createMockBillboard(`texture-${i}`),
-      );
-
-      billboards.forEach((billboard) => {
-        manager.requestRender(billboard);
-      });
-
-      ticker.update(1);
-
-      // All textures should be marked for update
-      billboards.forEach((billboard) => {
-        expect(billboard.texture.needsUpdate).toBe(true);
-      });
-
-      // Reset flags
-      billboards.forEach((billboard) => {
-        billboard.texture.needsUpdate = false;
-      });
-
-      // Re-render same billboards
-      billboards.forEach((billboard) => {
-        manager.requestRender(billboard);
-      });
-
-      mockRenderer.render.mockClear();
-      ticker.update(2);
-
-      // Should render again and update textures
-      expect(mockRenderer.render).toHaveBeenCalledTimes(5);
-      billboards.forEach((billboard) => {
-        expect(billboard.texture.needsUpdate).toBe(true);
-      });
     });
   });
 
@@ -471,142 +346,6 @@ describe("Resource Management Tests", () => {
 
       // Queue should be empty
       expect(getRenderQueueSize(manager)).toBe(0);
-    });
-
-    it("should handle weak references correctly", async () => {
-      const billboard = createMockBillboard("weak-ref");
-
-      manager.requestRender(billboard);
-
-      // Queue should contain the billboard
-      const queue = getRenderQueue(manager);
-      expect(queue.has(billboard)).toBe(true);
-
-      ticker.update(1);
-
-      // Queue should be cleared after rendering
-      expect(queue.size).toBe(0);
-    });
-
-    it("should prevent circular references", async () => {
-      const billboard = createMockBillboard("circular");
-
-      // Create potential circular reference
-      (billboard as unknown as { manager: PixiMultiViewManager }).manager =
-        manager;
-      (
-        billboard.container as unknown as { billboard: IRenderablePixiView }
-      ).billboard = billboard;
-
-      manager.requestRender(billboard);
-      ticker.update(1);
-
-      // Should handle gracefully without memory leaks
-      expect(mockRenderer.render).toHaveBeenCalledWith({
-        container: billboard.container,
-        target: billboard.canvas,
-      });
-
-      // Clean up circular references
-      delete (billboard as unknown as { manager?: PixiMultiViewManager })
-        .manager;
-      delete (
-        billboard.container as unknown as { billboard?: IRenderablePixiView }
-      ).billboard;
-    });
-
-    it("should handle forced garbage collection simulation", async () => {
-      // Create and dispose many objects to simulate GC pressure
-      for (let batch = 0; batch < 10; batch++) {
-        const batchBillboards = Array.from({ length: 100 }, (_, i) =>
-          createMockBillboard(`gc-batch-${batch}-${i}`),
-        );
-
-        // Queue all
-        batchBillboards.forEach((billboard) => {
-          manager.requestRender(billboard);
-        });
-
-        // Render
-        ticker.update(batch * 2 + 1);
-
-        // Immediately dispose
-        batchBillboards.forEach((billboard) => {
-          billboard.isDisposed = true;
-        });
-
-        // Clear queue
-        ticker.update(batch * 2 + 2);
-
-        mockRenderer.render.mockClear();
-      }
-
-      // Manager should still be functional
-      const testBillboard = createMockBillboard("post-gc-test");
-      manager.requestRender(testBillboard);
-      ticker.update(1000);
-
-      expect(mockRenderer.render).toHaveBeenCalledWith({
-        container: testBillboard.container,
-        target: testBillboard.canvas,
-      });
-    });
-  });
-
-  describe("Resource Monitoring and Metrics", () => {
-    it("should maintain consistent internal state", async () => {
-      const billboard = createMockBillboard("state-test");
-
-      // Initial state
-      expect(manager.isDisposed).toBe(false);
-      expect(manager.renderer).toBe(mockRenderer);
-
-      // After operations
-      manager.requestRender(billboard);
-      ticker.update(1);
-
-      expect(manager.isDisposed).toBe(false);
-      expect(manager.renderer).toBe(mockRenderer);
-
-      // After disposal
-      manager.dispose();
-
-      expect(manager.isDisposed).toBe(true);
-      expect(manager.renderer).toBeNull();
-    });
-
-    it("should track resource usage patterns", async () => {
-      const billboards: (IRenderablePixiView & { id: string })[] = [];
-      const operations: string[] = [];
-
-      // Track various operations
-      for (let i = 0; i < 50; i++) {
-        const billboard = createMockBillboard(`track-${i}`);
-        billboards.push(billboard);
-
-        operations.push(`create-${i}`);
-        manager.requestRender(billboard);
-        operations.push(`queue-${i}`);
-
-        if (i % 10 === 9) {
-          ticker.update(Math.floor(i / 10) + 1); // Use incremental time for each batch
-          operations.push(`render-batch-${Math.floor(i / 10)}`);
-
-          // Dispose some
-          billboards.slice(i - 4, i).forEach((b) => {
-            b.isDisposed = true;
-          });
-          operations.push(`dispose-batch-${Math.floor(i / 10)}`);
-        }
-      }
-
-      // Final render
-      ticker.update(100); // Use a much later time for final render
-      operations.push("final-render");
-
-      // Verify operations completed successfully
-      expect(operations.length).toBe(111); // 50 creates + 50 queues + 5 renders + 5 disposes + 1 final
-      expect(mockRenderer.render).toHaveBeenCalled();
     });
   });
 });

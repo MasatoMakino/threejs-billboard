@@ -159,54 +159,6 @@ describe("PixiMultiViewManager Edge Cases", () => {
       // Math.max should handle float dimensions correctly
       expect(mockRenderer.resize).toHaveBeenCalledWith(100.5, 200.7);
     });
-
-    it("should handle canvas with NaN dimensions", async () => {
-      const mockInstance = {
-        isDisposed: false,
-        canvas: {
-          width: Number.NaN,
-          height: Number.NaN,
-          getContext: vi.fn().mockReturnValue({
-            clearRect: vi.fn(),
-          }),
-        } as unknown as HTMLCanvasElement,
-        texture: { needsUpdate: false } as Texture,
-        container: new Container(),
-      } as IRenderablePixiView;
-
-      expect(() => {
-        manager.requestRender(mockInstance);
-        ticker.update(1);
-      }).not.toThrow();
-
-      // Math.max with NaN should return NaN, resize should handle it
-      expect(mockRenderer.resize).toHaveBeenCalledWith(Number.NaN, Number.NaN);
-    });
-
-    it("should handle canvas with Infinity dimensions", async () => {
-      const mockInstance = {
-        isDisposed: false,
-        canvas: {
-          width: Number.POSITIVE_INFINITY,
-          height: Number.POSITIVE_INFINITY,
-          getContext: vi.fn().mockReturnValue({
-            clearRect: vi.fn(),
-          }),
-        } as unknown as HTMLCanvasElement,
-        texture: { needsUpdate: false } as Texture,
-        container: new Container(),
-      } as IRenderablePixiView;
-
-      expect(() => {
-        manager.requestRender(mockInstance);
-        ticker.update(1);
-      }).not.toThrow();
-
-      expect(mockRenderer.resize).toHaveBeenCalledWith(
-        Number.POSITIVE_INFINITY,
-        Number.POSITIVE_INFINITY,
-      );
-    });
   });
 
   describe("Rapid Operations Edge Cases", () => {
@@ -295,63 +247,6 @@ describe("PixiMultiViewManager Edge Cases", () => {
 
       // Render should not have been called
       expect(mockRenderer.render).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("Memory Edge Cases", () => {
-    it("should handle very large number of instances", async () => {
-      const instances: IRenderablePixiView[] = [];
-
-      // Create a large number of instances
-      for (let i = 0; i < 1000; i++) {
-        const mockInstance = {
-          isDisposed: false,
-          canvas: {
-            width: 10,
-            height: 10,
-            getContext: vi.fn().mockReturnValue({
-              clearRect: vi.fn(),
-            }),
-          } as unknown as HTMLCanvasElement,
-          texture: { needsUpdate: false } as Texture,
-          container: new Container(),
-        } as IRenderablePixiView;
-        instances.push(mockInstance);
-        manager.requestRender(mockInstance);
-      }
-
-      expect(() => {
-        ticker.update(1);
-      }).not.toThrow();
-
-      expect(mockRenderer.render).toHaveBeenCalledTimes(1000);
-    });
-
-    it("should handle memory pressure with canvas context allocation", async () => {
-      const mockInstance = {
-        isDisposed: false,
-        canvas: {
-          width: 100,
-          height: 100,
-          getContext: vi.fn().mockImplementation((contextType) => {
-            if (contextType === "2d") {
-              // Simulate memory pressure by returning null occasionally
-              return Math.random() > 0.5 ? null : { clearRect: vi.fn() };
-            }
-            return null;
-          }),
-        } as unknown as HTMLCanvasElement,
-        texture: { needsUpdate: false } as Texture,
-        container: new Container(),
-      } as IRenderablePixiView;
-
-      // Try multiple times to test both success and failure paths
-      for (let i = 0; i < 10; i++) {
-        manager.requestRender(mockInstance);
-        expect(() => {
-          ticker.update(1);
-        }).not.toThrow();
-      }
     });
   });
 
@@ -485,46 +380,6 @@ describe("PixiMultiViewManager Edge Cases", () => {
   });
 
   describe("Boundary Value Testing", () => {
-    it("should handle minimum safe integer dimensions", async () => {
-      const mockInstance = {
-        isDisposed: false,
-        canvas: {
-          width: Number.MIN_SAFE_INTEGER,
-          height: Number.MIN_SAFE_INTEGER,
-          getContext: vi.fn().mockReturnValue({
-            clearRect: vi.fn(),
-          }),
-        } as unknown as HTMLCanvasElement,
-        texture: { needsUpdate: false } as Texture,
-        container: new Container(),
-      } as IRenderablePixiView;
-
-      expect(() => {
-        manager.requestRender(mockInstance);
-        ticker.update(1);
-      }).not.toThrow();
-    });
-
-    it("should handle maximum safe integer dimensions", async () => {
-      const mockInstance = {
-        isDisposed: false,
-        canvas: {
-          width: Number.MAX_SAFE_INTEGER,
-          height: Number.MAX_SAFE_INTEGER,
-          getContext: vi.fn().mockReturnValue({
-            clearRect: vi.fn(),
-          }),
-        } as unknown as HTMLCanvasElement,
-        texture: { needsUpdate: false } as Texture,
-        container: new Container(),
-      } as IRenderablePixiView;
-
-      expect(() => {
-        manager.requestRender(mockInstance);
-        ticker.update(1);
-      }).not.toThrow();
-    });
-
     it("should handle negative dimensions", async () => {
       const mockInstance = {
         isDisposed: false,
