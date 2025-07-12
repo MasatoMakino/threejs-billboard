@@ -148,7 +148,7 @@ describe("PixiMultiViewManager", () => {
     vi.restoreAllMocks();
   });
 
-  it("should be created with a Ticker instance", () => {
+  it("should initialize with provided Ticker instance", () => {
     expect(manager).toBeInstanceOf(PixiMultiViewManager);
     expect(getTicker(manager)).toBe(ticker);
   });

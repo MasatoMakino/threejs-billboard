@@ -15,7 +15,7 @@ describe("SharedStagePlaneMesh", () => {
     return plane;
   };
 
-  it("should be able to create a SharedStagePlaneMesh", async () => {
+  it("should create SharedStagePlaneMesh instance successfully", async () => {
     const plane = await generateSharedStagePlaneMesh();
     expect(plane).toBeInstanceOf(SharedStagePlaneMesh);
   });
@@ -37,7 +37,7 @@ describe("SharedStagePlaneMesh", () => {
     },
   );
 
-  it("should be able to update texture area and uv", async () => {
+  it("should correctly update UV coordinates when texture area changes", async () => {
     const plane = await generateSharedStagePlaneMesh();
     testUpdateTextureAreaAndUV(plane);
   });
