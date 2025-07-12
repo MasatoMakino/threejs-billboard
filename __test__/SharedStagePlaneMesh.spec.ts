@@ -21,7 +21,7 @@ describe("SharedStagePlaneMesh", () => {
   });
 
   it.fails(
-    "should throw an error when to create a SharedStagePlaneMesh without SharedStageTexture",
+    "should throw an error when creating SharedStagePlaneMesh without SharedStageTexture",
     () => {
       const material = new MeshBasicMaterial();
       new SharedStagePlaneMesh(material, textureArea);
@@ -29,7 +29,7 @@ describe("SharedStagePlaneMesh", () => {
   );
 
   it.fails(
-    "should throw an error when updating texture area with a material that has not a map of SharedStageTexture",
+    "should throw an error when updating texture area with material that does not have SharedStageTexture map",
     async () => {
       const plane = await generateSharedStagePlaneMesh();
       plane.sharedMaterial = new MeshBasicMaterial();

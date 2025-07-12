@@ -44,7 +44,7 @@ describe("SharedStageBillboard", () => {
   });
 
   it.fails(
-    "should throw an error when to create a SharedStageBillboard without SharedStageTexture",
+    "should throw an error when creating SharedStageBillboard without SharedStageTexture",
     () => {
       const material = new SpriteMaterial();
       new SharedStageBillboard(material, textureArea);
@@ -52,7 +52,7 @@ describe("SharedStageBillboard", () => {
   );
 
   it.fails(
-    "should throw an error when updating texture area with a material that has not a map of SharedStageTexture",
+    "should throw an error when updating texture area with material that does not have SharedStageTexture map",
     async () => {
       const billboard = await generateBillboard();
       billboard.sharedMaterial = new SpriteMaterial();

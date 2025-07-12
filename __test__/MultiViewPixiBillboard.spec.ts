@@ -83,7 +83,7 @@ describe("MultiViewPixiBillboard", () => {
     vi.restoreAllMocks();
   });
 
-  it("should be created with correct initial properties", () => {
+  it("should initialize with correct initial properties", () => {
     expect(billboard).toBeInstanceOf(MultiViewPixiBillboard);
     expect(billboard.material).toBeInstanceOf(SpriteMaterial);
     expect(billboard.canvas).toBeInstanceOf(HTMLCanvasElement);
@@ -99,7 +99,7 @@ describe("MultiViewPixiBillboard", () => {
     expect(requestRenderSpy).toHaveBeenCalledWith(billboard);
   });
 
-  it("setScale should set the scale of the sprite", () => {
+  it("should update sprite scale when setScale is called", () => {
     const scale = 0.1;
     billboard.setScale(scale);
     expect(billboard.scale.x).toBe(scale * width);
@@ -109,7 +109,7 @@ describe("MultiViewPixiBillboard", () => {
     expect(requestRenderSpy).toHaveBeenCalledTimes(2); // 初期化時とsetScaleで2回呼ばれる
   });
 
-  it("setScale should not set scale if disposed", () => {
+  it("should not update scale when disposed", () => {
     billboard.dispose();
     requestRenderSpy.mockClear(); // dispose後のrequestRender呼び出しをクリア
     consoleWarnSpy.mockClear(); // dispose後のconsole.warn呼び出しをクリア
