@@ -20,17 +20,17 @@ describe("BillBoardController", () => {
     return controller;
   };
 
-  test("constructor : Mesh", async () => {
+  test("should successfully create BillBoardController with Mesh target and load texture from URL", async () => {
     const controller = testBillBoardController(textureURL, new Mesh());
     await expect(controller.textureLoaderPromise).resolves.toBeUndefined();
   });
 
-  test("constructor : Sprite", async () => {
+  test("should successfully create BillBoardController with Sprite target and load texture from URL", async () => {
     const controller = testBillBoardController(textureURL, new Sprite());
     await expect(controller.textureLoaderPromise).resolves.toBeUndefined();
   });
 
-  test("constructor : error", async () => {
+  test("should handle texture loading errors gracefully when provided invalid URL", async () => {
     const mockError = vi.spyOn(console, "error").mockImplementation((x) => x);
 
     const controller = testBillBoardController("not exist url", new Mesh());

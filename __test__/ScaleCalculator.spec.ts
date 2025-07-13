@@ -3,7 +3,7 @@ import { PerspectiveCamera } from "three";
 import { describe, expect, test } from "vitest";
 
 describe("ScaleCalculator", () => {
-  test("get scale", () => {
+  test("should calculate correct non-attenuation scale for pixel-perfect rendering at given camera distance", () => {
     const H = 480;
     const W = 640;
     const camera = new PerspectiveCamera(45, W / H, 1, 400);

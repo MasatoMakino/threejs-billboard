@@ -91,7 +91,7 @@ describe("MultiViewPixiPlaneMesh", () => {
     vi.restoreAllMocks();
   });
 
-  it("should be created with correct initial properties", () => {
+  it("should initialize with correct initial properties", () => {
     expect(planeMesh).toBeInstanceOf(MultiViewPixiPlaneMesh);
     expect(planeMesh.geometry).toBeInstanceOf(PlaneGeometry);
     expect(planeMesh.material).toBeInstanceOf(MeshBasicMaterial);
