@@ -2,7 +2,7 @@ import {
   BillBoardController,
   type BillBoardObject3D,
 } from "../src/BillBoardController.js";
-import { Mesh, Sprite } from "three";
+import { Mesh, MeshBasicMaterial, Sprite, Texture } from "three";
 import { BillBoardOptionUtil } from "../src/index.js";
 import { describe, expect, test, vi } from "vitest";
 
@@ -39,5 +39,53 @@ describe("BillBoardController", () => {
     });
 
     mockError.mockRestore();
+  });
+
+  test("should handle null map in updateScale method", () => {
+    // Create a mesh with null map to test the early return in updateScale
+    const target = new Mesh();
+    const controller = new BillBoardController(
+      target,
+      textureURL,
+      1,
+      BillBoardOptionUtil.init(undefined),
+    );
+
+    // Mock the material to have null map
+    const mat = new MeshBasicMaterial({ map: null });
+    target.material = mat;
+
+    // Call updateScale method directly through imageScale setter
+    // This should trigger the early return due to null map
+    controller.imageScale = 2;
+
+    // Verify that the target scale remains unchanged (not modified by updateScale)
+    expect(target.scale.x).toBe(1);
+    expect(target.scale.y).toBe(1);
+    expect(target.scale.z).toBe(1);
+  });
+
+  test("should handle null map.image in updateScale method", () => {
+    // Create a mesh with map that has null image to test the early return in updateScale
+    const target = new Mesh();
+    const controller = new BillBoardController(
+      target,
+      textureURL,
+      1,
+      BillBoardOptionUtil.init(undefined),
+    );
+
+    // Mock the material to have map with null image
+    const mat = new MeshBasicMaterial({ map: new Texture() });
+    target.material = mat;
+
+    // Call updateScale method directly through imageScale setter
+    // This should trigger the early return due to null map.image
+    controller.imageScale = 2;
+
+    // Verify that the target scale remains unchanged (not modified by updateScale)
+    expect(target.scale.x).toBe(1);
+    expect(target.scale.y).toBe(1);
+    expect(target.scale.z).toBe(1);
   });
 });

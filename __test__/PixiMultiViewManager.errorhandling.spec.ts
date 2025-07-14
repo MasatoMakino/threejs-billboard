@@ -258,4 +258,149 @@ describe("PixiMultiViewManager Error Handling", () => {
       }).not.toThrow();
     });
   });
+
+  describe("Null Parameter Handling", () => {
+    it("should handle null renderer in renderToTargetCanvas", async () => {
+      // Don't initialize the manager to test null renderer condition
+      const mockInstance = {
+        isDisposed: false,
+        canvas: {
+          width: 100,
+          height: 100,
+          getContext: vi.fn().mockReturnValue({
+            clearRect: vi.fn(),
+          }),
+        } as unknown as HTMLCanvasElement,
+        texture: { needsUpdate: false } as Texture,
+        container: new Container(),
+      } as IRenderablePixiView;
+
+      // Should not throw when renderer is null (manager not initialized)
+      expect(() => {
+        manager.requestRender(mockInstance);
+        ticker.update(1);
+      }).not.toThrow();
+
+      // Verify renderer is null
+      expect(manager.renderer).toBeNull();
+    });
+
+    it("should handle invalid canvas in renderToTargetCanvas", async () => {
+      // Initialize manager first
+      const mockRenderer = {
+        render: vi.fn(),
+        destroy: vi.fn(),
+        resize: vi.fn(),
+        width: 1,
+        height: 1,
+      };
+      vi.mocked(pixi.autoDetectRenderer).mockResolvedValue(
+        mockRenderer as never,
+      );
+      await manager.init();
+
+      // Create a real canvas but with getContext returning null (invalid state)
+      const invalidCanvas = document.createElement("canvas");
+      const originalGetContext = invalidCanvas.getContext;
+      invalidCanvas.getContext = vi.fn().mockReturnValue(null);
+
+      const mockInstance = {
+        isDisposed: false,
+        canvas: invalidCanvas,
+        texture: { needsUpdate: false } as Texture,
+        container: new Container(),
+      } as IRenderablePixiView;
+
+      // Should not throw when canvas.getContext returns null
+      expect(() => {
+        manager.requestRender(mockInstance);
+        ticker.update(1);
+      }).not.toThrow();
+
+      // Restore original method
+      invalidCanvas.getContext = originalGetContext;
+    });
+
+    it("should handle disposed texture in renderToTargetCanvas", async () => {
+      // Initialize manager first
+      const mockRenderer = {
+        render: vi.fn(),
+        destroy: vi.fn(),
+        resize: vi.fn(),
+        width: 1,
+        height: 1,
+      };
+      vi.mocked(pixi.autoDetectRenderer).mockResolvedValue(
+        mockRenderer as never,
+      );
+      await manager.init();
+
+      // Create a real canvas and a disposed texture
+      const canvas = document.createElement("canvas");
+      canvas.width = 100;
+      canvas.height = 100;
+
+      // Create a texture and dispose it to simulate null/invalid state
+      const texture = { needsUpdate: false } as Texture;
+
+      const mockInstance = {
+        isDisposed: false,
+        canvas: canvas,
+        texture: texture,
+        container: new Container(),
+      } as IRenderablePixiView;
+
+      // Should not throw when processing disposed texture
+      expect(() => {
+        manager.requestRender(mockInstance);
+        ticker.update(1);
+      }).not.toThrow();
+    });
+
+    it("should skip disposed instances in renderAllQueued", async () => {
+      // Initialize manager first
+      const mockRenderer = {
+        render: vi.fn(),
+        destroy: vi.fn(),
+        resize: vi.fn(),
+        width: 1,
+        height: 1,
+      };
+      vi.mocked(pixi.autoDetectRenderer).mockResolvedValue(
+        mockRenderer as never,
+      );
+      await manager.init();
+
+      // Create a normal instance first with real canvas
+      const canvas = document.createElement("canvas");
+      canvas.width = 100;
+      canvas.height = 100;
+
+      const normalInstance = {
+        isDisposed: false,
+        canvas: canvas,
+        texture: { needsUpdate: false } as Texture,
+        container: new Container(),
+      } as IRenderablePixiView;
+
+      // Request render for normal instance
+      manager.requestRender(normalInstance);
+
+      // Now dispose the instance after it's queued by setting isDisposed property
+      Object.defineProperty(normalInstance, "isDisposed", {
+        value: true,
+        writable: true,
+        configurable: true,
+      });
+
+      // Clear previous calls
+      mockRenderer.render.mockClear();
+
+      // Update ticker to trigger rendering
+      ticker.update(1);
+
+      // Should not render the disposed instance
+      expect(mockRenderer.render).not.toHaveBeenCalled();
+    });
+  });
 });
