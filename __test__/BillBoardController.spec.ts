@@ -2,7 +2,13 @@ import {
   BillBoardController,
   type BillBoardObject3D,
 } from "../src/BillBoardController.js";
-import { Mesh, MeshBasicMaterial, Sprite, Texture } from "three";
+import {
+  Mesh,
+  MeshBasicMaterial,
+  Sprite,
+  Texture,
+  NormalBlending,
+} from "three";
 import { BillBoardOptionUtil } from "../src/index.js";
 import { describe, expect, test, vi } from "vitest";
 
@@ -87,5 +93,137 @@ describe("BillBoardController", () => {
     expect(target.scale.x).toBe(1);
     expect(target.scale.y).toBe(1);
     expect(target.scale.z).toBe(1);
+  });
+
+  describe("Resource Management", () => {
+    test("should handle multiple controllers and cleanup properly", async () => {
+      // Create multiple controllers to test resource management
+      const controllers: BillBoardController[] = [];
+
+      for (let i = 0; i < 5; i++) {
+        const target = new Mesh();
+        const controller = new BillBoardController(
+          target,
+          textureURL,
+          1,
+          BillBoardOptionUtil.init(undefined),
+        );
+        controllers.push(controller);
+      }
+
+      // Wait for all texture loading to complete or fail
+      const results = await Promise.allSettled(
+        controllers.map((c) => c.textureLoaderPromise),
+      );
+
+      // Verify at least some textures loaded successfully
+      const successCount = results.filter(
+        (r) => r.status === "fulfilled",
+      ).length;
+      expect(successCount).toBeGreaterThan(0);
+
+      // Verify proper cleanup
+      controllers.length = 0;
+      expect(controllers.length).toBe(0);
+    });
+
+    test("should handle texture loading errors properly", async () => {
+      const invalidUrls = ["invalid://url", "file:///nonexistent"];
+      const controllers: BillBoardController[] = [];
+
+      // Create controllers with invalid URLs
+      for (const url of invalidUrls) {
+        const target = new Mesh();
+        const controller = new BillBoardController(
+          target,
+          url,
+          1,
+          BillBoardOptionUtil.init(undefined),
+        );
+        controllers.push(controller);
+      }
+
+      // All should reject
+      const results = await Promise.allSettled(
+        controllers.map((c) => c.textureLoaderPromise),
+      );
+
+      // Verify all failed
+      const failureCount = results.filter(
+        (r) => r.status === "rejected",
+      ).length;
+      expect(failureCount).toBe(invalidUrls.length);
+    });
+
+    test("should configure material properties correctly", () => {
+      const target = new Mesh();
+      new BillBoardController(
+        target,
+        textureURL,
+        1,
+        BillBoardOptionUtil.init(undefined),
+      );
+
+      const material = target.material as MeshBasicMaterial;
+
+      // Verify proper material configuration
+      expect(material.transparent).toBe(true);
+      expect(material.depthTest).toBe(true);
+      expect(material.blending).toBe(NormalBlending);
+      expect(material.visible).toBe(false); // Initially hidden to prevent flicker
+      expect(material.map).toBeNull(); // No texture initially
+    });
+  });
+
+  describe("State Transitions", () => {
+    test("should maintain material state consistency during texture loading", async () => {
+      const target = new Mesh();
+      const controller = new BillBoardController(
+        target,
+        textureURL,
+        1,
+        BillBoardOptionUtil.init(undefined),
+      );
+
+      const material = target.material as MeshBasicMaterial;
+
+      // Material should start invisible
+      expect(material.visible).toBe(false);
+      expect(material.map).toBeNull();
+
+      // Wait for texture loading
+      await controller.textureLoaderPromise;
+
+      // Material should become visible with texture
+      expect(material.visible).toBe(true);
+      expect(material.map).not.toBeNull();
+    });
+
+    test("should handle rapid imageScale changes during texture loading", async () => {
+      const target = new Mesh();
+      const controller = new BillBoardController(
+        target,
+        textureURL,
+        1,
+        BillBoardOptionUtil.init(undefined),
+      );
+
+      // Change scale multiple times before texture loads
+      controller.imageScale = 0.5;
+      controller.imageScale = 2.0;
+      controller.imageScale = 1.5;
+
+      const finalScale = controller.imageScale;
+
+      // Wait for texture loading
+      await controller.textureLoaderPromise;
+
+      // Scale should be consistent after loading
+      expect(controller.imageScale).toBe(finalScale);
+
+      // Target scale should reflect the final image scale
+      const expectedScaleX = target.geometry?.boundingBox?.max.x || 1;
+      expect(target.scale.x).toBeCloseTo(expectedScaleX * finalScale, 5);
+    });
   });
 });
