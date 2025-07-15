@@ -181,4 +181,23 @@ describe("MultiViewPixiBillboard", () => {
     geometryDisposeSpy.mockRestore();
     removeFromParentSpy.mockRestore();
   });
+
+  it("should use default scale when scale is undefined in options", () => {
+    // Create a new billboard without explicitly setting scale in options
+    const billboardWithDefaultScale = new MultiViewPixiBillboard({
+      manager,
+      width,
+      height,
+      // scale parameter is omitted to test default value assignment
+    });
+
+    // The default scale should be 0.1 as defined in the destructuring assignment
+    const expectedScale = 0.1;
+    expect(billboardWithDefaultScale.scale.x).toBe(expectedScale * width);
+    expect(billboardWithDefaultScale.scale.y).toBe(expectedScale * height);
+    expect(billboardWithDefaultScale.scale.z).toBe(1);
+
+    // Clean up the test billboard
+    billboardWithDefaultScale.dispose();
+  });
 });
