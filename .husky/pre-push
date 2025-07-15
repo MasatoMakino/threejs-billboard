@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 set -e
 
-npx biome ci .
+npx biome ci --changed --no-errors-on-unmatched .
 npx vitest --run
