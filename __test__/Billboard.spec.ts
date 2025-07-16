@@ -1,5 +1,5 @@
 import { BillBoard, Billboard } from "../src/index.js";
-import { billboardCommonTest } from "./BillBoardObject3D.js";
+import { billboardCommonTest } from "./BillboardObject3D.js";
 import { describe, it, expect } from "vitest";
 import { TestImage } from "./TestImage.js";
 
