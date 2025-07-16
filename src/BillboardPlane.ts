@@ -54,7 +54,7 @@ import { BillboardController } from "./BillboardController.js";
  * planeBillboard.imageScale = 0.01;
  *
  * // Create with custom texture filtering
- * const planeBillboard = new BillBoardPlane("./texture.png", 1.0, {
+ * const planeBillboard = new BillboardPlane("./texture.png", 1.0, {
  *   minFilter: NearestFilter
  * });
  *

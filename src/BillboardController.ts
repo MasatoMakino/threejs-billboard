@@ -130,7 +130,7 @@ export class BillboardController {
    * @returns MeshBasicMaterial for Mesh objects, SpriteMaterial for Sprite objects
    */
   private getMaterial(
-    target: BillBoardObject3D,
+    target: BillboardObject3D,
   ): MeshBasicMaterial | SpriteMaterial {
     const param = {
       blending: NormalBlending,
@@ -152,7 +152,7 @@ export class BillboardController {
    *
    * @param target - The target object to initialize (only affects Mesh objects)
    */
-  private initDummyPlane(target: BillBoardObject3D): void {
+  private initDummyPlane(target: BillboardObject3D): void {
     if (target instanceof Mesh) {
       const size = 0.0000001;
       target.geometry = new PlaneGeometry(size, size);
@@ -184,7 +184,7 @@ export class BillboardController {
    * for Mesh objects if not already done.
    */
   private updateScale = () => {
-    const map = (this._target.material as BillBoardMaterial).map;
+    const map = (this._target.material as BillboardMaterial).map;
     if (map == null || map.image == null) return;
     const img = map.image as HTMLImageElement;
 
