@@ -1,7 +1,8 @@
 import {
   BillBoardController,
+  BillboardController,
   type BillBoardObject3D,
-} from "../src/BillBoardController.js";
+} from "../src/BillboardController.js";
 import {
   Mesh,
   MeshBasicMaterial,
@@ -224,6 +225,11 @@ describe("BillBoardController", () => {
       // Target scale should reflect the final image scale
       const expectedScaleX = target.geometry?.boundingBox?.max.x || 1;
       expect(target.scale.x).toBeCloseTo(expectedScaleX * finalScale, 5);
+    });
+
+    test("should export new BillboardController class (will be removed when compatibility checks are no longer needed)", () => {
+      expect(BillboardController).toBeDefined();
+      expect(typeof BillboardController).toBe("function");
     });
   });
 });

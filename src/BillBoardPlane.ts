@@ -1,16 +1,16 @@
 import { Mesh } from "three";
 import {
-  type BillBoardOptions,
-  BillBoardOptionUtil,
+  type BillboardOptions,
+  BillboardOptionUtil,
   CameraChaser,
 } from "./index.js";
-import { BillBoardController } from "./BillBoardController.js";
+import { BillboardController } from "./BillboardController.js";
 
 /**
  * A mesh-based billboard class that uses image files as texture sources with optional camera following.
  *
  * This class extends Three.js Mesh and provides a plane-based billboard that can optionally
- * rotate to face the camera horizontally. Unlike the Sprite-based BillBoard class, BillBoardPlane
+ * rotate to face the camera horizontally. Unlike the Sprite-based Billboard class, BillboardPlane
  * uses PlaneGeometry and can be manipulated like any other Mesh object.
  *
  * ## Key Features
@@ -18,17 +18,17 @@ import { BillBoardController } from "./BillBoardController.js";
  * - **Mesh-based rendering**: Uses PlaneGeometry with MeshBasicMaterial for reliable billboard display
  * - **Camera chasing**: Optional horizontal rotation to face the camera via CameraChaser
  * - **Standard mesh operations**: Supports Three.js Mesh features like transformations and positioning
- * - **Consistent API**: Shares the same interface as BillBoard for easy switching
+ * - **Consistent API**: Shares the same interface as Billboard for easy switching
  *
- * ## When to Use BillBoardPlane vs BillBoard
+ * ## When to Use BillboardPlane vs Billboard
  *
- * **Use BillBoardPlane when:**
+ * **Use BillboardPlane when:**
  * - You need mesh-specific features (transformations, positioning, etc.)
  * - You want partial camera following (Y-axis rotation only)
  * - You need to integrate with mesh-based workflows
  * - You require more control over geometry positioning and rotation
  *
- * **Use BillBoard when:**
+ * **Use Billboard when:**
  * - You need automatic full camera facing (all axes)
  * - You want simpler sprite-based rendering
  * - You need pixel-perfect dot-by-dot display with sizeAttenuation = false
@@ -44,7 +44,7 @@ import { BillBoardController } from "./BillBoardController.js";
  * @example
  * ```typescript
  * // Create a basic plane billboard
- * const planeBillboard = new BillBoardPlane("./texture.png", 1.0);
+ * const planeBillboard = new BillboardPlane("./texture.png", 1.0);
  * scene.add(planeBillboard);
  *
  * // Enable horizontal camera chasing
@@ -63,11 +63,11 @@ import { BillBoardController } from "./BillBoardController.js";
  * planeBillboard.rotation.z = Math.PI / 4;
  * ```
  */
-export class BillBoardPlane extends Mesh {
+export class BillboardPlane extends Mesh {
   /**
    * Internal controller that manages billboard functionality.
    */
-  private obj: BillBoardController;
+  private obj: BillboardController;
 
   /**
    * Camera chaser instance that provides optional horizontal camera following.
@@ -76,7 +76,7 @@ export class BillBoardPlane extends Mesh {
   public cameraChaser: CameraChaser;
 
   /**
-   * Creates a new BillBoardPlane instance.
+   * Creates a new BillboardPlane instance.
    *
    * The constructor initializes the plane billboard synchronously, but texture loading
    * is performed asynchronously. The plane will be initially invisible and become
@@ -91,17 +91,17 @@ export class BillBoardPlane extends Mesh {
    * @example
    * ```typescript
    * // Basic usage
-   * const plane = new BillBoardPlane("./image.png", 1.0);
+   * const plane = new BillboardPlane("./image.png", 1.0);
    *
    * // With camera chasing enabled
-   * const plane = new BillBoardPlane("./image.png", 1.0);
+   * const plane = new BillboardPlane("./image.png", 1.0);
    * plane.cameraChaser.isLookingCameraHorizontal = true;
    * ```
    */
-  constructor(url: string, imageScale: number, option?: BillBoardOptions) {
+  constructor(url: string, imageScale: number, option?: BillboardOptions) {
     super();
-    const initializedOption = BillBoardOptionUtil.init(option);
-    this.obj = new BillBoardController(
+    const initializedOption = BillboardOptionUtil.init(option);
+    this.obj = new BillboardController(
       this,
       url,
       imageScale,
@@ -126,7 +126,7 @@ export class BillBoardPlane extends Mesh {
    *
    * ## Scale Factor Behavior for Mesh Objects
    *
-   * For BillBoardPlane (Mesh-based), the scale factor is applied directly to the object's
+   * For BillboardPlane (Mesh-based), the scale factor is applied directly to the object's
    * scale property. The PlaneGeometry is created with pixel dimensions, and the scale
    * factor modifies the overall size.
    *
@@ -151,3 +151,8 @@ export class BillBoardPlane extends Mesh {
     this.obj.imageScale = value;
   }
 }
+
+/**
+ * @deprecated Use BillboardPlane instead. This class name will be removed in a future version.
+ */
+export { BillboardPlane as BillBoardPlane };

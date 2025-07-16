@@ -25,8 +25,8 @@ import {
  * ## Usage with Billboard Classes
  *
  * CameraChaser is automatically integrated with mesh-based billboard classes such as
- * BillBoardPlane, SharedStagePlaneMesh, and MultiViewPixiPlaneMesh. For full camera
- * facing on all axes, use the BillBoard class (Sprite-based) instead.
+ * BillboardPlane, SharedStagePlaneMesh, and MultiViewPixiPlaneMesh. For full camera
+ * facing on all axes, use the Billboard class (Sprite-based) instead.
  *
  * ## Important Limitations
  *
@@ -36,8 +36,8 @@ import {
  *
  * @example
  * ```typescript
- * // Usage with BillBoardPlane
- * const planeBillboard = new BillBoardPlane("./texture.png", 1.0);
+ * // Usage with BillboardPlane
+ * const planeBillboard = new BillboardPlane("./texture.png", 1.0);
  * planeBillboard.cameraChaser.isLookingCameraHorizontal = true;
  *
  * // Usage with SharedStagePlaneMesh
