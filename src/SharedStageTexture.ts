@@ -223,26 +223,23 @@ export class SharedStageTexture extends Texture {
   };
 
   /**
-   * Calculates UV coordinates for a specific rectangular area of the texture.
+   * Calculate UV coordinates for the given texture area.
+   * Returns normalized coordinates where (0,0) is bottom-left and (1,1) is top-right,
+   * following Three.js texture coordinate conventions.
    *
-   * Converts pixel coordinates to UV coordinates (0-1 range) for use with Three.js
-   * geometry. The coordinate system is flipped vertically to match Three.js conventions.
-   *
-   * @param rect - The rectangular area in pixel coordinates
-   * @returns UV coordinates object with corner positions
+   * @param rect - The texture area to calculate UV coordinates for
+   * @returns UV coordinates object with x1,y1 (top-left) and x2,y2 (bottom-right)
    *
    * @example
    * ```typescript
-   * // Calculate UV for a 256x256 area at position (0, 0)
    * const textureArea = { x: 0, y: 0, width: 256, height: 256 };
-   * const uv = sharedTexture.calcurateUV(textureArea);
-   *
+   * const uv = sharedTexture.calculateUV(textureArea);
    * // uv.x1, uv.y1 = top-left corner
    * // uv.x2, uv.y2 = bottom-right corner
    * console.log(uv); // { x1: 0, y1: 0.75, x2: 0.25, y2: 1 }
    * ```
    */
-  public calcurateUV(rect: TextureArea): {
+  public calculateUV(rect: TextureArea): {
     x1: number;
     y1: number;
     x2: number;
@@ -254,6 +251,24 @@ export class SharedStageTexture extends Texture {
       x2: (rect.x + rect.width) / this.width,
       y2: (this.height - rect.y) / this.height,
     };
+  }
+
+  /**
+   * @deprecated Use calculateUV instead. This method name contains a typo and will be removed in a future version.
+   * Calculate UV coordinates for the given texture area.
+   * Returns normalized coordinates where (0,0) is bottom-left and (1,1) is top-right,
+   * following Three.js texture coordinate conventions.
+   *
+   * @param rect - The texture area to calculate UV coordinates for
+   * @returns UV coordinates object with x1,y1 (top-left) and x2,y2 (bottom-right)
+   */
+  public calcurateUV(rect: TextureArea): {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+  } {
+    return this.calculateUV(rect);
   }
 }
 
@@ -271,7 +286,7 @@ export class SharedStageTexture extends Texture {
  * if (isSharedStageMaterial(material)) {
  *   // TypeScript now knows material.map is SharedStageTexture
  *   material.map.setNeedUpdate();
- *   const uv = material.map.calcurateUV(textureArea);
+ *   const uv = material.map.calculateUV(textureArea);
  * }
  * ```
  */
@@ -320,7 +335,7 @@ export const updateUVAttribute = (
   if (!isSharedStageMaterial(material)) {
     throw new Error("sharedMaterial.map must be SharedStageTexture");
   }
-  const area = material.map.calcurateUV(textureArea);
+  const area = material.map.calculateUV(textureArea);
   const uv = geometry.getAttribute("uv");
   uv.setXY(0, area.x1, area.y2);
   uv.setXY(1, area.x2, area.y2);
