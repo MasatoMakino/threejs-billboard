@@ -22,7 +22,7 @@ import { type PerspectiveCamera, MathUtils } from "three";
  * @example
  * ```typescript
  * // Set up pixel-perfect billboard rendering
- * const billboard = new BillBoard("./texture.png", 1.0);
+ * const billboard = new Billboard("./texture.png", 1.0);
  * const scale = ScaleCalculator.getNonAttenuateScale(renderer.domElement.height, camera);
  * billboard.imageScale = scale;
  * billboard.material.sizeAttenuation = false; // Required!
