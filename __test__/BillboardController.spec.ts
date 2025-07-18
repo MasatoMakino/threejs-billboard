@@ -1,7 +1,8 @@
 import {
+  BillboardController,
   BillBoardController,
-  type BillBoardObject3D,
-} from "../src/BillBoardController.js";
+  type BillboardObject3D,
+} from "../src/BillboardController.js";
 import {
   Mesh,
   MeshBasicMaterial,
@@ -12,11 +13,11 @@ import {
 import { BillBoardOptionUtil } from "../src/index.js";
 import { describe, expect, test, vi } from "vitest";
 
-describe("BillBoardController", () => {
+describe("BillboardController", () => {
   const textureURL =
     "https://masatomakino.github.io/threejs-billboard/demo/map01.png";
-  const testBillBoardController = (url: string, target: BillBoardObject3D) => {
-    const controller = new BillBoardController(
+  const testBillboardController = (url: string, target: BillboardObject3D) => {
+    const controller = new BillboardController(
       target,
       url,
       1,
@@ -26,20 +27,20 @@ describe("BillBoardController", () => {
     return controller;
   };
 
-  test("should successfully create BillBoardController with Mesh target and load texture from URL", async () => {
-    const controller = testBillBoardController(textureURL, new Mesh());
+  test("should successfully create BillboardController with Mesh target and load texture from URL", async () => {
+    const controller = testBillboardController(textureURL, new Mesh());
     await expect(controller.textureLoaderPromise).resolves.toBeUndefined();
   });
 
-  test("should successfully create BillBoardController with Sprite target and load texture from URL", async () => {
-    const controller = testBillBoardController(textureURL, new Sprite());
+  test("should successfully create BillboardController with Sprite target and load texture from URL", async () => {
+    const controller = testBillboardController(textureURL, new Sprite());
     await expect(controller.textureLoaderPromise).resolves.toBeUndefined();
   });
 
   test("should handle texture loading errors gracefully when provided invalid URL", async () => {
     const mockError = vi.spyOn(console, "error").mockImplementation((x) => x);
 
-    const controller = testBillBoardController("not exist url", new Mesh());
+    const controller = testBillboardController("not exist url", new Mesh());
     await expect(controller.textureLoaderPromise).rejects.toMatchObject({
       isTrusted: true,
     });
@@ -50,7 +51,7 @@ describe("BillBoardController", () => {
   test("should handle null map in updateScale method", () => {
     // Create a mesh with null map to test the early return in updateScale
     const target = new Mesh();
-    const controller = new BillBoardController(
+    const controller = new BillboardController(
       target,
       textureURL,
       1,
@@ -74,7 +75,7 @@ describe("BillBoardController", () => {
   test("should handle null map.image in updateScale method", () => {
     // Create a mesh with map that has null image to test the early return in updateScale
     const target = new Mesh();
-    const controller = new BillBoardController(
+    const controller = new BillboardController(
       target,
       textureURL,
       1,
@@ -98,11 +99,11 @@ describe("BillBoardController", () => {
   describe("Resource Management", () => {
     test("should handle multiple controllers and cleanup properly", async () => {
       // Create multiple controllers to test resource management
-      const controllers: BillBoardController[] = [];
+      const controllers: BillboardController[] = [];
 
       for (let i = 0; i < 5; i++) {
         const target = new Mesh();
-        const controller = new BillBoardController(
+        const controller = new BillboardController(
           target,
           textureURL,
           1,
@@ -129,12 +130,12 @@ describe("BillBoardController", () => {
 
     test("should handle texture loading errors properly", async () => {
       const invalidUrls = ["invalid://url", "file:///nonexistent"];
-      const controllers: BillBoardController[] = [];
+      const controllers: BillboardController[] = [];
 
       // Create controllers with invalid URLs
       for (const url of invalidUrls) {
         const target = new Mesh();
-        const controller = new BillBoardController(
+        const controller = new BillboardController(
           target,
           url,
           1,
@@ -157,7 +158,7 @@ describe("BillBoardController", () => {
 
     test("should configure material properties correctly", () => {
       const target = new Mesh();
-      new BillBoardController(
+      new BillboardController(
         target,
         textureURL,
         1,
@@ -224,6 +225,11 @@ describe("BillBoardController", () => {
       // Target scale should reflect the final image scale
       const expectedScaleX = target.geometry?.boundingBox?.max.x || 1;
       expect(target.scale.x).toBeCloseTo(expectedScaleX * finalScale, 5);
+    });
+
+    test("should export deprecated BillBoardController class (will be removed when compatibility checks are no longer needed)", () => {
+      expect(BillBoardController).toBeDefined();
+      expect(typeof BillBoardController).toBe("function");
     });
   });
 });

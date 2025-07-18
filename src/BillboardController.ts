@@ -7,19 +7,19 @@ import {
   SpriteMaterial,
   TextureLoader,
 } from "three";
-import type { InitializedBillBoardOptions } from "./BillBoard.js";
+import type { InitializedBillboardOptions } from "./Billboard.js";
 
 /**
  * Type alias for materials that can be used with billboard objects.
  * Supports both MeshBasicMaterial for Mesh objects and SpriteMaterial for Sprite objects.
  */
-export type BillBoardMaterial = MeshBasicMaterial | SpriteMaterial;
+export type BillboardMaterial = MeshBasicMaterial | SpriteMaterial;
 
 /**
  * Type alias for Three.js objects that can be used as billboard targets.
  * Supports both Mesh and Sprite objects for maximum flexibility.
  */
-export type BillBoardObject3D = Mesh | Sprite;
+export type BillboardObject3D = Mesh | Sprite;
 
 /**
  * Core controller class that provides billboard functionality for both Mesh and Sprite objects.
@@ -32,7 +32,7 @@ export type BillBoardObject3D = Mesh | Sprite;
  *
  * ## Design Philosophy
  *
- * The controller pattern allows both BillBoard (Sprite-based) and BillBoardPlane (Mesh-based)
+ * The controller pattern allows both Billboard (Sprite-based) and BillboardPlane (Mesh-based)
  * classes to share the same core functionality while maintaining their specific characteristics.
  * This reduces code duplication and ensures consistent behavior across different billboard types.
  *
@@ -48,7 +48,7 @@ export type BillBoardObject3D = Mesh | Sprite;
  * - **Sprite**: Scale values are multiplied by image pixel dimensions
  * - **Mesh**: Scale values are applied directly to the geometry
  */
-export class BillBoardController {
+export class BillboardController {
   /**
    * Current image scale factor applied to the billboard.
    */
@@ -72,7 +72,7 @@ export class BillBoardController {
   readonly textureLoaderPromise: Promise<undefined | ErrorEvent>;
 
   /**
-   * Creates a new BillBoardController instance.
+   * Creates a new BillboardController instance.
    *
    * The constructor performs the following operations:
    * 1. Initializes the target object with a dummy/temporary geometry (for Mesh objects)
@@ -86,10 +86,10 @@ export class BillBoardController {
    * @param option - Configuration options including texture filtering settings
    */
   constructor(
-    target: BillBoardObject3D,
+    target: BillboardObject3D,
     url: string,
     imageScale: number,
-    option: InitializedBillBoardOptions,
+    option: InitializedBillboardOptions,
   ) {
     this._target = target;
     this._imageScale = imageScale;
@@ -130,7 +130,7 @@ export class BillBoardController {
    * @returns MeshBasicMaterial for Mesh objects, SpriteMaterial for Sprite objects
    */
   private getMaterial(
-    target: BillBoardObject3D,
+    target: BillboardObject3D,
   ): MeshBasicMaterial | SpriteMaterial {
     const param = {
       blending: NormalBlending,
@@ -152,7 +152,7 @@ export class BillBoardController {
    *
    * @param target - The target object to initialize (only affects Mesh objects)
    */
-  private initDummyPlane(target: BillBoardObject3D): void {
+  private initDummyPlane(target: BillboardObject3D): void {
     if (target instanceof Mesh) {
       const size = 0.0000001;
       target.geometry = new PlaneGeometry(size, size);
@@ -184,7 +184,7 @@ export class BillBoardController {
    * for Mesh objects if not already done.
    */
   private updateScale = () => {
-    const map = (this._target.material as BillBoardMaterial).map;
+    const map = (this._target.material as BillboardMaterial).map;
     if (map == null || map.image == null) return;
     const img = map.image as HTMLImageElement;
 
@@ -260,3 +260,18 @@ export class BillBoardController {
     this.updateScale();
   }
 }
+
+/**
+ * @deprecated Use BillboardController instead. This class name will be removed in a future version.
+ */
+export { BillboardController as BillBoardController };
+
+/**
+ * @deprecated Use BillboardMaterial instead. This type name will be removed in a future version.
+ */
+export type BillBoardMaterial = BillboardMaterial;
+
+/**
+ * @deprecated Use BillboardObject3D instead. This type name will be removed in a future version.
+ */
+export type BillBoardObject3D = BillboardObject3D;

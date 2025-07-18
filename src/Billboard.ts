@@ -1,10 +1,10 @@
 import { LinearFilter, Sprite, type TextureFilter } from "three";
-import { BillBoardController } from "./BillBoardController.js";
+import { BillboardController } from "./BillboardController.js";
 
 /**
- * Configuration options for BillBoard instances.
+ * Configuration options for Billboard instances.
  */
-export interface BillBoardOptions {
+export interface BillboardOptions {
   /**
    * Texture minification filter to be applied to the loaded texture.
    * Defaults to LinearFilter if not specified.
@@ -13,9 +13,9 @@ export interface BillBoardOptions {
 }
 
 /**
- * Initialized BillBoard options with all required fields populated.
+ * Initialized Billboard options with all required fields populated.
  */
-export interface InitializedBillBoardOptions extends BillBoardOptions {
+export interface InitializedBillboardOptions extends BillboardOptions {
   /**
    * Texture minification filter applied to the loaded texture.
    */
@@ -23,18 +23,18 @@ export interface InitializedBillBoardOptions extends BillBoardOptions {
 }
 
 /**
- * Utility for initializing BillBoard options with default values.
+ * Utility for initializing Billboard options with default values.
  */
-export const BillBoardOptionUtil = {
+export const BillboardOptionUtil = {
   /**
-   * Initializes BillBoard options with default values.
+   * Initializes Billboard options with default values.
    * @param option - Optional configuration object
    * @returns Initialized options with all required fields populated
    */
-  init(option?: BillBoardOptions): InitializedBillBoardOptions {
+  init(option?: BillboardOptions): InitializedBillboardOptions {
     const initializedOption = option ?? {};
     initializedOption.minFilter ??= LinearFilter;
-    return initializedOption as InitializedBillBoardOptions;
+    return initializedOption as InitializedBillboardOptions;
   },
 };
 
@@ -47,7 +47,7 @@ export const BillBoardOptionUtil = {
  *
  * ## Usage
  *
- * BillBoard is ideal for simple image-based billboards where you need to display
+ * Billboard is ideal for simple image-based billboards where you need to display
  * static images that always face the camera. For more complex scenarios with
  * multiple billboards or dynamic content, consider using SharedStageBillboard
  * or MultiViewPixiBillboard.
@@ -55,11 +55,11 @@ export const BillBoardOptionUtil = {
  * @example
  * ```typescript
  * // Create a basic billboard
- * const billboard = new BillBoard("./texture.png", 1.0);
+ * const billboard = new Billboard("./texture.png", 1.0);
  * scene.add(billboard);
  *
  * // Create a billboard with custom texture filtering
- * const billboard = new BillBoard("./texture.png", 1.0, {
+ * const billboard = new Billboard("./texture.png", 1.0, {
  *   minFilter: NearestFilter
  * });
  *
@@ -69,24 +69,24 @@ export const BillBoardOptionUtil = {
  * billboard.material.sizeAttenuation = false; // Required for dot-by-dot display
  * ```
  */
-export class BillBoard extends Sprite {
-  private obj: BillBoardController;
+export class Billboard extends Sprite {
+  private obj: BillboardController;
 
   /**
-   * Creates a new BillBoard instance.
+   * Creates a new Billboard instance.
    *
    * The constructor initializes the billboard synchronously, but texture loading
    * is performed asynchronously. If the image fails to load, the error will be
-   * available through the BillBoardController's textureLoaderPromise.
+   * available through the BillboardController's textureLoaderPromise.
    *
    * @param url - URL of the texture image file to load
    * @param imageScale - Initial scale factor for the image
    * @param option - Optional configuration for texture filtering and other settings
    */
-  constructor(url: string, imageScale: number, option?: BillBoardOptions) {
+  constructor(url: string, imageScale: number, option?: BillboardOptions) {
     super();
-    const initializedOption = BillBoardOptionUtil.init(option);
-    this.obj = new BillBoardController(
+    const initializedOption = BillboardOptionUtil.init(option);
+    this.obj = new BillboardController(
       this,
       url,
       imageScale,
@@ -140,3 +140,23 @@ export class BillBoard extends Sprite {
     this.obj.imageScale = value;
   }
 }
+
+/**
+ * @deprecated Use Billboard instead. This class name will be removed in a future version.
+ */
+export { Billboard as BillBoard };
+
+/**
+ * @deprecated Use BillboardOptions instead. This interface name will be removed in a future version.
+ */
+export type BillBoardOptions = BillboardOptions;
+
+/**
+ * @deprecated Use InitializedBillboardOptions instead. This interface name will be removed in a future version.
+ */
+export type InitializedBillBoardOptions = InitializedBillboardOptions;
+
+/**
+ * @deprecated Use BillboardOptionUtil instead. This utility name will be removed in a future version.
+ */
+export { BillboardOptionUtil as BillBoardOptionUtil };
