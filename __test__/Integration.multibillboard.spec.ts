@@ -256,7 +256,9 @@ describe("Multi-Billboard Integration Tests", () => {
       ];
 
       // Execute operations in rapid succession
-      operations.forEach((op) => op());
+      for (const op of operations) {
+        op();
+      }
 
       // Should not throw and should render both billboards
       expect(mockRenderer.render).toHaveBeenCalledWith({
