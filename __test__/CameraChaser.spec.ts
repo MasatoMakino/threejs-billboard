@@ -1,5 +1,14 @@
 import { CameraChaser } from "../src/index.js";
-import { Object3D, PerspectiveCamera, Vector3 } from "three";
+import {
+  type BufferGeometry,
+  Group,
+  type Material,
+  Object3D,
+  PerspectiveCamera,
+  type Scene,
+  Vector3,
+  type WebGLRenderer,
+} from "three";
 import { describe, expect, test } from "vitest";
 
 // Helper function to access private target property for testing
@@ -28,13 +37,12 @@ describe("CameraChaser", () => {
       camera.position.copy(cameraPosition);
 
       target.onBeforeRender(
-        // @ts-ignore
-        undefined,
-        undefined,
+        {} as unknown as WebGLRenderer, // renderer
+        {} as unknown as Scene, // scene
         camera,
-        undefined,
-        undefined,
-        undefined,
+        {} as unknown as BufferGeometry, // geometry
+        {} as unknown as Material, // material
+        {} as unknown as Group, // group
       );
       expect(target.rotation.x).toBeCloseTo(rotation.x);
       expect(target.rotation.y).toBeCloseTo(rotation.y);
@@ -117,13 +125,12 @@ describe("CameraChaser", () => {
     expect(() => {
       lookCameraFunction.call(
         cameraChaser,
-        // @ts-ignore - parameters don't matter for this test
-        undefined,
-        undefined,
+        {} as unknown as WebGLRenderer, // renderer
+        {} as unknown as Scene, // scene
         camera,
-        undefined,
-        undefined,
-        undefined,
+        {} as unknown as BufferGeometry, // geometry
+        {} as unknown as Material, // material
+        {} as unknown as Group, // group
       );
     }).not.toThrow();
   });
