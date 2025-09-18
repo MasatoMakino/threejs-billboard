@@ -27,7 +27,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "@masatomakino/gulptask-demo-page": "^0.10.0",
-    "@masatomakino/release-helper": "^0.2.0",
+    "@masatomakino/release-helper": "^0.3.2",
     "@types/three": "^0.178.0",
     "@types/webxr": "^0.5.19",
     "@vitest/browser": "*",
