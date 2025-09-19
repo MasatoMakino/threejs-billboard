@@ -9,11 +9,18 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 5 # Control overall update frequency for GitHub Actions
 
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 5
+      semver-major-days: 30  # Major version updates: 30 day intervals - minimize breaking change risks
+      semver-minor-days: 7   # Minor version updates: 7 day intervals - careful validation of feature additions
+      semver-patch-days: 3   # Patch version updates: 3 day intervals - rapid application of security fixes
     ignore:
       - dependency-name: "@vitest/browser" # browser is peer dependency of @vitest/coverage-istanbul -> @vitest/core
         
