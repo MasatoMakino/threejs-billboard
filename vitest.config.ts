@@ -9,6 +9,11 @@ export default defineConfig({
       instances: [
         {
           browser: "chrome",
+          capabilities: {
+            "goog:chromeOptions": {
+              args: ["--use-gl=angle", "--use-angle=swiftshader"],
+            },
+          },
         },
       ],
     },
