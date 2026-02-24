@@ -43,22 +43,16 @@ describe("SharedStageBillboard", () => {
     checkAttribute(3, 1, 0);
   });
 
-  it.fails(
-    "should throw an error when creating SharedStageBillboard without SharedStageTexture",
-    () => {
-      const material = new SpriteMaterial();
-      new SharedStageBillboard(material, textureArea);
-    },
-  );
+  it.fails("should throw an error when creating SharedStageBillboard without SharedStageTexture", () => {
+    const material = new SpriteMaterial();
+    new SharedStageBillboard(material, textureArea);
+  });
 
-  it.fails(
-    "should throw an error when updating texture area with material that does not have SharedStageTexture map",
-    async () => {
-      const billboard = await generateBillboard();
-      billboard.sharedMaterial = new SpriteMaterial();
-      billboard.updateTextureAreaAndUV(textureArea);
-    },
-  );
+  it.fails("should throw an error when updating texture area with material that does not have SharedStageTexture map", async () => {
+    const billboard = await generateBillboard();
+    billboard.sharedMaterial = new SpriteMaterial();
+    billboard.updateTextureAreaAndUV(textureArea);
+  });
 
   it("should correctly update UV coordinates when texture area changes on shared canvas", async () => {
     const billboard = await generateBillboard();
