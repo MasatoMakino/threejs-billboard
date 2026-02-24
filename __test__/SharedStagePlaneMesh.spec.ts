@@ -20,22 +20,16 @@ describe("SharedStagePlaneMesh", () => {
     expect(plane).toBeInstanceOf(SharedStagePlaneMesh);
   });
 
-  it.fails(
-    "should throw an error when creating SharedStagePlaneMesh without SharedStageTexture",
-    () => {
-      const material = new MeshBasicMaterial();
-      new SharedStagePlaneMesh(material, textureArea);
-    },
-  );
+  it.fails("should throw an error when creating SharedStagePlaneMesh without SharedStageTexture", () => {
+    const material = new MeshBasicMaterial();
+    new SharedStagePlaneMesh(material, textureArea);
+  });
 
-  it.fails(
-    "should throw an error when updating texture area with material that does not have SharedStageTexture map",
-    async () => {
-      const plane = await generateSharedStagePlaneMesh();
-      plane.sharedMaterial = new MeshBasicMaterial();
-      plane.updateTextureAreaAndUV(textureArea);
-    },
-  );
+  it.fails("should throw an error when updating texture area with material that does not have SharedStageTexture map", async () => {
+    const plane = await generateSharedStagePlaneMesh();
+    plane.sharedMaterial = new MeshBasicMaterial();
+    plane.updateTextureAreaAndUV(textureArea);
+  });
 
   it("should correctly update UV coordinates when texture area changes", async () => {
     const plane = await generateSharedStagePlaneMesh();
