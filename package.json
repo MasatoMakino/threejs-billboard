@@ -27,15 +27,12 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "@masatomakino/gulptask-demo-page": "^0.10.0",
-    "@masatomakino/release-helper": "^0.2.0",
     "@types/three": "^0.178.0",
     "@types/webxr": "^0.5.19",
     "@vitest/browser": "*",
     "@vitest/coverage-istanbul": "^3.0.2",
     "browser-sync": "^3.0.2",
-    "husky": "^9.0.11",
     "lil-gui": "^0.20.0",
-    "lint-staged": "^16.1.0",
     "pixi.js": "^8.9.1",
     "three": "^0.179.1",
     "typedoc": "^0.28.0",
@@ -45,11 +42,11 @@
   "scripts": {
     "test": "vitest --run",
     "test:watch": "vitest",
+    "test:ci": "xvfb-run --auto-servernum vitest --run",
     "coverage": "vitest --run --coverage",
-    "prepare": "husky",
-    "preversion": "npx @masatomakino/release-helper preversion",
-    "postversion": "npx @masatomakino/release-helper postversion",
-    "release": "npx @masatomakino/release-helper release",
+    "coverage:ci": "xvfb-run --auto-servernum vitest --coverage --run",
+    "pre-commit": "biome format --write --no-errors-on-unmatched --files-ignore-unknown=true",
+    "pre-push": "biome ci . && npm run test:ci",
     "start:dev": "npm run server & npm run watch:tsc & npm run watch:demo",
     "build": "npm run buildTS && npm run demo",
     "demo": "npx @masatomakino/gulptask-demo-page --compileModule es2020",
@@ -57,7 +54,7 @@
     "buildTS": "tsc",
     "watch:tsc": "tsc -W --incremental",
     "typedocs": "npx typedoc --out ./docs/api src/index.ts",
-    "server": "browser-sync ./docs/demo -w"
+    "server": "browser-sync ./docs/demo -w --port 3000 --no-open"
   },
   "description": "billboard module for three.js",
   "bugs": {
@@ -67,8 +64,5 @@
   "directories": {
     "doc": "docs",
     "lib": "esm"
-  },
-  "lint-staged": {
-    "*.{js,ts,css,md}": "biome format --write --no-errors-on-unmatched"
   }
 }
