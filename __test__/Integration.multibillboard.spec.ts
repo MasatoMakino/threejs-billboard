@@ -62,6 +62,7 @@ describe("Multi-Billboard Integration Tests", () => {
       manager.dispose();
     }
     ticker.destroy();
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 

@@ -145,6 +145,7 @@ describe("PixiMultiViewManager", () => {
     ticker.destroy();
 
     // スパイとモックの実装をリストア
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 

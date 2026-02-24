@@ -1,7 +1,7 @@
 import { CameraChaser } from "../src/index.js";
 import {
   type BufferGeometry,
-  Group,
+  type Group,
   type Material,
   Object3D,
   PerspectiveCamera,
