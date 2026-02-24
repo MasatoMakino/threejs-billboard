@@ -29,5 +29,5 @@ jobs:
       - run: npm ci
       - name: Run Biome
         run: npx biome ci .
-      - run: npx vitest --run
+      - run: xvfb-run --auto-servernum npx vitest --run
       - run: npm run buildTS -- --noEmit
