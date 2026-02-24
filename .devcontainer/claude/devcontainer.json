@@ -13,7 +13,7 @@
     "--cap-add=NET_ADMIN",
     "--cap-add=NET_RAW",
     "--cap-add=SYS_ADMIN",
-    "--shm-size=4g",
+    "--shm-size=2g",
     "--name=${localWorkspaceFolderBasename}-claude-code"
   ],
   "remoteUser": "node",
