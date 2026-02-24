@@ -42,11 +42,12 @@ GitHub Flowは、軽量でシンプルなブランチベースのワークフロ
 - メインブランチ (`main`) への直接コミットは禁止します。
 - メインブランチ (`main`) への直接プッシュは、GitHubのブランチプロテクションルールにより拒否されます。
 
-## 特殊ブランチ `gh-pages`
+## GitHub Pages デプロイ
 
-- `gh-pages` ブランチは、ビルドされたAPIドキュメントとデモページをGitHub Pagesにデプロイするために使用されます。
-- このブランチのコンテンツはGitHub Actions上でビルドされ、そのままコミット、デプロイされます。
-- **ユーザーおよびエージェントは、このブランチを直接操作（コミット、プッシュ、チェックアウトなど）することを禁止します。**
+- ビルドされたAPIドキュメントとデモページは、GitHub Actionsによって GitHub Pages に自動デプロイされます。
+- デプロイは `actions/upload-pages-artifact` と `actions/deploy-pages` を使用し、GitHubの `github-pages` Environment 経由で行われます。
+- `gh-pages` ブランチは使用されません。
+- **ユーザーおよびエージェントは、デプロイを手動で操作しないでください。**
 
 ## テストの実行
 
