@@ -131,5 +131,3 @@ This library provides three main approaches to billboard rendering:
 - **Demos**: `demoSrc/` - demo source files (import from `../esm/index.js`)
 - **Build Output**: `esm/` - compiled JavaScript and declarations
 - **Generated**: `docs/` - auto-generated demo pages and API docs (do not edit)
-- **Memory**: `_memory/` - temporary workspace for AI agents
-- **Rules**: `.clinerules/` - AI agent guidance files
