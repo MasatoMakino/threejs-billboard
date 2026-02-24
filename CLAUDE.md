@@ -84,7 +84,7 @@ This library provides three main approaches to billboard rendering:
   - Types: `feature/`, `fix/`, `test/`, `maintain/`, `perf/`, `docs/`
   - Examples: `feature/issue-123-add-user-profile`, `fix/resolve-login-bug`
 - **Main Branch**: Direct commits/pushes to `main` are prohibited
-- **gh-pages Branch**: Auto-managed by GitHub Actions for docs deployment - do not edit manually
+- **GitHub Pages**: Auto-deployed by GitHub Actions via `github-pages` environment - do not deploy manually
 - **Git Commands**: Always use `--no-pager` option (e.g., `git log --no-pager`)
 - **Pull Request Text**: Do not escape newlines in `gh pr create` commands
 
