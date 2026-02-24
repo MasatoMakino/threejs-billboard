@@ -27,14 +27,14 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "@masatomakino/gulptask-demo-page": "^0.10.0",
-    "@types/three": "^0.178.0",
+    "@types/three": "^0.182.0",
     "@types/webxr": "^0.5.19",
     "@vitest/browser": "*",
     "@vitest/coverage-istanbul": "^3.0.2",
     "browser-sync": "^3.0.2",
     "lil-gui": "^0.20.0",
     "pixi.js": "^8.9.1",
-    "three": "^0.179.1",
+    "three": "^0.182.0",
     "typedoc": "^0.28.0",
     "typescript": "^5.5.2",
     "webdriverio": "^9.0.1"
