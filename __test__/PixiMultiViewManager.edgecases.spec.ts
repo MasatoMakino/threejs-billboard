@@ -62,6 +62,7 @@ describe("PixiMultiViewManager Edge Cases", () => {
       manager.dispose();
     }
     ticker.destroy();
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 

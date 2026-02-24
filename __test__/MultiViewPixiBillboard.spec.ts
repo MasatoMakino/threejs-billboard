@@ -80,6 +80,7 @@ describe("MultiViewPixiBillboard", () => {
     ticker.destroy();
 
     // スパイのリセット
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 

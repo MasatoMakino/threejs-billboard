@@ -83,6 +83,7 @@ describe("PixiMultiViewManager Rendering", () => {
     }
 
     // スパイとモックの実装をリストア
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 

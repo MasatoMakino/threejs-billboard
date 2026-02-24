@@ -50,6 +50,7 @@ describe("PixiMultiViewManager Error Handling", () => {
       manager.dispose();
     }
     ticker.destroy();
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 
