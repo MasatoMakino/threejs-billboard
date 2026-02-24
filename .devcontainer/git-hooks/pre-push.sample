@@ -1,0 +1,27 @@
+#!/bin/sh
+# Redirect output to stderr
+exec 1>&2
+
+echo "[pre-push] Running tests and CI checks in DevContainer..."
+
+# Check if DevContainer is running, start if needed
+# Uses dynamic container name pattern: ${localWorkspaceFolderBasename}-npm-runner
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+if [ -z "$REPO_ROOT" ]; then
+  echo "[pre-push] ERROR: Could not determine repository root"
+  exit 1
+fi
+CONTAINER_NAME="$(basename "$REPO_ROOT")-npm-runner"
+if ! docker ps --format '{{.Names}}' | grep -qx "$CONTAINER_NAME"; then
+  echo "[pre-push] DevContainer not running. Starting..."
+  devcontainer up --workspace-folder . || exit 1
+fi
+
+# Run pre-push checks in container
+if ! devcontainer exec --workspace-folder . npm run pre-push; then
+  echo "[pre-push] ERROR: Tests or CI checks failed"
+  exit 1
+fi
+
+echo "[pre-push] ✓ All checks passed"
+exit 0

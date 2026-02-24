@@ -1,0 +1,51 @@
+#!/bin/bash
+# Redirect output to stderr
+exec 1>&2
+
+echo "[pre-commit] Running code quality checks in DevContainer..."
+
+# Check if DevContainer is running, start if needed
+# Uses dynamic container name pattern: ${localWorkspaceFolderBasename}-npm-runner
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+if [ -z "$REPO_ROOT" ]; then
+  echo "[pre-commit] ERROR: Could not determine repository root"
+  exit 1
+fi
+CONTAINER_NAME="$(basename "$REPO_ROOT")-npm-runner"
+if ! docker ps --format '{{.Names}}' | grep -qx "$CONTAINER_NAME"; then
+  echo "[pre-commit] DevContainer not running. Starting..."
+  devcontainer up --workspace-folder . || exit 1
+fi
+
+# Get list of staged files as array (compatible with bash 3.x, properly handles files with spaces)
+STAGED_FILES_ARRAY=()
+while IFS= read -r file; do
+  STAGED_FILES_ARRAY+=("$file")
+done < <(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ ${#STAGED_FILES_ARRAY[@]} -eq 0 ]; then
+  echo "[pre-commit] No staged files to check"
+  exit 0
+fi
+
+# Run pre-commit checks in container with file paths as arguments
+# Array expansion with "${STAGED_FILES_ARRAY[@]}" preserves spaces in filenames
+if ! devcontainer exec --workspace-folder . npm run pre-commit -- "${STAGED_FILES_ARRAY[@]}"; then
+  echo "[pre-commit] ERROR: Code quality checks failed"
+  exit 1
+fi
+
+# Re-stage formatted files
+# Note: git operations are performed on host OS, not in container
+echo "[pre-commit] Re-staging formatted files..."
+for file in "${STAGED_FILES_ARRAY[@]}"; do
+  if [ -n "$file" ] && [ -f "$file" ]; then
+    if ! git add -- "$file"; then
+      echo "[pre-commit] ERROR: Failed to re-stage file: $file"
+      exit 1
+    fi
+  fi
+done
+
+echo "[pre-commit] ✓ All checks passed"
+exit 0
