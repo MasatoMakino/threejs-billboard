@@ -11,14 +11,15 @@ if [ -z "$REPO_ROOT" ]; then
   echo "[pre-push] ERROR: Could not determine repository root"
   exit 1
 fi
+cd "$REPO_ROOT" || exit 1
 CONTAINER_NAME="$(basename "$REPO_ROOT")-npm-runner"
 if ! docker ps --format '{{.Names}}' | grep -qx "$CONTAINER_NAME"; then
   echo "[pre-push] DevContainer not running. Starting..."
-  devcontainer up --workspace-folder . || exit 1
+  devcontainer up --workspace-folder "$REPO_ROOT" || exit 1
 fi
 
 # Run pre-push checks in container
-if ! devcontainer exec --workspace-folder . npm run pre-push; then
+if ! devcontainer exec --workspace-folder "$REPO_ROOT" npm run pre-push; then
   echo "[pre-push] ERROR: Tests or CI checks failed"
   exit 1
 fi

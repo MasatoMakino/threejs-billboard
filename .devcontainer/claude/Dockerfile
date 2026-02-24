@@ -1,6 +1,6 @@
 FROM node:22-bookworm-slim
 
-ARG TZ
+ARG TZ=UTC
 ENV TZ="$TZ"
 ARG CLAUDE_CODE_VERSION=latest
 

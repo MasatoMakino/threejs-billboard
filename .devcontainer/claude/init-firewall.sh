@@ -38,6 +38,7 @@ fi
 echo "Using DNS server: $DNS_SERVER"
 # Allow outbound DNS to container's resolver only (prevents DNS tunneling)
 iptables -A OUTPUT -p udp -d "$DNS_SERVER" --dport 53 -j ACCEPT
+iptables -A OUTPUT -p tcp -d "$DNS_SERVER" --dport 53 -j ACCEPT
 # Inbound DNS responses are covered by ESTABLISHED,RELATED rule
 # Allow outbound SSH (inbound responses covered by ESTABLISHED,RELATED)
 iptables -A OUTPUT -p tcp --dport 22 -j ACCEPT
