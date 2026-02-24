@@ -3,8 +3,8 @@
 > Billboard module for three.js with multiple rendering approaches
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
-
-[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=MasatoMakino&repo=threejs-billboard&show_owner=true)](https://github.com/MasatoMakino/threejs-billboard)
+[![npm version](https://img.shields.io/npm/v/@masatomakino/threejs-billboard.svg?style=flat)](https://www.npmjs.com/package/@masatomakino/threejs-billboard)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github&style=flat)](https://github.com/MasatoMakino/threejs-billboard)
 
 ## Demo
 

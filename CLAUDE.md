@@ -4,17 +4,39 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-### Build and Test
-- `npm run build` - Build TypeScript and generate demo pages
-- `npm run buildTS` - Compile TypeScript to ESM in ./esm directory
-- `npm test` - Run tests with Vitest
-- `npm run test:watch` - Run tests in watch mode
-- `npm run coverage` - Run tests with coverage reporting
+**IMPORTANT**: All npm/npx commands MUST be executed via DevContainer. Do NOT run npm or npx directly on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 22, Chrome, and xvfb required for testing.
 
-### Development Server
-- `npm run start:dev` - Start development server with file watching
-- `npm run server` - Start browser-sync server for demo pages
-- `npm run demo` - Generate demo pages using gulptask-demo-page
+```bash
+# Start DevContainer (if not running)
+devcontainer up --workspace-folder .
+
+# Build TypeScript and generate demo pages
+devcontainer exec --workspace-folder . npm run build
+
+# Compile TypeScript to ESM in ./esm directory
+devcontainer exec --workspace-folder . npm run buildTS
+
+# Run tests with Vitest
+devcontainer exec --workspace-folder . npm test
+
+# Run tests in watch mode
+devcontainer exec --workspace-folder . npm run test:watch
+
+# Run tests with coverage reporting
+devcontainer exec --workspace-folder . npm run coverage
+
+# Start development server with file watching
+devcontainer exec --workspace-folder . npm run start:dev
+
+# Start browser-sync server for demo pages
+devcontainer exec --workspace-folder . npm run server
+
+# Generate demo pages
+devcontainer exec --workspace-folder . npm run demo
+
+# Lint and format code
+devcontainer exec --workspace-folder . npx biome check --write
+```
 
 ### Demo Page Generation
 The `npm run demo` command automatically scans `demoSrc/` directory for JavaScript files with `demo_` prefix and generates corresponding HTML files in `docs/demo/`. Key points:
@@ -24,7 +46,7 @@ The `npm run demo` command automatically scans `demoSrc/` directory for JavaScri
 - Never manually edit files in `docs/` directory - modify source files in `demoSrc/` instead
 
 ### Code Quality
-- `biome check --write` - Lint and format code (configured in biome.json)
+- DevContainer-based Git hooks for pre-commit (Biome format) and pre-push (Biome CI + tests)
 - Files are automatically formatted on commit via lint-staged
 
 ## Project Architecture
