@@ -73,6 +73,7 @@ describe("Resource Management Tests", () => {
       manager.dispose();
     }
     ticker.destroy();
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 

@@ -88,6 +88,7 @@ describe("MultiViewPixiPlaneMesh", () => {
     ticker.destroy();
 
     // スパイのリセット
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 
