@@ -4,7 +4,9 @@ This file provides guidance to AI coding agents when working with code in this r
 
 ## Development Commands
 
-**IMPORTANT**: All npm/npx commands MUST be executed via DevContainer. Do NOT run npm or npx directly on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 22, Chrome, and xvfb required for testing.
+**IMPORTANT**: All npm/npx commands MUST be executed via DevContainer. Do NOT run npm or npx directly on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 24 and the Chromium that the browser tests need.
+
+Each worktree has its own DevContainer. In a new worktree, run `devcontainer up --workspace-folder .` once before the other commands.
 
 ```bash
 # Start DevContainer (if not running)
@@ -47,7 +49,7 @@ The `npm run demo` command automatically scans `demoSrc/` directory for JavaScri
 
 ### Code Quality
 - DevContainer-based Git hooks for pre-commit (Biome format) and pre-push (Biome CI + tests)
-- Files are automatically formatted on commit via lint-staged
+- The pre-commit hook formats the staged files
 
 ## Project Architecture
 
