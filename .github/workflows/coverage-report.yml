@@ -31,5 +31,5 @@ jobs:
         run: pnpm run coverage:ci
 
       - name: Report Coverage
-        uses: davelosert/vitest-coverage-report-action@v2.9.3
+        uses: davelosert/vitest-coverage-report-action@v2.13.2
         if: always()
