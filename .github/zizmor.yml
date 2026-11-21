@@ -1,0 +1,7 @@
+# .github/workflows/actions.lock pins each action to a commit, so `uses:`
+# keeps readable version tags. zizmor does not read the lockfile.
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        "*": ref-pin
