@@ -4,7 +4,7 @@ exec 1>&2
 
 # pnpm forwards arguments after the script name and passes `--` through literally.
 # npm projects: RUN_SCRIPT=(npm run pre-commit --)
-RUN_SCRIPT=(npm run pre-commit --)
+RUN_SCRIPT=(pnpm run pre-commit)
 
 # Each worktree has its own DevContainer. The devcontainer CLI labels it with the folder path.
 ROOT="$(git rev-parse --show-toplevel)"

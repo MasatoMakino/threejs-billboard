@@ -1,5 +1,5 @@
 {
-  "name": "${localWorkspaceFolderBasename} npm Runner (Node 24)",
+  "name": "${localWorkspaceFolderBasename} pnpm Runner (Node 24)",
   "build": {
     "dockerfile": "Dockerfile",
     "args": { "WORKSPACE_DIR": "/workspaces/${localWorkspaceFolderBasename}" }
@@ -22,14 +22,13 @@
     "--cap-add=NET_ADMIN",
     "--cap-add=NET_RAW",
     "--shm-size=2g",
-    "--name=${localWorkspaceFolderBasename}-npm-runner-${devcontainerId}",
+    "--name=${localWorkspaceFolderBasename}-pnpm-runner-${devcontainerId}",
     "-p",
     "127.0.0.1:0:3000"
   ],
-  "postCreateCommand": "sudo /usr/local/bin/init-firewall.sh && npm ci",
-  "postStartCommand": "sudo /usr/local/bin/init-firewall.sh && (npm audit --audit-level=moderate || true)",
+  "postCreateCommand": "sudo /usr/local/bin/init-firewall.sh && pnpm install --frozen-lockfile",
+  "postStartCommand": "sudo /usr/local/bin/init-firewall.sh && (pnpm audit --audit-level=moderate || true)",
   "containerEnv": {
-    "NODE_ENV": "development",
-    "NPM_CONFIG_IGNORE_SCRIPTS": "true"
+    "NODE_ENV": "development"
   }
 }

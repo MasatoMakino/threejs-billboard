@@ -37,6 +37,7 @@
     "three": "^0.183.1",
     "typedoc": "^0.28.0",
     "typescript": "^5.5.2",
+    "vitest": "4.0.18",
     "webdriverio": "^9.0.1"
   },
   "scripts": {
@@ -46,17 +47,18 @@
     "coverage": "vitest --run --coverage",
     "coverage:ci": "xvfb-run --auto-servernum vitest --coverage --run",
     "pre-commit": "biome format --write --no-errors-on-unmatched --files-ignore-unknown=true",
-    "pre-push": "biome ci . && npm test",
-    "start:dev": "npm run server & npm run watch:tsc & npm run watch:demo",
-    "build": "npm run buildTS && npm run demo",
-    "demo": "npx @masatomakino/gulptask-demo-page --compileModule es2020",
-    "watch:demo": "npm run demo -- -W",
+    "pre-push": "biome ci . && pnpm test",
+    "start:dev": "pnpm run server & pnpm run watch:tsc & pnpm run watch:demo",
+    "build": "pnpm run buildTS && pnpm run demo",
+    "demo": "gulptask-demo-page --compileModule es2020",
+    "watch:demo": "pnpm run demo -W",
     "buildTS": "tsc",
     "watch:tsc": "tsc -W --incremental",
-    "typedocs": "npx typedoc --out ./docs/api src/index.ts",
+    "typedocs": "typedoc --out ./docs/api src/index.ts",
     "server": "browser-sync ./docs/demo -w --port 3000 --no-open"
   },
   "description": "billboard module for three.js",
+  "packageManager": "pnpm@12.16.1",
   "bugs": {
     "url": "https://github.com/MasatoMakino/threejs-billboard/issues"
   },

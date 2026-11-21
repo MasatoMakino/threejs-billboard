@@ -4,7 +4,7 @@ This file provides guidance to AI coding agents when working with code in this r
 
 ## Development Commands
 
-**IMPORTANT**: All npm/npx commands MUST be executed via DevContainer. Do NOT run npm or npx directly on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 24 and the Chromium that the browser tests need.
+**IMPORTANT**: All pnpm, npm, and npx commands MUST be executed via DevContainer. Do NOT run them directly on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 24 and the Chromium that the browser tests need.
 
 Each worktree has its own DevContainer. In a new worktree, run `devcontainer up --workspace-folder .` once before the other commands.
 
@@ -13,35 +13,35 @@ Each worktree has its own DevContainer. In a new worktree, run `devcontainer up 
 devcontainer up --workspace-folder .
 
 # Build TypeScript and generate demo pages
-devcontainer exec --workspace-folder . npm run build
+devcontainer exec --workspace-folder . pnpm run build
 
 # Compile TypeScript to ESM in ./esm directory
-devcontainer exec --workspace-folder . npm run buildTS
+devcontainer exec --workspace-folder . pnpm run buildTS
 
 # Run tests with Vitest
-devcontainer exec --workspace-folder . npm test
+devcontainer exec --workspace-folder . pnpm test
 
 # Run tests in watch mode
-devcontainer exec --workspace-folder . npm run test:watch
+devcontainer exec --workspace-folder . pnpm run test:watch
 
 # Run tests with coverage reporting
-devcontainer exec --workspace-folder . npm run coverage
+devcontainer exec --workspace-folder . pnpm run coverage
 
 # Start development server with file watching
-devcontainer exec --workspace-folder . npm run start:dev
+devcontainer exec --workspace-folder . pnpm run start:dev
 
 # Start browser-sync server for demo pages
-devcontainer exec --workspace-folder . npm run server
+devcontainer exec --workspace-folder . pnpm run server
 
 # Generate demo pages
-devcontainer exec --workspace-folder . npm run demo
+devcontainer exec --workspace-folder . pnpm run demo
 
 # Lint and format code
-devcontainer exec --workspace-folder . npx biome check --write
+devcontainer exec --workspace-folder . pnpm exec biome check --write
 ```
 
 ### Demo Page Generation
-The `npm run demo` command automatically scans `demoSrc/` directory for JavaScript files with `demo_` prefix and generates corresponding HTML files in `docs/demo/`. Key points:
+The `pnpm run demo` command automatically scans `demoSrc/` directory for JavaScript files with `demo_` prefix and generates corresponding HTML files in `docs/demo/`. Key points:
 - Each `demo_*.js` file in `demoSrc/` becomes a `demo_*.html` file in `docs/demo/`
 - Generated HTML includes `<canvas id="webgl-canvas" width="640" height="480"></canvas>` by default
 - Demo source files should import from `../esm/index.js` (the built ESM output)

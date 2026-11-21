@@ -11,16 +11,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       - name: Use Node.js
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: "20"
-          cache: "npm"
+          package-manager-cache: false
           registry-url: "https://registry.npmjs.org"
       - name: Upgrade npm to latest
         run: npm install -g npm@latest
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
       - name: build binary
-        run: npm run buildTS
+        run: pnpm run buildTS
       - name: Publish package on NPM 📦
         run: npm publish --access public
