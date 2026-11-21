@@ -80,3 +80,4 @@ AGENTS.override.md
 .aider.chat.history.md
 .aider.input.history
 .aider.llm.history
+.claude/worktrees/
