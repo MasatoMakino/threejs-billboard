@@ -14,8 +14,8 @@ import { BillBoardOptionUtil } from "../src/index.js";
 import { describe, expect, test, vi } from "vitest";
 
 describe("BillboardController", () => {
-  const textureURL =
-    "https://masatomakino.github.io/threejs-billboard/demo/map01.png";
+  // A local file keeps the test independent of the network: the DevContainer firewall blocks other hosts.
+  const textureURL = new URL("../demoSrc/map01.png", import.meta.url).href;
   const testBillboardController = (url: string, target: BillboardObject3D) => {
     const controller = new BillboardController(
       target,

@@ -21,3 +21,10 @@ updates:
       semver-major-days: 30  # Major version updates: 30 day intervals - minimize breaking change risks
       semver-minor-days: 7   # Minor version updates: 7 day intervals - careful validation of feature additions
       semver-patch-days: 3   # Patch version updates: 3 day intervals - rapid application of security fixes
+
+  - package-ecosystem: "docker"
+    directory: "/.devcontainer"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
