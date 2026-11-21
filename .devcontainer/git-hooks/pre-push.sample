@@ -1,28 +1,20 @@
-#!/bin/sh
-# Redirect output to stderr
+#!/bin/bash
+# Git runs on the host; tests run in the DevContainer of this working tree.
 exec 1>&2
 
-echo "[pre-push] Running tests and CI checks in DevContainer..."
+# npm projects: RUN_SCRIPT=(npm run pre-push)
+RUN_SCRIPT=(npm run pre-push)
 
-# Check if DevContainer is running, start if needed
-# Uses dynamic container name pattern: ${localWorkspaceFolderBasename}-npm-runner
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-if [ -z "$REPO_ROOT" ]; then
-  echo "[pre-push] ERROR: Could not determine repository root"
-  exit 1
-fi
-cd "$REPO_ROOT" || exit 1
-CONTAINER_NAME="$(basename "$REPO_ROOT")-npm-runner"
-if ! docker ps --format '{{.Names}}' | grep -qx "$CONTAINER_NAME"; then
+# Each worktree has its own DevContainer. The devcontainer CLI labels it with the folder path.
+ROOT="$(git rev-parse --show-toplevel)"
+if [ -z "$(docker ps -q --filter "label=devcontainer.local_folder=$ROOT")" ]; then
   echo "[pre-push] DevContainer not running. Starting..."
-  devcontainer up --workspace-folder "$REPO_ROOT" || exit 1
+  devcontainer up --workspace-folder "$ROOT" || exit 1
 fi
 
-# Run pre-push checks in container
-if ! devcontainer exec --workspace-folder "$REPO_ROOT" npm run pre-push; then
-  echo "[pre-push] ERROR: Tests or CI checks failed"
+if ! devcontainer exec --workspace-folder "$ROOT" "${RUN_SCRIPT[@]}"; then
+  echo "[pre-push] ERROR: tests or CI checks failed"
   exit 1
 fi
 
-echo "[pre-push] ✓ All checks passed"
 exit 0
