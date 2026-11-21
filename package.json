@@ -38,7 +38,7 @@
     "typedoc": "^0.28.0",
     "typescript": "^5.5.2",
     "vitest": "4.0.18",
-    "webdriverio": "^9.0.1"
+    "webdriverio": "^10.1.0"
   },
   "scripts": {
     "test": "vitest --run",
