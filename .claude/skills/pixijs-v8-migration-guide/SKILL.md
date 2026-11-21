@@ -6,7 +6,7 @@ allowed-tools: Read
 
 # PixiJS v8 API Reference
 
-Detailed API patterns for PixiJS v8. For quick rules, see CLAUDE.md "PixiJS v8 Specific Rules" section.
+Detailed API patterns for PixiJS v8. For quick rules, see AGENTS.md "PixiJS v8 Specific Rules" section.
 
 Official migration guide: https://pixijs.com/8.x/guides/migrations/v8
 
