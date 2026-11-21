@@ -69,3 +69,14 @@ __test__/__screenshots__/
 
 .claude/settings.local.json
 .op/
+
+# AI agent harness files
+**/.claude/**/*.local.*
+CLAUDE.local.md
+**/.devin/**/*.local.*
+AGENTS.local.md
+**/.qwen/**/*.local.*
+AGENTS.override.md
+.aider.chat.history.md
+.aider.input.history
+.aider.llm.history
