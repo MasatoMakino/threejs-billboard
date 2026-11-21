@@ -15,7 +15,7 @@ workflows:
         - 'pnpm/action-setup@v6.1.1'
     '.github/workflows/gh-pages.yml':
         - 'actions/checkout@v6.0.2'
-        - 'actions/deploy-pages@v4.0.5'
+        - 'actions/deploy-pages@v5.0.1'
         - 'actions/setup-node@v6.3.0'
         - 'actions/upload-pages-artifact@v4.0.0'
         - 'pnpm/action-setup@v6.1.1'
@@ -41,9 +41,9 @@ dependencies:
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
-    'actions/deploy-pages@v4.0.5':
-        ref: 'v4.0.5'
-        commit: 'sha1-d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e'
+    'actions/deploy-pages@v5.0.1':
+        ref: 'v5.0.1'
+        commit: 'sha1-368f82528645a54fb793d4d04e342629a3f51346'
         owner_id: 44036562
         repo_id: 438112499
     'actions/download-artifact@v8.0.2':
