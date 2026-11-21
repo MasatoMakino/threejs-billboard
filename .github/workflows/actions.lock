@@ -11,7 +11,7 @@ workflows:
     '.github/workflows/coverage-report.yml':
         - 'actions/checkout@v6.0.2'
         - 'actions/setup-node@v7.1.0'
-        - 'davelosert/vitest-coverage-report-action@v2.9.3'
+        - 'davelosert/vitest-coverage-report-action@v2.13.2'
         - 'pnpm/action-setup@v6.1.1'
     '.github/workflows/gh-pages.yml':
         - 'actions/checkout@v6.0.2'
@@ -78,9 +78,9 @@ dependencies:
         commit: 'sha1-4c91541eaada48f67d7dbd7833600ce162b68f51'
         owner_id: 140182603
         repo_id: 693772387
-    'davelosert/vitest-coverage-report-action@v2.9.3':
-        ref: 'v2.9.3'
-        commit: 'sha1-2500dafcee7dd64f85ab689c0b83798a8359770e'
+    'davelosert/vitest-coverage-report-action@v2.13.2':
+        ref: 'v2.13.2'
+        commit: 'sha1-74c2d9210b4fc44c84d8213f61d7ec99837b7aa0'
         owner_id: 4287128
         repo_id: 501176456
     'github/codeql-action@89a39a4e59826350b863aa6b6252a07ad50cf83e':
