@@ -23,10 +23,18 @@ RUN chmod +x /usr/local/bin/firewall-base.sh /usr/local/bin/init-firewall.sh && 
     echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
     chmod 0440 /etc/sudoers.d/node-firewall
 
+RUN npm install -g pnpm@12.16.1
+
+# pnpm 12 reads pnpm_config_* (not npm_config_*) above the project config files.
+# pm_on_fail blocks a switch to the pnpm version in packageManager, because older pnpm ignores these variables.
+ENV pnpm_config_pm_on_fail=error \
+    pnpm_config_ignore_scripts=true \
+    pnpm_config_ignore_pnpmfile=true
+
 # Docker copies this ownership into the empty node_modules volume on the first mount.
 ARG WORKSPACE_DIR
 RUN test -n "$WORKSPACE_DIR" && \
     mkdir -p "$WORKSPACE_DIR/node_modules" && \
     chown node:node "$WORKSPACE_DIR/node_modules"
 
-RUN node --version && npm --version && chromium --version && chromedriver --version
+RUN node --version && pnpm --version && chromium --version && chromedriver --version

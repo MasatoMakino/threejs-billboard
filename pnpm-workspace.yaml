@@ -1,0 +1,15 @@
+minimumReleaseAge: 10080
+trustPolicy: no-downgrade
+# Build and tests pass without these install scripts.
+allowBuilds:
+  edgedriver: false
+  esbuild: false
+  geckodriver: false
+# These versions came from package-lock.json, and pnpm rates them as trust downgrades.
+# Removal condition: a dependency update replaces each version.
+trustPolicyExclude:
+  - "@wdio/logger@9.18.0"
+  - "@wdio/repl@9.16.2"
+  - "undici-types@6.21.0"
+  - "semver@6.3.1"
+  - "ua-parser-js@1.0.41"
