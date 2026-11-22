@@ -33,9 +33,9 @@
     "@vitest/coverage-istanbul": "^4.0.18",
     "browser-sync": "^3.0.2",
     "lil-gui": "^0.21.0",
-    "pixi.js": "^8.9.1",
+    "pixi.js": "^8.23.0",
     "three": "^0.183.1",
-    "typedoc": "^0.28.0",
+    "typedoc": "^0.28.20",
     "typescript": "^5.5.2",
     "vitest": "4.0.18",
     "webdriverio": "^9.0.1"
