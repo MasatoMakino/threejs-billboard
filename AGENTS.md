@@ -2,134 +2,62 @@
 
 This file provides guidance to AI coding agents when working with code in this repository.
 
-## Development Commands
+## Development commands
 
-**IMPORTANT**: All pnpm, npm, and npx commands MUST be executed via DevContainer. Do NOT run them directly on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 26 and the Chromium that the browser tests need.
+Run every pnpm, npm, and npx command in the DevContainer, not on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 26 and the Chromium that the browser tests need.
 
 Each worktree has its own DevContainer. In a new worktree, run `devcontainer up --workspace-folder .` once before the other commands.
 
+Run a script of `package.json` as `devcontainer exec --workspace-folder . pnpm run <script>`. The `scripts` field lists the build, test, coverage, demo, and dev server commands.
+
 ```bash
-# Start DevContainer (if not running)
+# Start the DevContainer
 devcontainer up --workspace-folder .
 
-# Build TypeScript and generate demo pages
-devcontainer exec --workspace-folder . pnpm run build
-
-# Compile TypeScript to ESM in ./esm directory
-devcontainer exec --workspace-folder . pnpm run buildTS
-
-# Run tests with Vitest
-devcontainer exec --workspace-folder . pnpm test
-
-# Run tests in watch mode
-devcontainer exec --workspace-folder . pnpm run test:watch
-
-# Run tests with coverage reporting
-devcontainer exec --workspace-folder . pnpm run coverage
-
-# Start development server with file watching
-devcontainer exec --workspace-folder . pnpm run start:dev
-
-# Start the demo-showcase dev server for demo pages (port 3456, with HMR)
-devcontainer exec --workspace-folder . pnpm run server
-
-# Generate demo pages
-devcontainer exec --workspace-folder . pnpm run demo
-
-# Lint and format code
+# Lint and format the code
 devcontainer exec --workspace-folder . pnpm exec biome check --write
 ```
 
-### Demo Page Generation
-The `pnpm run demo` command runs `@masatomakino/demo-showcase`, which scans the `demoSrc/` directory for JavaScript files with the `demo_` prefix and builds the demo pages into `docs/demo/` with Vite. Key points:
-- Each `demo_*.js` file in `demoSrc/` becomes a `demo_*.html` file in `docs/demo/`, and `index.html` links all demos
-- Demo source files should import from `../esm/index.js` (the built ESM output)
+### Demo pages
+
+- Demo source files in `demoSrc/` import the library from `../esm/index.js`, the built ESM output
 - Reference images with `import` (`import map01Url from "./map01.png"`). Vite bundles only the assets that a demo imports
-- Never manually edit files in `docs/` directory - modify source files in `demoSrc/` instead
+- Do not edit the files in `docs/`. Change the source files in `demoSrc/` instead
 
-### Code Quality
-- DevContainer-based Git hooks for pre-commit (Biome format) and pre-push (Biome CI + tests)
-- The pre-commit hook formats the staged files
+## Development rules and guidelines
 
-## Project Architecture
+### Git and GitHub workflow
 
-### Core Billboard Types
-This library provides three main approaches to billboard rendering:
-
-1. **Image-based Classes** (`BillBoard`, `BillBoardPlane`)
-   - Use image files directly as texture source
-   - Simple to use for static images
-   - Located in `src/BillBoard.ts` and `src/BillBoardPlane.ts`
-
-2. **SharedStage Classes** (`SharedStageBillboard`, `SharedStagePlaneMesh`)
-   - Utilize single shared Canvas/Texture across multiple billboards
-   - Excellent for reducing draw calls with fixed number of billboards
-   - Core implementation in `src/SharedStageTexture.ts`
-   - Billboard: `src/SharedStageBillboard.ts`
-   - Plane mesh: `src/SharedStagePlaneMesh.ts`
-
-3. **MultiView Classes** (`MultiViewPixiBillboard`, `MultiViewPixiPlaneMesh`)
-   - Each instance has independent Canvas using PixiJS v8 multiView
-   - Superior performance for partial updates and flexible billboard count
-   - Manager: `src/PixiMultiViewManager.ts`
-   - Billboard: `src/MultiViewPixiBillboard.ts`
-   - Plane mesh: `src/MultiViewPixiPlaneMesh.ts`
-
-### Key Utilities
-- `ScaleCalculator` - Calculates appropriate scaling for dot-by-dot display
-- `CameraChaser` - Makes plane meshes track camera rotation (Y-axis only)
-- `BillBoardController` - Base controller for billboard behavior
-
-### Dependencies
-- **three.js**: Core 3D rendering (peer dependency >=0.126.0 <1.0.0)
-- **pixi.js**: Canvas rendering for MultiView classes (peer dependency ^8.4.0)
-- **TypeScript**: ES2015 target, ES2022 modules, strict mode enabled
-- **Vitest**: Testing with browser environment via WebDriverIO
-
-### Build Output
-- Source: `src/` directory with TypeScript files
-- Built: `esm/` directory with compiled JS and declaration files
-- Demo: `docs/demo/` directory with generated HTML demos
-- Tests: `__test__/` directory with .spec.ts files
-
-### Testing
-- Uses Vitest with browser testing via WebDriverIO
-- Tests run in Chrome headless mode
-- Coverage reports generated with Istanbul provider
-- Screenshot testing available for visual regression
-- Test files located in `__test__/` directory
-- Screenshots of failed tests auto-generated in `.vitest/attachments/` (do not edit manually)
-
-## Development Rules and Guidelines
-
-### Git and GitHub Workflow
-- **Branch Strategy**: GitHub Flow - create feature branches from `main`, use pull requests for merging
-- **Branch Naming**: `type/[issue-number-]purpose` format
+- **Branch strategy**: GitHub Flow. Create feature branches from `main`, and merge them through pull requests
+- **Branch naming**: `type/[issue-number-]purpose`
   - Types: `feature/`, `fix/`, `test/`, `maintain/`, `perf/`, `docs/`
   - Examples: `feature/issue-123-add-user-profile`, `fix/resolve-login-bug`
-- **Main Branch**: Direct commits/pushes to `main` are prohibited
-- **GitHub Pages**: Auto-deployed by GitHub Actions via `github-pages` environment - do not deploy manually
-- **Git Commands**: Always use `--no-pager` option (e.g., `git log --no-pager`)
-- **Pull Request Text**: Do not escape newlines in `gh pr create` commands
+- **Main branch**: Do not commit or push to `main` directly
+- **GitHub Pages**: GitHub Actions deploys the pages through the `github-pages` environment. Do not deploy manually
+- **Git commands**: Use the `--no-pager` option before the subcommand (`git --no-pager log`)
+- **Pull request text**: Do not escape newlines in `gh pr create` commands
 
-### TypeScript Coding Standards
+### TypeScript coding standards
+
 - **Imports**: Use named exports from module roots (`import { Container } from 'pixi.js'`)
-- **Local Imports**: Include `.js` extension for ESM compatibility (`import { func } from './file.js'`)
-- **Async Initialization**: Use `init()` methods for async setup, not constructors
-- **Type Safety**: Avoid `as any` casts - redesign types instead
+- **Local imports**: Include the `.js` extension for ESM compatibility (`import { func } from './file.js'`)
+- **Async initialization**: Use `init()` methods for async setup, not constructors
+- **Type safety**: Avoid `as any` casts. Redesign the types instead
 - **Documentation**: Write detailed JSDoc comments for all public APIs
-- **Resource Management**: Implement proper cleanup and disposal patterns
+- **Resource management**: Implement cleanup and disposal for every resource
 
-### PixiJS v8 Specific Rules
-- **Import Style**: Use `pixi.js` package, not `@pixi/*` scoped packages
-- **Application Init**: Use `await app.init(options)` instead of constructor options
-- **Graphics API**: Use new syntax - `graphics.rect().fill()` instead of `beginFill()`
-- **Particles**: Use `ParticleContainer` with `Particle` class, not `Sprite`
-- **Texture Loading**: Use `Assets.load()` before `Texture.from()`
+### PixiJS v8 rules
 
-### Directory Structure Rules
-- **Source**: `src/` - main TypeScript source files
-- **Tests**: `__test__/` - test files and auto-generated screenshots
-- **Demos**: `demoSrc/` - demo source files (import from `../esm/index.js`)
-- **Build Output**: `esm/` - compiled JavaScript and declarations
-- **Generated**: `docs/` - auto-generated demo pages and API docs (do not edit)
+- **Import style**: Use the `pixi.js` package, not the `@pixi/*` scoped packages
+- **Application init**: Use `await app.init(options)` instead of constructor options
+- **Graphics API**: Use `graphics.rect().fill()` instead of `beginFill()`
+- **Particles**: Use `ParticleContainer` with the `Particle` class, not `Sprite`
+- **Texture loading**: Use `Assets.load()` before `Texture.from()`
+
+### Directory structure
+
+- **Source**: `src/`, the TypeScript source files
+- **Tests**: `__test__/`, the test files
+- **Demos**: `demoSrc/`, the demo source files
+- **Build output**: `esm/`, the compiled JavaScript and declarations
+- **Generated**: `docs/`, the demo pages that `pnpm run demo` builds. Do not edit
