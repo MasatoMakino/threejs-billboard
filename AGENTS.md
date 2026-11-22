@@ -4,7 +4,7 @@ This file provides guidance to AI coding agents when working with code in this r
 
 ## Development Commands
 
-**IMPORTANT**: All pnpm, npm, and npx commands MUST be executed via DevContainer. Do NOT run them directly on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 24 and the Chromium that the browser tests need.
+**IMPORTANT**: All pnpm, npm, and npx commands MUST be executed via DevContainer. Do NOT run them directly on the host. The DevContainer (`.devcontainer/devcontainer.json`) provides Node 26 and the Chromium that the browser tests need.
 
 Each worktree has its own DevContainer. In a new worktree, run `devcontainer up --workspace-folder .` once before the other commands.
 
