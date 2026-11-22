@@ -10,6 +10,7 @@ import {
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { SharedStageTexture } from "../esm/index.js";
 import { Assets, RendererType, Sprite, Text, sayHello } from "pixi.js";
+import uvGridUrl from "./uv_grid_opengl.jpg";
 
 export function initScene() {
   const scene = new Scene();
@@ -89,8 +90,8 @@ export const initSharedTexture = async () => {
   const texture = new SharedStageTexture();
   await texture.init(1024, 1024);
 
-  await Assets.load("./uv_grid_opengl.jpg");
-  const sprite = Sprite.from("./uv_grid_opengl.jpg");
+  await Assets.load(uvGridUrl);
+  const sprite = Sprite.from(uvGridUrl);
   texture.stage.addChild(sprite);
 
   const text = new Text({

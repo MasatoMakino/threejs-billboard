@@ -153,7 +153,7 @@ npm run coverage    # Run tests with coverage
 
 ```bash
 npm run start:dev   # Start development server with file watching
-npm run server      # Start browser-sync server for demo pages
+npm run server      # Start the demo-showcase dev server for demo pages
 npm run demo        # Generate demo pages
 ```
 

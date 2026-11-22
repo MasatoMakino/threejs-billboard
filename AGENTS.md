@@ -30,7 +30,7 @@ devcontainer exec --workspace-folder . pnpm run coverage
 # Start development server with file watching
 devcontainer exec --workspace-folder . pnpm run start:dev
 
-# Start browser-sync server for demo pages
+# Start the demo-showcase dev server for demo pages (port 3456, with HMR)
 devcontainer exec --workspace-folder . pnpm run server
 
 # Generate demo pages
@@ -41,10 +41,10 @@ devcontainer exec --workspace-folder . pnpm exec biome check --write
 ```
 
 ### Demo Page Generation
-The `pnpm run demo` command automatically scans `demoSrc/` directory for JavaScript files with `demo_` prefix and generates corresponding HTML files in `docs/demo/`. Key points:
-- Each `demo_*.js` file in `demoSrc/` becomes a `demo_*.html` file in `docs/demo/`
-- Generated HTML includes `<canvas id="webgl-canvas" width="640" height="480"></canvas>` by default
+The `pnpm run demo` command runs `@masatomakino/demo-showcase`, which scans the `demoSrc/` directory for JavaScript files with the `demo_` prefix and builds the demo pages into `docs/demo/` with Vite. Key points:
+- Each `demo_*.js` file in `demoSrc/` becomes a `demo_*.html` file in `docs/demo/`, and `index.html` links all demos
 - Demo source files should import from `../esm/index.js` (the built ESM output)
+- Reference images with `import` (`import map01Url from "./map01.png"`). Vite bundles only the assets that a demo imports
 - Never manually edit files in `docs/` directory - modify source files in `demoSrc/` instead
 
 ### Code Quality
