@@ -11,5 +11,4 @@ trustPolicyExclude:
   - "@wdio/logger@9.18.0"
   - "@wdio/repl@9.16.2"
   - "undici-types@6.21.0"
-  - "semver@6.3.1"
   - "ua-parser-js@1.0.41"
