@@ -30,19 +30,19 @@ export const billboardCommonTest = (create: BillboardFactory) => {
     expect(target.material).toMatchObject({ visible: false, map: null });
   });
 
-  test("applies the last imageScale set before the texture loads, so that early scale changes are not lost", async () => {
+  test("applies the last imageScale set before the texture loads by the time textureLoaderPromise resolves, so that early scale changes are not lost", async () => {
     const target = create(TestImage, 1);
     target.imageScale = 0.5;
     target.imageScale = 2.0;
     target.imageScale = 1.5;
 
-    // A billboard created with the final scale gives the expected size without knowing the image size.
-    const reference = create(TestImage, 1.5);
+    // The size scales linearly with imageScale, so a reference at scale 1 gives the expected size without knowing the image size.
+    const reference = create(TestImage, 1);
 
     await target.textureLoaderPromise;
     await reference.textureLoaderPromise;
 
-    expect(target.scale.x).toBeCloseTo(reference.scale.x, 5);
-    expect(target.scale.y).toBeCloseTo(reference.scale.y, 5);
+    expect(target.scale.x).toBeCloseTo(reference.scale.x * 1.5, 5);
+    expect(target.scale.y).toBeCloseTo(reference.scale.y * 1.5, 5);
   });
 };
