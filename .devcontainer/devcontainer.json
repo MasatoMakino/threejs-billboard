@@ -24,7 +24,7 @@
     "--shm-size=2g",
     "--name=${localWorkspaceFolderBasename}-pnpm-runner-${devcontainerId}",
     "-p",
-    "127.0.0.1:0:3000"
+    "127.0.0.1:0:3456"
   ],
   "postCreateCommand": "sudo /usr/local/bin/init-firewall.sh && pnpm install --frozen-lockfile",
   "postStartCommand": "sudo /usr/local/bin/init-firewall.sh && (pnpm audit --audit-level=moderate || true)",

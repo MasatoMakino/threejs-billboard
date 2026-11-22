@@ -1,5 +1,6 @@
 import { BillBoard, ScaleCalculator } from "../esm/index.js";
 import * as THREE from "three";
+import map01Url from "./map01.png";
 import {
   initScene,
   initLight,
@@ -33,12 +34,12 @@ const initBillBoard = (scene, renderer, camera) => {
     camera,
   );
 
-  billboard = new BillBoard("./map01.png", scale);
+  billboard = new BillBoard(map01Url, scale);
   billboard.position.set(-40, 0, 0);
   scene.add(billboard);
   billboard.material.sizeAttenuation = false;
 
-  billboard2 = new BillBoard("./map01.png", scale);
+  billboard2 = new BillBoard(map01Url, scale);
   scene.add(billboard2);
   billboard2.material.sizeAttenuation = false;
 };
