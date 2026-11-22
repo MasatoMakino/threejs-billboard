@@ -169,6 +169,16 @@ describe("MultiViewPixiPlaneMesh", () => {
     removeFromParentSpy.mockRestore();
   });
 
+  it("dispose runs the dispose of three once, so that three releases what it holds for the object", () => {
+    const listener = vi.fn();
+    planeMesh.addEventListener("dispose", listener);
+
+    planeMesh.dispose();
+    planeMesh.dispose();
+
+    expect(listener).toHaveBeenCalledOnce();
+  });
+
   it("dispose should not run cleanup if already disposed", () => {
     planeMesh.dispose();
     const geometryDisposeSpy = vi.spyOn(planeMesh.geometry, "dispose");

@@ -246,5 +246,8 @@ export class MultiViewPixiBillboard
     MultiViewObject3DUtils.disposeStageContainer(this._container);
     MultiViewObject3DUtils.disposeCanvas(this._canvas);
     this.removeFromParent();
+    // Object3D has no dispose() before three 0.187, which the peer range allows.
+    // Call it directly once the lower bound of the peer range reaches 0.187.
+    super.dispose?.();
   }
 }
