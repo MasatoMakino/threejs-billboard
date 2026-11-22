@@ -1,5 +1,5 @@
 {
-  "name": "${localWorkspaceFolderBasename} pnpm Runner (Node 24)",
+  "name": "${localWorkspaceFolderBasename} pnpm Runner (Node 26)",
   "build": {
     "dockerfile": "Dockerfile",
     "args": { "WORKSPACE_DIR": "/workspaces/${localWorkspaceFolderBasename}" }
