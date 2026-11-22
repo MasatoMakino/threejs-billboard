@@ -12,6 +12,10 @@ export default defineConfig({
       enabled: true,
       provider: webdriverio({
         capabilities: {
+          // @vitest/browser-webdriverio switches to the test iframe with
+          // switchFrame, which WebdriverIO 10 removed for BiDi sessions.
+          // Removal condition: the provider switches frames in BiDi sessions.
+          "wdio:enforceWebDriverClassic": true,
           "goog:chromeOptions": {
             args: [
               // The DevContainer keeps the default seccomp profile, which blocks
