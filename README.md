@@ -157,10 +157,6 @@ npm run server      # Start browser-sync server for demo pages
 npm run demo        # Generate demo pages
 ```
 
-## API Documentation
-
-[API documents](https://masatomakino.github.io/threejs-billboard/api/)
-
 ## License
 
 [MIT licensed](LICENSE).
