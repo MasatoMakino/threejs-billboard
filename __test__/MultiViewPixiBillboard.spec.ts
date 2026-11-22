@@ -162,6 +162,16 @@ describe("MultiViewPixiBillboard", () => {
     removeFromParentSpy.mockRestore();
   });
 
+  it("dispose runs the dispose of three once, so that three releases what it holds for the object", () => {
+    const listener = vi.fn();
+    billboard.addEventListener("dispose", listener);
+
+    billboard.dispose();
+    billboard.dispose();
+
+    expect(listener).toHaveBeenCalledOnce();
+  });
+
   it("dispose should not run cleanup if already disposed", () => {
     billboard.dispose();
     const geometryDisposeSpy = vi.spyOn(billboard.geometry, "dispose");
