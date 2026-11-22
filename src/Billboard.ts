@@ -76,8 +76,8 @@ export class Billboard extends Sprite {
    * Creates a new Billboard instance.
    *
    * The constructor initializes the billboard synchronously, but texture loading
-   * is performed asynchronously. If the image fails to load, the error will be
-   * available through the BillboardController's textureLoaderPromise.
+   * is performed asynchronously. Await {@link Billboard.textureLoaderPromise} to
+   * know when the texture is shown, or to handle a load failure.
    *
    * @param url - URL of the texture image file to load
    * @param imageScale - Initial scale factor for the image
@@ -92,6 +92,26 @@ export class Billboard extends Sprite {
       imageScale,
       initializedOption,
     );
+  }
+
+  /**
+   * Promise that settles when the texture load ends.
+   *
+   * It resolves after the texture is applied, the material is visible, and the scale
+   * matches the image size. It rejects with the `error` event of the image element
+   * when the image fails to load, and the material stays hidden. A rejection that no
+   * caller handles is reported as an unhandled rejection.
+   *
+   * @example
+   * ```typescript
+   * const billboard = new Billboard("./texture.png", 0.1);
+   * billboard.textureLoaderPromise.catch(() => {
+   *   console.warn("The billboard image failed to load.");
+   * });
+   * ```
+   */
+  get textureLoaderPromise(): Promise<void> {
+    return this.obj.textureLoaderPromise;
   }
 
   /**

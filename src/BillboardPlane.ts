@@ -80,7 +80,9 @@ export class BillboardPlane extends Mesh {
    *
    * The constructor initializes the plane billboard synchronously, but texture loading
    * is performed asynchronously. The plane will be initially invisible and become
-   * visible once the texture loads successfully.
+   * visible once the texture loads successfully. Await
+   * {@link BillboardPlane.textureLoaderPromise} to know when the texture is shown,
+   * or to handle a load failure.
    *
    * A CameraChaser instance is automatically created but must be manually enabled
    * by setting `isLookingCameraHorizontal = true`.
@@ -108,6 +110,26 @@ export class BillboardPlane extends Mesh {
       initializedOption,
     );
     this.cameraChaser = new CameraChaser(this);
+  }
+
+  /**
+   * Promise that settles when the texture load ends.
+   *
+   * It resolves after the texture is applied, the material is visible, and the
+   * geometry matches the image size. It rejects with the `error` event of the image
+   * element when the image fails to load, and the material stays hidden. A rejection
+   * that no caller handles is reported as an unhandled rejection.
+   *
+   * @example
+   * ```typescript
+   * const plane = new BillboardPlane("./texture.png", 0.1);
+   * plane.textureLoaderPromise.catch(() => {
+   *   console.warn("The billboard image failed to load.");
+   * });
+   * ```
+   */
+  get textureLoaderPromise(): Promise<void> {
+    return this.obj.textureLoaderPromise;
   }
 
   /**

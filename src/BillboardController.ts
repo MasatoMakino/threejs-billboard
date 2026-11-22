@@ -69,7 +69,7 @@ export class BillboardController {
    * Promise that resolves when texture loading is complete or rejects on loading error.
    * This allows external code to wait for texture loading completion or handle errors.
    */
-  readonly textureLoaderPromise: Promise<undefined | ErrorEvent>;
+  readonly textureLoaderPromise: Promise<void>;
 
   /**
    * Creates a new BillboardController instance.
@@ -109,7 +109,7 @@ export class BillboardController {
           mat.needsUpdate = true;
           mat.visible = true;
           this.updateScale();
-          resolve(undefined);
+          resolve();
         },
         undefined,
         (e) => {
