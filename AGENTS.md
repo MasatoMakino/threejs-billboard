@@ -98,7 +98,7 @@ This library provides three main approaches to billboard rendering:
 - Coverage reports generated with Istanbul provider
 - Screenshot testing available for visual regression
 - Test files located in `__test__/` directory
-- Screenshots auto-generated in `__test__/__screenshots__/` (do not edit manually)
+- Screenshots of failed tests auto-generated in `.vitest/attachments/` (do not edit manually)
 
 ## Development Rules and Guidelines
 

@@ -66,6 +66,7 @@ docs/
 esm
 
 __test__/__screenshots__/
+.vitest/
 
 .claude/settings.local.json
 .op/
