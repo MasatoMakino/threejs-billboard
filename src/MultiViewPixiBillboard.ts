@@ -235,7 +235,7 @@ export class MultiViewPixiBillboard
    * billboard.dispose();
    * ```
    */
-  dispose(): void {
+  override dispose(): void {
     if (this._isDisposed) {
       return;
     }

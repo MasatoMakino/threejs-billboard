@@ -268,7 +268,7 @@ export class MultiViewPixiPlaneMesh
    * planeMesh.dispose();
    * ```
    */
-  dispose(): void {
+  override dispose(): void {
     if (this._isDisposed) {
       return;
     }
