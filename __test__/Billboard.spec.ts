@@ -1,13 +1,12 @@
 import { Billboard, BillBoard } from "../src/index.js";
 import { billboardCommonTest } from "./BillboardObject3D.js";
 import { describe, it, expect } from "vitest";
-import { TestImage } from "./TestImage.js";
 
 describe("Billboard", () => {
-  billboardCommonTest(new Billboard(TestImage, 1));
+  billboardCommonTest((url, imageScale) => new Billboard(url, imageScale));
 
-  it("should export deprecated BillBoard class (will be removed when compatibility checks are no longer needed)", () => {
-    expect(BillBoard).toBeDefined();
-    expect(typeof BillBoard).toBe("function");
+  // Discard condition: maintainer decision (2025-07) keeps the BillBoard* names as deprecated aliases of Billboard*, with no removal date set. Delete this test when the aliases are removed.
+  it("keeps `BillBoard` as an alias of `Billboard` so that code written for the old name still runs", () => {
+    expect(BillBoard).toBe(Billboard);
   });
 });

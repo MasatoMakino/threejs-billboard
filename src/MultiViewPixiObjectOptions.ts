@@ -82,7 +82,7 @@ export interface MultiViewPixiObjectOptions {
    *
    * ## Scale Factor Behavior
    *
-   * - **1.0**: Billboard size matches canvas pixel dimensions (default)
+   * - **1.0**: Billboard size matches canvas pixel dimensions
    * - **0.5**: Billboard appears at half the canvas pixel size
    * - **2.0**: Billboard appears at twice the canvas pixel size
    *

@@ -8,8 +8,8 @@ describe("BillboardOptions", () => {
     expect(options.minFilter).toBe(LinearFilter);
   });
 
-  test("should export deprecated BillBoardOptionUtil (will be removed when compatibility checks are no longer needed)", () => {
-    expect(BillBoardOptionUtil).toBeDefined();
-    expect(typeof BillBoardOptionUtil).toBe("object");
+  // Discard condition: maintainer decision (2025-07) keeps the BillBoard* names as deprecated aliases of Billboard*, with no removal date set. Delete this test when the aliases are removed.
+  test("keeps `BillBoardOptionUtil` as an alias of `BillboardOptionUtil` so that code written for the old name still runs", () => {
+    expect(BillBoardOptionUtil).toBe(BillboardOptionUtil);
   });
 });
