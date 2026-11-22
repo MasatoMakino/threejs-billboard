@@ -38,9 +38,6 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Generate API Pages
-        run: pnpm run typedocs
-
       - name: Upload artifact
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: actions/upload-pages-artifact@v4.0.0

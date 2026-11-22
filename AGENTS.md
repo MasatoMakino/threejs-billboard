@@ -117,7 +117,7 @@ This library provides three main approaches to billboard rendering:
 - **Local Imports**: Include `.js` extension for ESM compatibility (`import { func } from './file.js'`)
 - **Async Initialization**: Use `init()` methods for async setup, not constructors
 - **Type Safety**: Avoid `as any` casts - redesign types instead
-- **Documentation**: Write detailed TypeDoc comments for all public APIs
+- **Documentation**: Write detailed JSDoc comments for all public APIs
 - **Resource Management**: Implement proper cleanup and disposal patterns
 
 ### PixiJS v8 Specific Rules
