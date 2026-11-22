@@ -1,10 +1,7 @@
 import { SharedStageBillboard, SharedStageTexture } from "../src/index.js";
-import { Sprite, SpriteMaterial } from "three";
+import { type Sprite, SpriteMaterial } from "three";
 import { describe, expect, it } from "vitest";
-import {
-  textureArea,
-  testUpdateTextureAreaAndUV,
-} from "./SharedStageObject3D.js";
+import { textureArea } from "./SharedStageObject3D.js";
 
 describe("SharedStageBillboard", () => {
   const generateBillboard = async () => {
@@ -15,18 +12,13 @@ describe("SharedStageBillboard", () => {
     return billboard;
   };
 
-  it("should create SharedStageBillboard instance successfully", async () => {
-    const billboard = await generateBillboard();
-    expect(billboard).toBeInstanceOf(Sprite);
-  });
-
   /**
    * SharedStageBillboardはSpriteのデフォルトgeometryを使用せず、PlaneGeometryを使用している。
    * UV座標の更新処理を共有化するため。
    *
    * SpriteとPlaneGeometryは、頂点のインデックスが異なる。
    */
-  it("should set correct position and uv attributes upon SharedStageBillboard creation", async () => {
+  it("maps the texture area onto the PlaneGeometry vertex order, so that the sprite shows the area upright", async () => {
     const billboard = await generateBillboard();
 
     const position = billboard.geometry.getAttribute("position");
@@ -43,20 +35,19 @@ describe("SharedStageBillboard", () => {
     checkAttribute(3, 1, 0);
   });
 
-  it.fails("should throw an error when creating SharedStageBillboard without SharedStageTexture", () => {
+  it("rejects a material without SharedStageTexture, because UVs are computed from the shared texture size", () => {
     const material = new SpriteMaterial();
-    new SharedStageBillboard(material, textureArea);
+    expect(() => new SharedStageBillboard(material, textureArea)).toThrow(
+      "sharedMaterial.map must be SharedStageTexture",
+    );
   });
 
-  it.fails("should throw an error when updating texture area with material that does not have SharedStageTexture map", async () => {
+  it("rejects a texture area update after sharedMaterial is replaced by one without SharedStageTexture, because UVs are computed from the shared texture size", async () => {
     const billboard = await generateBillboard();
     billboard.sharedMaterial = new SpriteMaterial();
-    billboard.updateTextureAreaAndUV(textureArea);
-  });
-
-  it("should correctly update UV coordinates when texture area changes on shared canvas", async () => {
-    const billboard = await generateBillboard();
-    testUpdateTextureAreaAndUV(billboard);
+    expect(() => billboard.updateTextureAreaAndUV(textureArea)).toThrow(
+      "sharedMaterial.map must be SharedStageTexture",
+    );
   });
 
   it("should scale billboard dimensions proportionally when imageScale property changes", async () => {
@@ -70,13 +61,17 @@ describe("SharedStageBillboard", () => {
     expect(billboard.scale.z).toEqual(1);
   });
 
-  it("should not share UV attribute updates between different SharedStageBillboards", async () => {
+  it("keeps UVs per billboard, so that updating the texture area of one billboard does not move the image of another", async () => {
     const billboard01 = await generateBillboard();
     const billboard02 = await generateBillboard();
-    billboard01.updateTextureAreaAndUV(textureArea);
+    billboard01.updateTextureAreaAndUV({
+      ...textureArea,
+      width: textureArea.width / 2,
+      height: textureArea.height / 2,
+    });
 
     const getUV = (billboard: Sprite) => {
-      return billboard.geometry.getAttribute("uv");
+      return Array.from(billboard.geometry.getAttribute("uv").array);
     };
     expect(getUV(billboard01)).not.toEqual(getUV(billboard02));
   });

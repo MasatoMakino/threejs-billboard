@@ -87,32 +87,27 @@ describe("PixiMultiViewManager Rendering", () => {
     vi.restoreAllMocks();
   });
 
-  it("should render a full-canvas rect and verify pixel color", async () => {
+  it("draws the container into the view canvas and flags the texture for upload, so that three.js shows what PixiJS drew", async () => {
     // canvas全体を覆うGraphicsを作成し、赤色で塗りつぶす
     const graphics = new Graphics();
     graphics.rect(0, 0, testCanvas.width, testCanvas.height).fill(0xff0000); // 赤色
     mockView.container.addChild(graphics);
 
-    // レンダリングを要求
     manager.requestRender(mockView);
 
-    // Tickerを更新してレンダリングループを実行
     ticker.update(1); // currentTimeは0以上の値
 
-    // canvasの任意のピクセル（例: (50, 50)）の色を取得
     const pixelColor = getPixelColor(testCanvas, 50, 50);
 
-    // ピクセル色が赤（RGBAで[255, 0, 0, 255]）であることをアサート
-    expect(pixelColor[0]).toBe(255); // R
-    expect(pixelColor[1]).toBe(0); // G
-    expect(pixelColor[2]).toBe(0); // B
-    expect(pixelColor[3]).toBe(255); // A (不透明)
+    expect(pixelColor[0]).toBe(255);
+    expect(pixelColor[1]).toBe(0);
+    expect(pixelColor[2]).toBe(0);
+    expect(pixelColor[3]).toBe(255);
 
-    // texture.needsUpdate が true になっていることを確認
     expect(mockView.texture.needsUpdate).toBe(true);
   });
 
-  it("should clear canvas and render a small central rect on subsequent render", async () => {
+  it("clears the canvas before each render, so that content removed from the container disappears", async () => {
     // 事前に全体を覆うGraphicsを作成し、レンダリングする（クリアされることを確認するため）
     const initialGraphics = new Graphics();
     initialGraphics
@@ -122,10 +117,8 @@ describe("PixiMultiViewManager Rendering", () => {
     manager.requestRender(mockView);
     ticker.update(1);
 
-    // 前回のレンダリング内容を削除
     mockView.container.removeChild(initialGraphics);
 
-    // 画面中央に小さなGraphicsを作成し、青色で塗りつぶす
     const smallRectSize = 20;
     const smallRectX = (testCanvas.width - smallRectSize) / 2;
     const smallRectY = (testCanvas.height - smallRectSize) / 2;
@@ -135,31 +128,24 @@ describe("PixiMultiViewManager Rendering", () => {
       .fill(0x0000ff); // 青色
     mockView.container.addChild(centralGraphics);
 
-    // 再度レンダリングを要求
     manager.requestRender(mockView);
 
-    // Tickerを更新してレンダリングループを実行
-    ticker.update(2); // 前回のupdateとは異なる時間
+    ticker.update(2);
 
-    // canvasの中央のピクセル（例: (50, 50)）の色を取得
     const centerPixelColor = getPixelColor(testCanvas, 50, 50);
 
-    // 中央のピクセル色が青（RGBAで[0, 0, 255, 255]）であることをアサート
-    expect(centerPixelColor[0]).toBe(0); // R
-    expect(centerPixelColor[1]).toBe(0); // G
-    expect(centerPixelColor[2]).toBe(255); // B
-    expect(centerPixelColor[3]).toBe(255); // A (不透明)
+    expect(centerPixelColor[0]).toBe(0);
+    expect(centerPixelColor[1]).toBe(0);
+    expect(centerPixelColor[2]).toBe(255);
+    expect(centerPixelColor[3]).toBe(255);
 
-    // canvasの端のピクセル（例: (1, 1)）の色を取得
     const cornerPixelColor = getPixelColor(testCanvas, 1, 1);
 
-    // 端のピクセル色が透明（RGBAで[0, 0, 0, 0]）であることをアサート
-    expect(cornerPixelColor[0]).toBe(0); // R
-    expect(cornerPixelColor[1]).toBe(0); // G
-    expect(cornerPixelColor[2]).toBe(0); // B
-    expect(cornerPixelColor[3]).toBe(0); // A (透明)
+    expect(cornerPixelColor[0]).toBe(0);
+    expect(cornerPixelColor[1]).toBe(0);
+    expect(cornerPixelColor[2]).toBe(0);
+    expect(cornerPixelColor[3]).toBe(0);
 
-    // texture.needsUpdate が再度 true になっていることを確認
     expect(mockView.texture.needsUpdate).toBe(true);
   });
 });

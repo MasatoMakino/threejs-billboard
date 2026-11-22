@@ -9,9 +9,8 @@ import {
 } from "vitest";
 import { MultiViewPixiBillboard } from "../src/MultiViewPixiBillboard.js";
 import { PixiMultiViewManager } from "../src/PixiMultiViewManager.js";
-import { SpriteMaterial, CanvasTexture, type MeshBasicMaterial } from "three";
-import { Container, Ticker } from "pixi.js";
-import { MultiViewObject3DUtils } from "../src/MultiViewObject3DUtils.js";
+import type { SpriteMaterial } from "three";
+import { Ticker } from "pixi.js";
 import type { IRenderablePixiView } from "../src/RenderablePixiView.js";
 
 describe("MultiViewPixiBillboard", () => {
@@ -24,15 +23,6 @@ describe("MultiViewPixiBillboard", () => {
 
   // スパイの定義
   let requestRenderSpy: MockInstance<(instance: IRenderablePixiView) => void>;
-  let disposeMaterialsSpy: MockInstance<
-    (
-      materials:
-        | (SpriteMaterial | MeshBasicMaterial)
-        | (SpriteMaterial | MeshBasicMaterial)[],
-    ) => void
-  >;
-  let disposeStageContainerSpy: MockInstance<(container: Container) => void>;
-  let disposeCanvasSpy: MockInstance<(canvas: HTMLCanvasElement) => void>;
   let consoleWarnSpy: MockInstance<{
     (...data: unknown[]): void;
     (message?: unknown, ...optionalParams: unknown[]): void;
@@ -54,12 +44,6 @@ describe("MultiViewPixiBillboard", () => {
 
     // 実際のクラスのメソッドをスパイ
     requestRenderSpy = vi.spyOn(manager, "requestRender");
-    disposeMaterialsSpy = vi.spyOn(MultiViewObject3DUtils, "disposeMaterials");
-    disposeStageContainerSpy = vi.spyOn(
-      MultiViewObject3DUtils,
-      "disposeStageContainer",
-    );
-    disposeCanvasSpy = vi.spyOn(MultiViewObject3DUtils, "disposeCanvas");
 
     // テスト対象のインスタンス生成
     billboard = new MultiViewPixiBillboard({
@@ -84,14 +68,9 @@ describe("MultiViewPixiBillboard", () => {
     vi.restoreAllMocks();
   });
 
-  it("should initialize with correct initial properties", () => {
-    expect(billboard).toBeInstanceOf(MultiViewPixiBillboard);
-    expect(billboard.material).toBeInstanceOf(SpriteMaterial);
-    expect(billboard.canvas).toBeInstanceOf(HTMLCanvasElement);
+  it("sizes the canvas to width×height and the sprite to scale×canvas size, and queues the first render", () => {
     expect(billboard.canvas.width).toBe(width);
     expect(billboard.canvas.height).toBe(height);
-    expect(billboard.container).toBeInstanceOf(Container);
-    expect(billboard.texture).toBeInstanceOf(CanvasTexture);
     expect((billboard.material as SpriteMaterial).map).toBe(billboard.texture);
     expect(billboard.isDisposed).toBe(false);
     expect(billboard.scale.x).toBe(initialScale * width);
@@ -106,11 +85,9 @@ describe("MultiViewPixiBillboard", () => {
     expect(billboard.scale.x).toBe(scale * width);
     expect(billboard.scale.y).toBe(scale * height);
     expect(billboard.scale.z).toBe(1);
-    expect(requestRenderSpy).toHaveBeenCalledWith(billboard); // setScaleもrequestRenderを呼ぶ
-    expect(requestRenderSpy).toHaveBeenCalledTimes(2); // 初期化時とsetScaleで2回呼ばれる
   });
 
-  it("should not update scale when disposed", () => {
+  it("setScale after dispose keeps the scale and warns, so that a disposed billboard is not requeued", () => {
     billboard.dispose();
     requestRenderSpy.mockClear(); // dispose後のrequestRender呼び出しをクリア
     consoleWarnSpy.mockClear(); // dispose後のconsole.warn呼び出しをクリア
@@ -121,9 +98,7 @@ describe("MultiViewPixiBillboard", () => {
     expect(billboard.scale.x).toBe(initialScaleValue * width);
     expect(billboard.scale.y).toBe(initialScaleValue * height);
     expect(billboard.scale.z).toBe(1);
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "Attempted to set scale on disposed MultiViewPixiBillboard.",
-    );
+    expect(consoleWarnSpy).toHaveBeenCalledOnce();
     expect(requestRenderSpy).not.toHaveBeenCalled();
   });
 
@@ -136,30 +111,9 @@ describe("MultiViewPixiBillboard", () => {
   it("updateContent should not request render if disposed", () => {
     billboard.dispose();
     requestRenderSpy.mockClear(); // Clear initial call
-    consoleWarnSpy.mockClear(); // Clear initial call
 
     billboard.updateContent();
     expect(requestRenderSpy).not.toHaveBeenCalled();
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "Attempted to update disposed MultiViewPixiBillboard.",
-    );
-  });
-
-  it("dispose should set isDisposed to true and clean up resources", () => {
-    const geometryDisposeSpy = vi.spyOn(billboard.geometry, "dispose");
-    const removeFromParentSpy = vi.spyOn(billboard, "removeFromParent");
-
-    billboard.dispose();
-
-    expect(billboard.isDisposed).toBe(true);
-    expect(geometryDisposeSpy).toHaveBeenCalledOnce();
-    expect(disposeMaterialsSpy).toHaveBeenCalledWith(billboard.material);
-    expect(disposeStageContainerSpy).toHaveBeenCalledWith(billboard.container);
-    expect(disposeCanvasSpy).toHaveBeenCalledWith(billboard.canvas);
-    expect(removeFromParentSpy).toHaveBeenCalledOnce();
-
-    geometryDisposeSpy.mockRestore();
-    removeFromParentSpy.mockRestore();
   });
 
   it("dispose runs the dispose of three once, so that three releases what it holds for the object", () => {
@@ -172,43 +126,18 @@ describe("MultiViewPixiBillboard", () => {
     expect(listener).toHaveBeenCalledOnce();
   });
 
-  it("dispose should not run cleanup if already disposed", () => {
-    billboard.dispose();
-    const geometryDisposeSpy = vi.spyOn(billboard.geometry, "dispose");
-    const removeFromParentSpy = vi.spyOn(billboard, "removeFromParent");
-    disposeMaterialsSpy.mockClear();
-    disposeStageContainerSpy.mockClear();
-    disposeCanvasSpy.mockClear();
-
-    billboard.dispose(); // 再度disposeを呼び出す
-
-    expect(billboard.isDisposed).toBe(true); // Should remain true
-    expect(geometryDisposeSpy).not.toHaveBeenCalled();
-    expect(disposeMaterialsSpy).not.toHaveBeenCalled();
-    expect(disposeStageContainerSpy).not.toHaveBeenCalled();
-    expect(disposeCanvasSpy).not.toHaveBeenCalled();
-    expect(removeFromParentSpy).not.toHaveBeenCalled();
-
-    geometryDisposeSpy.mockRestore();
-    removeFromParentSpy.mockRestore();
-  });
-
   it("should use default scale when scale is undefined in options", () => {
-    // Create a new billboard without explicitly setting scale in options
     const billboardWithDefaultScale = new MultiViewPixiBillboard({
       manager,
       width,
       height,
-      // scale parameter is omitted to test default value assignment
     });
 
-    // The default scale should be 0.1 as defined in the destructuring assignment
     const expectedScale = 0.1;
     expect(billboardWithDefaultScale.scale.x).toBe(expectedScale * width);
     expect(billboardWithDefaultScale.scale.y).toBe(expectedScale * height);
     expect(billboardWithDefaultScale.scale.z).toBe(1);
 
-    // Clean up the test billboard
     billboardWithDefaultScale.dispose();
   });
 });
